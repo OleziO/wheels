@@ -7,7 +7,7 @@
       'base': colors.$orange,
     ),
     'secondary': (
-      'base': colors.$blue-dark,
+      'base': colors.$blue,
     ),
     'success': (
       'base': colors.$green-light,
@@ -32,12 +32,20 @@
   ),
   $checkbox: (
     'bg-color': colors.$creamy-light,
+  ),
+  $link: (
+    'font-size': 18px,
+    'font-weight': 400,
+    'text-color': colors.$blue,
+    'hover-text-color': colors.$blue-light,
+    'disabled-text-color': colors.$blue-extra-light,
   )
 
 );
 
 @use "element-plus/theme-chalk/src/base";
 @use "element-plus/theme-chalk/src/button";
+@use "element-plus/theme-chalk/src/link";
 @use "element-plus/theme-chalk/src/badge";
 @use "element-plus/theme-chalk/src/message";
 @use "element-plus/theme-chalk/src/checkbox";
