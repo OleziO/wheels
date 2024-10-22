@@ -1,7 +1,7 @@
 <template>
   <el-button
-    class="flex items-center justify-center gap-2.5 rounded-lg !text-creamy-light border-none h-fit text-lg"
-    :type="type === 'text' ? 'text' : ''"
+    class="flex items-center justify-center gap-2.5 rounded-lg text-creamy-light border-none h-fit text-lg"
+    :text="type === 'text'"
     :class="type"
   >
     <template v-if="!!icon" #icon>
@@ -20,31 +20,38 @@ defineProps<{
 </script>
 
 <style scopped lang="scss">
-.primary {
-  @apply bg-orange hover:bg-orange-light focus:bg-orange-dark #{!important};
-}
+.el-button {
+  &.primary {
+    @apply bg-orange hover:bg-orange-light focus:bg-orange-dark;
+  }
 
-.secondary {
-  @apply bg-blue hover:bg-blue-extra-light focus:bg-blue-dark #{!important};
-}
+  &.secondary {
+    @apply bg-blue hover:bg-blue-extra-light focus:bg-blue-dark;
+  }
 
-.line-light {
-  @apply text-blue-light border-solid border-blue-light bg-transparent
-  hover:bg-blue-extra-light hover:text-creamy-light
-  focus:bg-blue focus:text-creamy-light #{!important};
-}
+  &.line-light {
+    @apply text-blue-light border-solid border-blue-light bg-transparent
+    hover:bg-blue-extra-light hover:text-creamy-light
+    focus:bg-blue focus:text-creamy-light;
+  }
 
-.line-dark {
-  @apply text-blue-light border-solid border-blue-light bg-transparent
-  hover:bg-blue-light hover:text-creamy-light
-  focus:bg-blue-dark focus:text-creamy-light #{!important};
-}
+  &.line-dark {
+    @apply text-blue-light border-solid border-blue-light bg-transparent
+    hover:bg-blue-light hover:text-creamy-light
+    focus:bg-blue-dark focus:text-creamy-light;
+  }
 
-.text{
-  @apply text-blue-light;
+  &.text{
+    @apply text-blue-light p-0 rounded-none;
 
-  span {
-    @apply hover:underline;
+    &:hover {
+      @apply bg-transparent #{!important};
+
+      span {
+      @apply underline;
+    }
+    }
+
   }
 }
 
