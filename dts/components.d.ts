@@ -12,6 +12,8 @@ declare module 'vue' {
     Button: typeof import('../src/components/AppButton/AppButton.vue')['default']
     Compute: typeof import('./../src/components/Compute.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
+    ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     RouterLink: typeof import('vue-router')['RouterLink']

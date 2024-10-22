@@ -29,7 +29,9 @@
     'main-bg-color': colors.$orange,
     'runway-bg-color': colors.$creamy-dark,
     'stop-bg-color': colors.$creamy-dark,
-
+  ),
+  $checkbox: (
+    'bg-color': colors.$creamy-light,
   )
 
 );
@@ -38,6 +40,7 @@
 @use "element-plus/theme-chalk/src/button";
 @use "element-plus/theme-chalk/src/badge";
 @use "element-plus/theme-chalk/src/message";
+@use "element-plus/theme-chalk/src/checkbox";
 @use "element-plus/theme-chalk/src/select";
 @use "element-plus/theme-chalk/src/slider";
 @use "element-plus/theme-chalk/src/input";
@@ -51,7 +54,8 @@
 @use "element-plus/theme-chalk/src/switch";
 
 @import "./button.scss";
-@import "./slider.scss"
+@import "./slider.scss";
+@import "./checkbox.scss";
 
 
 
