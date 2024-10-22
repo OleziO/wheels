@@ -1,7 +1,7 @@
 import twColors from 'tailwindcss/colors'
 
 export const colors = {
-  white: twColors.white,
+  ...twColors,
 
   'blue-extra-light': '#6991C2',
   'blue-light': '#395F8D',
