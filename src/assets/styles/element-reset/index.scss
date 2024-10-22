@@ -1,26 +1,10 @@
-
 @use "../variables/colors";
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': colors.$primary,
+      'base': colors.$primary, // todo: this MUST be a valid 6-digit HEX color in order to make it correctly work
     ),
-    'secondary': (
-      'base': colors.$secondary,
-    ),
-    'success': (
-      'base': colors.$success,
-    ),
-    'warning': (
-      'base': colors.$warning,
-    ),
-    'error': (
-      'base': colors.$error,
-    ),
-    'info': (
-      'base': colors.$info,
-    )
   )
 );
 

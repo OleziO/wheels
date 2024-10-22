@@ -2,26 +2,14 @@ import twColors from 'tailwindcss/colors'
 
 export const colors = {
   white: twColors.white,
+  gray: twColors.gray,
+  red: twColors.red,
+  green: twColors.green,
+  orange: twColors.orange,
 
-  'blue-extra-light': '#6991C2',
-  'blue-light': '#395F8D',
-  blue: '#123055',
-  'blue-dark': '#1A2635',
-
-  'creamy-light': '#F9F3EE',
-  creamy: '#EFE1D3',
-  'creamy-dark': '#CFC1B3',
-
-  'green-light': '#71A8AF',
-  green: '#71A8AF',
-  'green-dark': '#29494E',
-
-  'red-error': '#CF625B',
-  'orange-light': '#E8986A',
-  orange: '#D38455',
-  'orange-dark': '#B56537',
-
-  gray: '#8E8E8E',
-  'gray-dark': '#212121',
-  gravel: '#4C4B4E'
+  // todo: with the following code you can use element colors
+  primary: 'var(--el-color-primary)',
+  success: 'var(--el-color-success)',
+  warning: 'var(--el-color-warning)',
+  danger: 'var(--el-color-danger)'
 }
