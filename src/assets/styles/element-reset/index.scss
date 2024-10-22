@@ -4,22 +4,19 @@
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': colors.$primary,
+      'base': colors.$orange,
     ),
     'secondary': (
-      'base': colors.$secondary,
+      'base': colors.$blue-dark,
     ),
     'success': (
-      'base': colors.$success,
-    ),
-    'warning': (
-      'base': colors.$warning,
+      'base': colors.$green-light,
     ),
     'error': (
-      'base': colors.$error,
+      'base': colors.$red-error,
     ),
     'info': (
-      'base': colors.$info,
+      'base': colors.$blue-extra-light,
     )
   ),
   $button-padding-vertical: (
@@ -27,15 +24,22 @@
   ),
   $button-padding-horizontal: (
     'default': 20px,
-  )
-);
+  ),
+  $slider: (
+    'main-bg-color': colors.$orange,
+    'runway-bg-color': colors.$creamy-dark,
+    'stop-bg-color': colors.$creamy-dark,
 
+  )
+
+);
 
 @use "element-plus/theme-chalk/src/base";
 @use "element-plus/theme-chalk/src/button";
 @use "element-plus/theme-chalk/src/badge";
 @use "element-plus/theme-chalk/src/message";
 @use "element-plus/theme-chalk/src/select";
+@use "element-plus/theme-chalk/src/slider";
 @use "element-plus/theme-chalk/src/input";
 @use "element-plus/theme-chalk/src/option";
 @use "element-plus/theme-chalk/src/popper";
@@ -46,7 +50,8 @@
 @use "element-plus/theme-chalk/src/table";
 @use "element-plus/theme-chalk/src/switch";
 
-.el-button [class*=el-icon] + span {
-  margin: 0;
-  display: flex;
-}
+@import "./button.scss";
+@import "./slider.scss"
+
+
+
