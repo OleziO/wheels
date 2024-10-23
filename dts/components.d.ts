@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppButton: typeof import('./../src/components/AppButton/AppButton.vue')['default']
+    AppInput: typeof import('./../src/components/AppInput/AppInput.vue')['default']
     AppSlider: typeof import('./../src/components/AppSlider/AppSlider.vue')['default']
     Button: typeof import('../src/components/AppButton/AppButton.vue')['default']
     Compute: typeof import('./../src/components/Compute.vue')['default']
@@ -15,6 +16,7 @@ declare module 'vue' {
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElLink: typeof import('element-plus/es')['ElLink']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     RouterLink: typeof import('vue-router')['RouterLink']

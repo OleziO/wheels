@@ -1,0 +1,60 @@
+$input-padding: 15px 40px;
+$input-placeholder-style: (
+  font-size: 16px,
+  font-weight: 400
+);
+$input-font-weight: 600;
+$icon-font-size: 21px;
+$focus-box-shadow-color: colors.$creamy-dark;
+$hover-icon-color: colors.$blue;
+$append-bg-color: colors.$creamy-light;
+
+.el-input__wrapper {
+  padding: $input-padding;
+
+  .el-input__inner {
+    --el-input-inner-height: fit-content;
+    font-weight: $input-font-weight;
+
+    &::placeholder {
+      @each $property, $value in $input-placeholder-style {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  &.is-focus {
+    box-shadow: 0 0 0 3px $focus-box-shadow-color;
+  }
+
+  .el-input__icon {
+    font-size: $icon-font-size;
+
+    &:hover {
+      color: $hover-icon-color;
+    }
+  }
+}
+
+.el-input-group--append {
+  .el-input__wrapper {
+    border-radius: 8px;
+  }
+
+  .el-input-group__append {
+    height: 100%;
+    background-color: $append-bg-color;
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+
+    .el-button {
+      display: flex;
+      flex-wrap: nowrap;
+      height: 100%;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}

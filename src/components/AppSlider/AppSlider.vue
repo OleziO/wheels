@@ -33,7 +33,7 @@ const props = withDefaults(
   }>(),
   {
     type: defaultType,
-    labelPosition: positions.end
+    labelPosition: 'end'
   }
 )
 
@@ -54,9 +54,9 @@ function setLabel (value: number, label: string = '') {
 
   if (label) {
     if (props.labelPosition && props.labelPosition === positions.start) {
-      computedLabel = `${label} ${value}`
+      computedLabel = `${label}${value}`
     } else {
-      computedLabel = `${value} ${label}`
+      computedLabel = `${value}${label}`
     }
   }
 

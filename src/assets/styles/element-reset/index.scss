@@ -20,7 +20,7 @@
     )
   ),
   $button-padding-vertical: (
-    'default': 20px,
+    'default': 15px,
   ),
   $button-padding-horizontal: (
     'default': 20px,
@@ -39,6 +39,14 @@
     'text-color': colors.$blue,
     'hover-text-color': colors.$blue-light,
     'disabled-text-color': colors.$blue-extra-light,
+  ),
+  $input: (
+    'text-color': colors.$gray-dark,
+    'bg-color': colors.$creamy-light,
+    'border-color': colors.$creamy-dark,
+    'placeholder-color': colors.$gravel,
+    'icon-color': colors.$blue-light,
+    'border-radius': 8px,
   )
 
 );
@@ -64,6 +72,8 @@
 @import "./button.scss";
 @import "./slider.scss";
 @import "./checkbox.scss";
+@import "./input.scss";
+@import "./link.scss";
 
 
 
