@@ -1,0 +1,47 @@
+.el-checkbox__inner {
+  @apply border border-creamy-dark rounded-md w-5 h-5;
+  
+  &::after {
+    @apply w-full flex justify-center items-center left-0 font-[Wheels] text-sm text-blue-light;
+    top: calc(50% - 3px);
+    content: '\e91f';
+  }
+
+  &:hover {
+    @apply border-creamy-dark
+  }
+}
+
+.el-checkbox__label {
+  @apply pl-4 body-2;
+}
+
+.el-checkbox__input {
+  &.is-checked {
+    + .el-checkbox__label {
+      @apply text-gray-dark;
+    }
+
+    .el-checkbox__inner {
+      @apply border-2 border-blue-light bg-creamy-light;
+
+      &::after {
+        @apply transform scale-y-100 border-0
+      }
+    }
+  }
+
+  &.is-disabled {
+    .el-checkbox__inner {
+      @apply bg-creamy-light border border-creamy;
+    }
+
+    &.is-checked .el-checkbox__inner {
+      @apply bg-creamy-light border border-creamy;
+
+      &::after {
+        @apply text-creamy;
+      }
+    }
+  }
+}

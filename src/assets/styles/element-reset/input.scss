@@ -1,0 +1,41 @@
+.el-input__wrapper {
+  @apply px-10;
+
+  .el-input__inner {
+    @apply font-semibold;
+
+    &::placeholder {
+      @apply body-2;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 2px colors.$creamy-dark;
+  }
+
+  &.is-focus {
+    box-shadow: 0 0 0 3px colors.$creamy-dark;
+  }
+
+  .el-input__icon {
+    @apply text-xl;
+
+    &:hover {
+      @apply text-blue;
+    }
+  }
+}
+
+.el-input-group--append {
+  .el-input__wrapper {
+    @apply rounded-lg;
+  }
+
+  .el-input-group__append {
+    @apply h-full bg-creamy-light absolute right-0 flex justify-end;
+
+    .el-button {
+      @apply flex flex-nowrap h-full rounded-tl-none rounded-bl-none;
+    }
+  }
+}

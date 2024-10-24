@@ -1,0 +1,35 @@
+.app-select.el-select {
+  .el-select__wrapper {
+    @apply rounded-lg bg-creamy-light text-base px-10;
+    box-shadow: 0 0 0 1px colors.$creamy-dark inset;
+  
+
+    .el-select__icon {
+      @apply text-gravel text-xl;
+    }
+  
+    .el-select__placeholder {
+      @apply text-gravel;
+    }
+  
+  
+    &.is-hovering {
+      box-shadow: 0 0 0 2px colors.$creamy-dark;
+    }
+  
+    &.is-focused {
+      box-shadow: 0 0 0 3px colors.$creamy-dark;
+    }
+  }
+}
+
+.el-select-dropdown__wrap {
+  .el-select-dropdown__list {
+    @apply rounded-lg bg-creamy-light;
+    box-shadow: 0 0 0 1px colors.$creamy-dark;
+
+    .el-select-dropdown__item.is-hovering{
+      @apply bg-creamy;
+    }
+  }
+}
