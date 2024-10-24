@@ -1,14 +1,16 @@
 <template>
-  <ElConfigProvider
-    :locale="{
-      name: locale,
-      el: messages[locale]?.el as TElementPlus['TranslatePair']
-    }"
-  >
-    <PageLayout>
-      <router-view />
-    </PageLayout>
-  </ElConfigProvider>
+  <div class="min-h-screen flex flex-col">
+    <ElConfigProvider
+      :locale="{
+        name: locale,
+        el: messages[locale]?.el as TElementPlus['TranslatePair']
+      }"
+    >
+      <PageLayout>
+        <router-view />
+      </PageLayout>
+    </ElConfigProvider>
+  </div>
 </template>
 
 <script lang="ts" setup>

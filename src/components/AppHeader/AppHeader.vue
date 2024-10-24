@@ -1,16 +1,26 @@
 <template>
-  <header class="w-full h-24 flex justify-between items-center gap-4 bg-creamy-light px-100">
+  <header class="w-full h-24 flex justify-between items-center gap-2 px-24">
     <nav class="flex items-center h-full gap-12">
       <RouterLink to="/">
         <Logo />
       </RouterLink>
 
-      <ul class="flex gap-12">
-        <li><el-link>Купити</el-link></li>
-        <li><el-link>Продати</el-link></li>
-        <li><el-link>Фінанси</el-link></li>
-        <li><el-link>ТОП-100</el-link></li>
-        <li><el-link>Аукціон</el-link></li>
+      <ul class="flex gap-12 !text-blue body-1">
+        <li>
+          <el-link>Купити</el-link>
+        </li>
+        <li>
+          <el-link>Продати</el-link>
+        </li>
+        <li>
+          <el-link>Фінанси</el-link>
+        </li>
+        <li>
+          <el-link>ТОП-100</el-link>
+        </li>
+        <li>
+          <el-link>Аукціон</el-link>
+        </li>
       </ul>
     </nav>
     <div class="flex gap-[50px] items-center">
