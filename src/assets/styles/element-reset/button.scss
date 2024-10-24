@@ -37,6 +37,9 @@
         @apply underline;
       }
     }
+  }
 
+  &.icon {
+    @apply bg-transparent text-blue p-0 h-fit;
   }
 }

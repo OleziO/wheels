@@ -1,10 +1,10 @@
 
 @use "../variables/colors";
-@use "../variables/spacing";
+@use "../variables/sizes";
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $common-component-size: (
-    'default': spacing.$xl,
+    'default': sizes.$xl,
   ),
   $colors: (
     'primary': (
@@ -24,7 +24,7 @@
     )
   ),
   $button-padding-horizontal: (
-    'default': spacing.$lg,
+    'default': sizes.$lg,
   ),
   $slider: (
     'main-bg-color': colors.$orange,
@@ -35,7 +35,7 @@
     'bg-color': colors.$creamy-light,
   ),
   $link: (
-    'font-size': spacing.$base,
+    'font-size': sizes.$base,
     'font-weight': 400,
     'text-color': colors.$blue,
     'hover-text-color': colors.$blue-light,
@@ -47,10 +47,10 @@
     'border-color': colors.$creamy-dark,
     'placeholder-color': colors.$gravel,
     'icon-color': colors.$blue-light,
-    'border-radius': spacing.$xs,
+    'border-radius': sizes.$xs,
   ),
   $select: (
-    'font-size': spacing.$s,
+    'font-size': sizes.$s,
     'input-color': colors.$creamy-dark,
     'border-color-hover': colors.$creamy-dark,
   ),
