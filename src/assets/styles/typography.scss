@@ -1,76 +1,53 @@
 .h1 {
-  font-family: 'Unbounded', sans-serif;
-  font-weight: bold;
-  font-size: 36px;
+  @apply font-unbounded font-bold text-4xl;
 }
 
 .h2 {
-  font-family: 'Unbounded', sans-serif;
-  font-weight: bold;
-  font-size: 32px;
+  @apply font-unbounded font-bold text-[32px];
 }
 
 .h3 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 24px;
+  @apply font-roboto font-bold text-2xl;
 }
 
 .h4 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 20px;
+  @apply font-roboto font-bold text-xl;
 }
 
 .button-text {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 600;
-  font-size: 18px;
+  @apply font-roboto font-semibold text-lg;
 }
 
 .body-1 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: normal;
-  font-size: 18px;
+  @apply font-roboto font-normal text-lg;
 }
 
 .body2-bold {
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 16px;
+  @apply font-roboto font-bold text-base;
 }
 
 .body-2 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: normal;
-  font-size: 16px;
+  @apply font-roboto font-normal text-base;
 }
 
 .secondary-bold {
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  @apply font-roboto font-bold text-sm;
 }
 
 .secondary-medium {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
+  @apply font-roboto font-medium text-sm;
 }
 
 .secondary {
-  font-family: 'Roboto', sans-serif;
-  font-weight: normal;
-  font-size: 14px;
+  @apply font-roboto font-normal text-sm;
 }
 
 .secondary-small {
-  font-family: 'Roboto', sans-serif;
-  font-weight: normal;
-  font-size: 12px;
+  @apply font-roboto font-normal text-xs;
 }
 
-.font-inherit {
+.font-full-inherit {
+  @apply text-inherit;
   font-size: inherit;
   font-weight: inherit;
 }
