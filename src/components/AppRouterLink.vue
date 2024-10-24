@@ -1,5 +1,5 @@
 <template>
-  <RouterLink class="el-link el-link--default is-underline" :to="{name: to}">
+  <RouterLink class="el-link is-underline" :to="{name: to}">
     <slot />
   </RouterLink>
 </template>
