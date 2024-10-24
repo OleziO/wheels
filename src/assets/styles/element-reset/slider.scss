@@ -1,24 +1,23 @@
 .primary {
   .el-slider__button {
-    background-color: colors.$orange;
+    @apply bg-orange;
   }
 }
 
 .secondary {
   .el-slider__button {
-    background-color: colors.$blue-light;
+    @apply bg-blue-light;
   }
 
   .el-slider__bar {
-    background-color: colors.$blue-light;
+    @apply bg-blue-light;
   }
 }
 
 .el-slider__button {
-  border: none;
+  @apply border-none;
 }
 
 .el-slider__marks-text {
-  font-size: 14px;
-  color: colors.$gray-dark;
+  @apply text-gray-dark text-sm;
 }

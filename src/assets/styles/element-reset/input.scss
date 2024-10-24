@@ -1,60 +1,41 @@
-$input-padding: 15px 40px;
-$input-placeholder-style: (
-  font-size: 16px,
-  font-weight: 400
-);
-$input-font-weight: 600;
-$icon-font-size: 21px;
-$focus-box-shadow-color: colors.$creamy-dark;
-$hover-icon-color: colors.$blue;
-$append-bg-color: colors.$creamy-light;
-
 .el-input__wrapper {
-  padding: $input-padding;
+  @apply px-10;
 
   .el-input__inner {
-    --el-input-inner-height: fit-content;
-    font-weight: $input-font-weight;
+    @apply font-semibold;
 
     &::placeholder {
-      @each $property, $value in $input-placeholder-style {
-        #{$property}: $value;
-      }
+      @apply body-2;
     }
   }
 
+  &:hover {
+    box-shadow: 0 0 0 2px colors.$creamy-dark;
+  }
+
   &.is-focus {
-    box-shadow: 0 0 0 3px $focus-box-shadow-color;
+    box-shadow: 0 0 0 3px colors.$creamy-dark;
   }
 
   .el-input__icon {
-    font-size: $icon-font-size;
+    @apply text-xl;
 
     &:hover {
-      color: $hover-icon-color;
+      @apply text-blue;
     }
   }
 }
 
 .el-input-group--append {
   .el-input__wrapper {
-    border-radius: 8px;
+    @apply rounded-lg;
   }
 
   .el-input-group__append {
-    height: 100%;
-    background-color: $append-bg-color;
-    position: absolute;
-    right: 0;
-    display: flex;
-    justify-content: flex-end;
+    @apply h-full bg-creamy-light absolute right-0 flex justify-end;
 
     .el-button {
-      display: flex;
-      flex-wrap: nowrap;
-      height: 100%;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+      @apply flex flex-nowrap h-full rounded-tl-none rounded-bl-none;
     }
   }
 }

@@ -8,7 +8,12 @@ export default {
   ],
   theme: {
     colors,
-    extend: {}
+    extend: {
+      fontFamily: {
+        roboto: ['Roboto', 'sans', 'sans-serif'],
+        unbounded: ['Unbounded', 'sans', 'sans-serif']
+      }
+    }
   },
   plugins: []
 } satisfies Config

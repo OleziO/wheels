@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppButton: typeof import('./../src/components/AppButton/AppButton.vue')['default']
     AppInput: typeof import('./../src/components/AppInput/AppInput.vue')['default']
+    AppSelect: typeof import('./../src/components/AppSelect/AppSelect.vue')['default']
     AppSlider: typeof import('./../src/components/AppSlider/AppSlider.vue')['default']
     Button: typeof import('../src/components/AppButton/AppButton.vue')['default']
     Compute: typeof import('./../src/components/Compute.vue')['default']
@@ -18,6 +19,8 @@ declare module 'vue' {
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElLink: typeof import('element-plus/es')['ElLink']
+    ElOption: typeof import('element-plus/es')['ElOption']
+    ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

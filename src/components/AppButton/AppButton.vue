@@ -1,6 +1,6 @@
 <template>
   <el-button
-    class="flex items-center justify-center gap-2.5 rounded-lg text-creamy-light border-none h-fit text-lg"
+    class="flex items-center justify-center gap-2.5 rounded-lg text-creamy-light border-none text-lg"
     :text="type === 'text'"
     :class="type"
   >

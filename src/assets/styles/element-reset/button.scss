@@ -1,10 +1,9 @@
 .el-button {
   & [class*=el-icon] + span {
-    margin: 0;
-    display: flex;
+    @apply m-0 flex;
 
     &:empty {
-      display: none;
+      @apply hidden;
     }
   }
 
@@ -32,11 +31,11 @@
     @apply text-blue-light p-0 rounded-none;
 
     &:hover {
-      @apply bg-transparent #{!important};
+      @apply bg-transparent;
 
       span {
-      @apply underline;
-    }
+        @apply underline;
+      }
     }
 
   }

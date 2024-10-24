@@ -1,68 +1,46 @@
-$border-radius: 5px;
-$checkbox-size: 20px;
-$font-size-label: 16px;
-$font-size-icon: 14px;
-
 .el-checkbox__inner {
-  border: 1px solid colors.$creamy-dark;
-  border-radius: $border-radius;
-  width: $checkbox-size;
-  height: $checkbox-size;
+  @apply border border-creamy-dark rounded-md w-5 h-5;
   
   &::after {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @apply w-full flex justify-center items-center left-0 font-[Wheels] text-sm text-blue-light;
     top: calc(50% - 3px);
-    left: 0;
-    font-family: 'Wheels';
-    font-size: $font-size-icon;
     content: '\e91f';
-    color: colors.$blue-light;
   }
 
   &:hover {
-    border-color: colors.$creamy-dark;
+    @apply border-creamy-dark
   }
 }
 
 .el-checkbox__label {
-  padding-left: 15px;
-  font-size: $font-size-label;
-  color: colors.$gray-dark;
-  font-weight: 400;
+  @apply pl-4 body-2;
 }
 
 .el-checkbox__input {
   &.is-checked {
     + .el-checkbox__label {
-      color: colors.$gray-dark;
+      @apply text-gray-dark;
     }
 
     .el-checkbox__inner {
-      border: 2px solid colors.$blue-light;
-      background-color: colors.$creamy-light;
+      @apply border-2 border-blue-light bg-creamy-light;
 
       &::after {
-        transform: scaleY(1);
-        border: none;
+        @apply transform scale-y-100 border-0
       }
     }
   }
 
   &.is-disabled {
     .el-checkbox__inner {
-      background-color: colors.$creamy-light;
-      border-color: colors.$creamy;
+      @apply bg-creamy-light border border-creamy;
     }
 
     &.is-checked .el-checkbox__inner {
-      background-color: colors.$creamy-light;
-      border-color: colors.$creamy;
+      @apply bg-creamy-light border border-creamy;
 
       &::after {
-        color: colors.$creamy;
+        @apply text-creamy;
       }
     }
   }

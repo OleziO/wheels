@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="model" class="text-lg">
+  <el-input v-model="model">
     <template v-if="buttonIcon || buttonText" #append>
       <AppButton :icon="buttonIcon"> {{ buttonText }} </AppButton>
     </template>

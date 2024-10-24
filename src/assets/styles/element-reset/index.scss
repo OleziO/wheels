@@ -1,7 +1,11 @@
 
 @use "../variables/colors";
+@use "../variables/spacing";
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $common-component-size: (
+    'default': spacing.$xl,
+  ),
   $colors: (
     'primary': (
       'base': colors.$orange,
@@ -19,11 +23,8 @@
       'base': colors.$blue-extra-light,
     )
   ),
-  $button-padding-vertical: (
-    'default': 15px,
-  ),
   $button-padding-horizontal: (
-    'default': 20px,
+    'default': spacing.$lg,
   ),
   $slider: (
     'main-bg-color': colors.$orange,
@@ -34,7 +35,7 @@
     'bg-color': colors.$creamy-light,
   ),
   $link: (
-    'font-size': 18px,
+    'font-size': spacing.$base,
     'font-weight': 400,
     'text-color': colors.$blue,
     'hover-text-color': colors.$blue-light,
@@ -46,8 +47,17 @@
     'border-color': colors.$creamy-dark,
     'placeholder-color': colors.$gravel,
     'icon-color': colors.$blue-light,
-    'border-radius': 8px,
-  )
+    'border-radius': spacing.$xs,
+  ),
+  $select: (
+    'font-size': spacing.$s,
+    'input-color': colors.$creamy-dark,
+    'border-color-hover': colors.$creamy-dark,
+  ),
+  $select-option: (
+    'text-color': colors.$black,
+    'selected-text-color': colors.$black,
+  ),
 
 );
 
@@ -73,6 +83,7 @@
 @import "./slider.scss";
 @import "./checkbox.scss";
 @import "./input.scss";
+@import "./select.scss";
 @import "./link.scss";
 
 
