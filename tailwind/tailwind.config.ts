@@ -9,6 +9,9 @@ export default {
   theme: {
     colors,
     extend: {
+      spacing: {
+        100: '100px'
+      },
       fontFamily: {
         roboto: ['Roboto', 'sans', 'sans-serif'],
         unbounded: ['Unbounded', 'sans', 'sans-serif']

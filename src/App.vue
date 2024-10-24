@@ -5,10 +5,13 @@
       el: messages[locale]?.el as TElementPlus['TranslatePair']
     }"
   >
-    <router-view />
+    <PageLayout>
+      <router-view />
+    </PageLayout>
   </ElConfigProvider>
 </template>
 
 <script lang="ts" setup>
+import PageLayout from './layouts/PageLayout.vue'
 const { messages, locale } = useI18n()
 </script>
