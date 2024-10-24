@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="h-36 flex justify-between items-center gap-2 px-24
+    class="h-36 flex justify-between items-center gap-2 px-25
     border-t border-t-creamy-dark"
   >
     <div>
@@ -19,7 +19,7 @@
           <el-link>Карта сайту</el-link>
         </li>
         <li>
-          <el-link>Карта сайту</el-link>
+          <el-link>finances</el-link>
         </li>
       </ul>
     </nav>

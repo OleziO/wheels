@@ -11,6 +11,8 @@ declare module 'vue' {
     AppFooter: typeof import('./../src/components/AppFooter/AppFooter.vue')['default']
     AppHeader: typeof import('./../src/components/AppHeader/AppHeader.vue')['default']
     AppInput: typeof import('./../src/components/AppInput/AppInput.vue')['default']
+    AppLink: typeof import('../src/components/AppRouterLink.vue')['default']
+    AppRouterLink: typeof import('./../src/components/AppRouterLink.vue')['default']
     AppSelect: typeof import('./../src/components/AppSelect/AppSelect.vue')['default']
     AppSlider: typeof import('./../src/components/AppSlider/AppSlider.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']

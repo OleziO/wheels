@@ -10,7 +10,7 @@ export default {
     colors,
     extend: {
       spacing: {
-        100: '100px'
+        25: '100px'
       },
       fontFamily: {
         roboto: ['Roboto', 'sans', 'sans-serif'],

@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full h-24 flex justify-between items-center gap-2 px-24">
+  <header class="w-full h-24 flex justify-between items-center gap-2 px-25">
     <nav class="flex items-center h-full gap-12">
       <RouterLink to="/">
         <Logo />
@@ -7,34 +7,53 @@
 
       <ul class="flex gap-12 !text-blue body-1">
         <li>
-          <el-link>Купити</el-link>
+          <AppRouterLink :to="routeNames.search">
+            Купити
+          </AppRouterLink>
         </li>
         <li>
-          <el-link>Продати</el-link>
+          <AppRouterLink :to="routeNames.create">
+            Продати
+          </AppRouterLink>
         </li>
         <li>
-          <el-link>Фінанси</el-link>
+          <AppRouterLink :to="routeNames.finances">
+            Фінанси
+          </AppRouterLink>
         </li>
         <li>
-          <el-link>ТОП-100</el-link>
+          <AppRouterLink :to="routeNames.top">
+            ТОП-100
+          </AppRouterLink>
         </li>
         <li>
-          <el-link>Аукціон</el-link>
+          <AppRouterLink :to="routeNames.auction">
+            Аукціон
+          </AppRouterLink>
         </li>
       </ul>
     </nav>
     <div class="flex gap-[50px] items-center">
       <div class="flex gap-5 text-5 text-xl">
-        <IconButton icon="icon-heart" hover-icon="icon-heart-fill" />
-        <IconButton icon="icon-question-answer" hover-icon="icon-question-answer-fill" :count="5" />
+        <AppRouterLink :to="routeNames.favorites">
+          <IconButton icon="icon-heart" hover-icon="icon-heart-fill" />
+        </AppRouterLink>
+        <AppRouterLink :to="routeNames.chats">
+          <IconButton icon="icon-question-answer" hover-icon="icon-question-answer-fill" :count="5" />
+        </AppRouterLink>
         <IconButton icon="icon-notification-3" hover-icon="icon-notification-3-fill" :count="3" />
       </div>
-      <AppButton type="line-light" class="!rounded-[50px] h-10 body-1" icon="icon-user-3">Особистий кабінет</AppButton>
+      <AppRouterLink :to="routeNames.profile">
+        <AppButton type="line-light" class="!rounded-[50px] h-10 body-1" icon="icon-user-3">
+          Особистий кабінет
+        </AppButton>
+      </AppRouterLink>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import Logo from '@/assets/images/Logo.vue'
+import { routeNames } from '@/router/route-names'
 import { RouterLink } from 'vue-router'
 </script>
