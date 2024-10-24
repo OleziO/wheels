@@ -19,7 +19,7 @@
           <el-link>Карта сайту</el-link>
         </li>
         <li>
-          <el-link>finances</el-link>
+          <el-link>Зв’яжіться з нами</el-link>
         </li>
       </ul>
     </nav>
