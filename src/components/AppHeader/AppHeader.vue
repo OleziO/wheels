@@ -51,7 +51,7 @@
           :count="3"
         />
       </div>
-      <AppRouterLink :to="routeNames.profile">
+      <AppRouterLink :to="routeNames.profile" :underlined="false">
         <AppButton type="line-light" class="!rounded-[50px] h-10 body-1" icon="icon-user-3">
           Особистий кабінет
         </AppButton>

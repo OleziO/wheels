@@ -1,5 +1,5 @@
 <template>
-  <div :class="type">
+  <div :class="`mb-12 ${type}`">
     <el-slider
       v-model="model"
       range
