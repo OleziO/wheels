@@ -17,7 +17,7 @@ module.exports = {
     parser: '@typescript-eslint/parser'
   },
 
-  ignorePatterns: ['dts/*.d.ts', 'src/api/types/schema.d.ts', 'src/api/types/axios.d.ts'],
+  ignorePatterns: ['dts/*.d.ts', 'src/api/types/database.types.ts'],
 
   rules: {
     'max-len': ['error', {
