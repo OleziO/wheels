@@ -1,7 +1,7 @@
 .app-select.el-select {
   .el-select__wrapper {
     @apply rounded-lg bg-creamy-light text-base px-10;
-    box-shadow: 0 0 0 1px colors.$creamy-dark inset;
+    box-shadow: 0 0 0 1px colors.$creamy-dark;
   
 
     .el-select__icon {
@@ -21,11 +21,17 @@
       box-shadow: 0 0 0 3px colors.$creamy-dark;
     }
   }
+  
+  .el-tag--info {
+      @apply flex gap-3.5 items-center bg-orange px-3.5 py-2 rounded-lg text-creamy-light body-2
+  }
 }
 
 .el-select-dropdown__wrap {
+  @apply max-h-72;
+
   .el-select-dropdown__list {
-    @apply rounded-lg bg-creamy-light;
+    @apply rounded-lg bg-creamy-light max-h-72 overflow-y-auto;
     box-shadow: 0 0 0 1px colors.$creamy-dark;
 
     .el-select-dropdown__item.is-hovering{
@@ -33,3 +39,21 @@
     }
   }
 }
+
+.el-select-group__title {
+  @apply text-orange
+}
+
+.el-popper.is-light {
+  @apply bg-transparent border-none;
+}
+
+.el-select__popper.el-popper[data-popper-placement^=bottom] {
+  .el-popper__arrow::before {
+    @apply hidden;
+  }
+}
+
+
+
+  

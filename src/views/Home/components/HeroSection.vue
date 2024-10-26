@@ -18,5 +18,5 @@
 </template>
 
 <script setup lang="ts">
-const path = 'src/assets/images/main-page-hero-section.png'
+const path = 'src/assets/images/home-page/main-page-hero-section.png'
 </script>
