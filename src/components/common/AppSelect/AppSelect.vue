@@ -3,7 +3,7 @@
     v-model="model"
     class="app-select"
   >
-    <div v-if="grouped && groupKeyLabel && groupKeyValue">
+    <div v-if="groupKeyLabel && groupKeyValue">
       <el-option-group
         v-for="group in options"
         :key="group[groupKeyLabel]"
@@ -36,7 +36,6 @@ withDefaults(
     options: Record<string, any>[]
     keyLabel?: string
     keyValue?: string
-    grouped?: boolean
     groupKeyLabel?: string
     groupKeyValue?: string
   }>(),
