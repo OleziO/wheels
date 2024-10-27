@@ -10,6 +10,9 @@ export default {
     colors,
     extend: {
       spacing: {
+        12.5: '50px',
+        19: '76px',
+        22: '88px',
         25: '100px'
       },
       fontFamily: {

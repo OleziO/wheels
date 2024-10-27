@@ -5,7 +5,7 @@
 html,
 body,
 #app {
-  @apply h-full font-roboto bg-creamy-light;
+  @apply h-full font-roboto bg-creamy-light box-border;
 }
 
 html {
@@ -21,6 +21,7 @@ body {
 
 img, svg {
   display: initial;
+  height: 100%;
 }
 
 
