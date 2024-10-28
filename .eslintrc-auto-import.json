@@ -328,6 +328,7 @@
     "useModel": true,
     "useTemplateRef": true,
     "moneyService": true,
-    "timeService": true
+    "timeService": true,
+    "searchSectionService": true
   }
 }

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'Wheels';
-  src:  url('fonts/Wheels.eot?dxj22x');
-  src:  url('fonts/Wheels.eot?dxj22x#iefix') format('embedded-opentype'),
-    url('fonts/Wheels.ttf?dxj22x') format('truetype'),
-    url('fonts/Wheels.woff?dxj22x') format('woff'),
-    url('fonts/Wheels.svg?dxj22x#Wheels') format('svg');
+  src:  url('fonts/Wheels.eot?grl434');
+  src:  url('fonts/Wheels.eot?grl434#iefix') format('embedded-opentype'),
+    url('fonts/Wheels.ttf?grl434') format('truetype'),
+    url('fonts/Wheels.woff?grl434') format('woff'),
+    url('fonts/Wheels.svg?grl434#Wheels') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -349,7 +349,7 @@
 .icon-thumb-up-fill:before {
   content: "\e96b";
 }
-.icon-thumb-u:before {
+.icon-thumb-up:before {
   content: "\e96c";
 }
 .icon-time-fill:before {

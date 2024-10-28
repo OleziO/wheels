@@ -21,6 +21,6 @@ withDefaults(
   {
     type: 'primary'
   }
-
 )
+
 </script>

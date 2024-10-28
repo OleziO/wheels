@@ -9,7 +9,7 @@ declare module 'axios' {
   export interface InternalAxiosRequestConfig extends IAxiosRequestConfig {}
 
   export interface AxiosInstance {
-    get<Path extends TPathKeys>(url: Path, config?: IAxiosRequestConfig<Path, 'get'>): Promise<TResponse<Path, 'get'>>
+    get<string>(url: string, config?: IAxiosRequestConfig<string, 'get'>): Promise<TResponse<string, 'get'>>
     post<Path extends TPathKeys>(url: Path, data?: TRequestBody<Path, 'post'>, config?: IAxiosRequestConfig<Path, 'post'>): Promise<TResponse<Path, 'post'>>
     put<Path extends TPathKeys>(url: Path, data?: TRequestBody<Path, 'put'>, config?: IAxiosRequestConfig<Path, 'put'>): Promise<TResponse<Path, 'put'>>
     patch<Path extends TPathKeys>(url: Path, data?: Partial<TRequestBody<Path, 'patch'>>, config?: IAxiosRequestConfig<Path, 'patch'>): Promise<TResponse<Path, 'patch'>>

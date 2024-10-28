@@ -8,6 +8,7 @@ interface IBasicCarData {
   fuelType: string
   carPice: number
   carMileage: number
+  carVin: string
   createdAt: Date
   carPicture: string
 }

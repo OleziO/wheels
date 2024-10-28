@@ -107,7 +107,7 @@ type TIcons =
   | 'icon-thumb-down-fill'
   | 'icon-thumb-down'
   | 'icon-thumb-up-fill'
-  | 'icon-thumb-u'
+  | 'icon-thumb-up'
   | 'icon-time-fill'
   | 'icon-time'
   | 'icon-tools'
