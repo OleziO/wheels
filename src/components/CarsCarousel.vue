@@ -7,7 +7,6 @@
     disableArrowsOnEdges
     :bullets="false"
     :gap="1.5"
-    lazy
     fixed-height="520px"
     :touchable="false"
   >
