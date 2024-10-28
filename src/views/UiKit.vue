@@ -48,7 +48,7 @@ const password = ref<string>('')
 const textBtn = ref<string>('')
 const textBtnWithIcon = ref<string>('')
 const iconBtn = ref<string>('')
-const selectValue = ref<ISelectOption>()
+const selectValue = ref()
 const selectOptions = [
   {
     label: '1',

@@ -329,6 +329,7 @@
     "useTemplateRef": true,
     "moneyService": true,
     "timeService": true,
-    "searchSectionService": true
+    "searchSectionService": true,
+    "searchService": true
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <span class="flex gap-2.5">
-    <i :class="`${icon} text-orange secondary !${textColor}`" />
-    <p :class="`secondary text-gravel !${textColor}`">{{ text }}</p>
+    <i class="text-orange secondary" :class="[icon, textColor]" />
+    <p class="secondary text-gravel" :class="textColor">{{ text }}</p>
   </span>
 </template>
 

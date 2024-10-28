@@ -1,31 +1,47 @@
 <template>
-  <el-carousel class="h-[494px]" :loop="false" indicator-position="none" :autoplay="false">
-    <el-carousel-item
-      v-for="grouoedCars in carsData"
-      :key="grouoedCars[0]?.carId"
-      class="h-fit flex justify-center"
+  <VueperSlides
+    class="no-shadow w-full"
+    :visible-slides="3"
+    slide-multiple
+    arrowsOutside
+    disableArrowsOnEdges
+    :bullets="false"
+    :gap="1.5"
+    lazy
+    fixed-height="520px"
+    :touchable="false"
+  >
+    <VueperSlide
+      v-for="car in cars"
+      :key="car.carId"
     >
-      <div class="flex gap-5 h-fit">
-        <CarCard v-for="car in grouoedCars" :key="car.carId" :car="car" />
-      </div>
-    </el-carousel-item>
-  </el-carousel>
+      <template #content>
+        <CarCard :car="{...car, rate: rate}" />
+      </template>
+    </VueperSlide>
+
+    <template #arrow-left>
+      <i class="icon-arrow-drop-left text-blue-light text-2xl" />
+    </template>
+
+    <template #arrow-right>
+      <i class="icon-arrow-drop-right text-blue-light text-2xl" />
+    </template>
+  </VueperSlides>
 </template>
 
 <script setup lang="ts">
+import { VueperSlides, VueperSlide } from 'vueperslides'
+import CarCard from './CarCard/CarCard.vue'
 
-const props = defineProps<{
+defineProps<{
   cars: IBasicCarData[]
 }>()
 
-function chunkArray<T> (array: T[], chunkSize: number = 3): T[][] {
-  const result: T[][] = []
-  for (let i = 0; i < array.length; i += chunkSize) {
-    const chunk = array.slice(i, i + chunkSize)
-    result.push(chunk)
-  }
-  return result
-}
+const rate = ref(0)
 
-const carsData = computed(() => chunkArray(props.cars))
+onMounted(() => {
+  moneyService.gettUSDtoUAH().then(data => { rate.value = data })
+})
+
 </script>

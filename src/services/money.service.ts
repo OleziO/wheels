@@ -1,10 +1,9 @@
 import currency from '@/api/currency'
 
 class MoneyService {
-  async convertUSDtoUAH (amount: number) {
+  async gettUSDtoUAH () {
     const response = await currency.rateUSD()
-    console.log(response)
-    return response.data[0].rate as number * amount
+    return response.data[0].rate as number
   }
 
   numToMoneyWithFormat (amount: number, moneyText: string, moneyPosition: 'start' | 'end' = 'start') {

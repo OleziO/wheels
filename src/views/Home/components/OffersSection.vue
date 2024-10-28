@@ -4,10 +4,11 @@
     <CarsCarousel :cars="carsData" />
 
     <AppButton
-      icon="icon-arrow-right-down"
       class="w-[400px] mx-auto mt-12.5"
+      icon-suffix
     >
       Більше пропозицій
+      <icon class="icon-arrow-right-down text-xs" />
     </AppButton>
   </SectionLayout>
 </template>

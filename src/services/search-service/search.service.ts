@@ -3,16 +3,15 @@ class SearchFilters {
     return Array.from({ length: end - start + 1 }, (_, i) => start + i)
   }
 
-  convertToLocationQueryRaw (searchData: ICarsSearchData) {
+  convertToLocationQueryRaw (searchData: Record<string, TSearchFilters>) {
     const params = {
-      ...searchData,
-      price: searchData.price.map(String)
+      ...searchData
     }
 
     return params
   }
 
-  getFilters () {
+  getHomePageFilters () {
     const vehicleTypes: IVehicleType[] = [
       { label: 'Легкові', value: 'Car' },
       { label: 'Вантажівки', value: 'Truck-2' },

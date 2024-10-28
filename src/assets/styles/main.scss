@@ -1,9 +1,11 @@
 @tailwind base;
 
+@import 'vueperslides/dist/vueperslides.css';
 @import '../icons/icons.css';
 @import 'base';
 @import './element-reset';
 @import './typography.scss';
+
 
 @tailwind components;
 @tailwind utilities;
