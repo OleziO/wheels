@@ -1,7 +1,7 @@
 <template>
   <header class="w-full h-24 flex justify-between items-center gap-2 px-25">
     <nav class="flex items-center h-full gap-12">
-      <AppRouterLink :to="routeNames.home">
+      <AppRouterLink :to="routeNames.home" :underlined="false">
         <Logo />
       </AppRouterLink>
 

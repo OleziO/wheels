@@ -327,7 +327,9 @@
     "useId": true,
     "useModel": true,
     "useTemplateRef": true,
+    "moneyService": true,
+    "timeService": true,
     "searchSectionService": true,
-    "vehicleTypes": true
+    "searchService": true
   }
 }

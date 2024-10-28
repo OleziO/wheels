@@ -94,7 +94,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
-import SearchFilters from './search-section.service'
+import SearchFilters from '@/services/search-service/search.service'
 import { router } from '@/router'
 import { routeNames } from '@/router/route-names'
 
@@ -138,7 +138,7 @@ const query = computed(() => {
 })
 
 onBeforeMount(async () => {
-  SearchFilters.getFilters()
+  SearchFilters.getHomePageFilters()
     .then((data) => { searchFiltersOptions.value = data })
     .catch(error => {
       console.error('Error fetching filters:', error)
