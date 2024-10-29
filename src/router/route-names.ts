@@ -8,5 +8,6 @@ export const routeNames = {
   create: 'createCar',
   profile: 'profile',
   favorites: 'favorites',
-  chats: 'chats'
+  chats: 'chats',
+  car: 'car'
 }

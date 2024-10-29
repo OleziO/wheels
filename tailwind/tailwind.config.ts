@@ -10,11 +10,20 @@ export default {
     colors,
     extend: {
       spacing: {
+        12.5: '50px',
+        19: '76px',
+        22: '88px',
         25: '100px'
+      },
+      borderRadius: {
+        12.5: '50px'
       },
       fontFamily: {
         roboto: ['Roboto', 'sans', 'sans-serif'],
         unbounded: ['Unbounded', 'sans', 'sans-serif']
+      },
+      fontSize: {
+        8: '32px'
       }
     }
   },

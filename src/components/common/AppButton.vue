@@ -8,19 +8,26 @@
       <i :class="icon" />
     </template>
 
-    <slot />
+    <span v-if="iconSuffix" class="flex gap-2.5 items-center">
+      <slot />
+    </span>
+
+    <slot v-else />
   </el-button>
 </template>
 
 <script setup lang="ts">
+type TButtonTypes = 'primary' | 'secondary' | 'line-light' | 'line-dark' | 'text' | 'icon'
+
 withDefaults(
   defineProps<{
     type?: TButtonTypes
     icon?: TIcons
+    iconSuffix?: boolean
   }>(),
   {
     type: 'primary'
   }
-
 )
+
 </script>
