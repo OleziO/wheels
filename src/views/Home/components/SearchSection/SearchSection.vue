@@ -94,6 +94,8 @@
 </template>
 
 <script setup lang="ts">
+import SearchService from '@/services/search-service/search.service'
+
 const searchData = ref<ICarsSearchData>({
   vehicleTypes: [],
   brands: [],
@@ -114,7 +116,7 @@ const searchFiltersOptions = computed(() => {
   return {
     vehicleTypes: vehicleTypes.value,
     brands: brands.value,
-    models: searchService.groupModelsByBrand(brands.value, models.value),
+    models: SearchService.groupModelsByBrand(brands.value, models.value),
     cities: cities.value,
     price: price.value,
     years: years.value
@@ -122,13 +124,13 @@ const searchFiltersOptions = computed(() => {
 })
 
 function getFilters () {
-  Promise.all([searchService.getBrands(), searchService.getModels()]).then(([brandsResponse, modelsResponse]) => {
-    vehicleTypes.value = searchService.vehicleTypes
+  Promise.all([SearchService.getBrands(), SearchService.getModels()]).then(([brandsResponse, modelsResponse]) => {
+    vehicleTypes.value = SearchService.vehicleTypes
     brands.value = brandsResponse
     models.value = modelsResponse
-    cities.value = searchService.cities
-    price.value = searchService.price
-    years.value = searchService.getYears(1940, 2024)
+    cities.value = SearchService.cities
+    price.value = SearchService.price
+    years.value = SearchService.getYears(1940, 2024)
   })
 }
 
@@ -151,7 +153,7 @@ const pickedBrandsModels = computed(() => {
 })
 
 const query = computed(() => {
-  return searchService.convertToLocationQueryRaw(searchData.value)
+  return SearchService.convertToLocationQueryRaw(searchData.value)
 })
 
 onBeforeMount(async () => {

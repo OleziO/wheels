@@ -1,4 +1,4 @@
-class SearchFilters {
+class SearchService {
   get cities (): ICarCity[] {
     return [
       {
@@ -88,4 +88,4 @@ class SearchFilters {
   }
 }
 
-export default new SearchFilters()
+export default new SearchService()

@@ -9,7 +9,7 @@
         type="icon"
         @click="router.push({
           name: routeNames.search,
-          query: searchService.convertToLocationQueryRaw({brand: brand.id}
+          query: SearchService.convertToLocationQueryRaw({brand: brand.id}
           )})"
       >
         <div class="flex flex-col items-center gap-4 p-10 max-w-[220px]">
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import SectionLayout from '@/layouts/SectionLayout.vue'
-import searchService from '@/services/search-service/search.service'
+import SearchService from '@/services/search-service/search.service'
 import { router } from '@/router'
 import { routeNames } from '@/router/route-names'
 
