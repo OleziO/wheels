@@ -30,3 +30,4 @@ coverage
 *.sw?
 
 stats.html
+src/api/types/database.types.ts

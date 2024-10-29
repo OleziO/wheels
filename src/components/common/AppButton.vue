@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+type TButtonTypes = 'primary' | 'secondary' | 'line-light' | 'line-dark' | 'text' | 'icon'
+
 withDefaults(
   defineProps<{
     type?: TButtonTypes

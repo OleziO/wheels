@@ -21,7 +21,7 @@
     <div v-else>
       <el-option
         v-for="item in options"
-        :key="item[keyLabel]"
+        :key="item[keyValue]"
         :label="item[keyLabel]"
         :value="item[keyValue]"
       />

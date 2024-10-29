@@ -330,6 +330,8 @@
     "moneyService": true,
     "timeService": true,
     "searchSectionService": true,
-    "searchService": true
+    "searchService": true,
+    "supabase": true,
+    "carsService": true
   }
 }

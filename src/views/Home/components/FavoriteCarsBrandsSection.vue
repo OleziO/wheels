@@ -9,14 +9,14 @@
         type="icon"
         @click="router.push({
           name: routeNames.search,
-          query: SearchFilters.convertToLocationQueryRaw({brand: brand.id}
+          query: searchService.convertToLocationQueryRaw({brand: brand.id}
           )})"
       >
-        <div class="flex flex-col items-center gap-4 p-10">
-          <el-image :src="brand.picture" :alt="brand.name" class="h-14" />
-          <h4 class="h4 text-gray-dark">{{ brand.name }}</h4>
+        <div class="flex flex-col items-center gap-4 p-10 max-w-[220px]">
+          <el-image :src="brand.brand_logo || ''" :alt="brand.brand" class="h-14" />
+          <h4 class="h4 text-gray-dark">{{ brand.brand }}</h4>
           <p class="body-2 text-gray-dark">
-            {{ brand.count }} в наявності
+            {{ brand.cars_count }} в наявності
           </p>
         </div>
       </AppButton>
@@ -26,46 +26,13 @@
 
 <script setup lang="ts">
 import SectionLayout from '@/layouts/SectionLayout.vue'
-import SearchFilters from '@/services/search-service/search.service'
+import searchService from '@/services/search-service/search.service'
 import { router } from '@/router'
 import { routeNames } from '@/router/route-names'
 
-interface IBrandItem {
-  id: string
-  name: string
-  picture: string
-  count: number
-}
+const brands = ref<TTables<'car brands'>[]>([])
 
-const brands = ref<IBrandItem[]>([
-  {
-    id: '1',
-    name: 'Mercedes-Benz',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/2048px-Mercedes-Logo.svg.png',
-    count: 123
-  },
-  {
-    id: '2',
-    name: 'Mercedes-Benz',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/2048px-Mercedes-Logo.svg.png',
-    count: 123
-  },
-  {
-    id: '3',
-    name: 'Mercedes-Benz',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/2048px-Mercedes-Logo.svg.png',
-    count: 123
-  },
-  {
-    id: '4',
-    name: 'Mercedes-Benz',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/2048px-Mercedes-Logo.svg.png',
-    count: 123
-  },
-  {
-    id: '5',
-    name: 'Mercedes-Benz',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/2048px-Mercedes-Logo.svg.png',
-    count: 123
-  }])
+onBeforeMount(() => {
+  carsService.getPopularBrands().then((brandsData) => { if (brands.value) brands.value = brandsData || [] })
+})
 </script>

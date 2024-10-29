@@ -1,92 +1,6 @@
 class SearchFilters {
-  generateYears (start: number, end: number) {
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i)
-  }
-
-  convertToLocationQueryRaw (searchData: Record<string, TSearchFilters>) {
-    const params = {
-      ...searchData
-    }
-
-    return params
-  }
-
-  getHomePageFilters () {
-    const vehicleTypes: IVehicleType[] = [
-      { label: 'Легкові', value: 'Car' },
-      { label: 'Вантажівки', value: 'Truck-2' },
-      { label: 'Мото', value: 'Motorbike' },
-      { label: 'Сільгосптехніка', value: 'Backhoe' },
-      { label: 'Автобуси', value: 'Minibus' },
-      { label: 'Спецтехніка', value: 'Truck' },
-      { label: 'Причепи', value: 'Caravan' },
-      { label: 'Автобудинки', value: 'Camper' }
-    ]
-
-    const brands: ICarBrand[] = [
-      {
-        brandName: 'Mercedes-Benz',
-        brandId: '1'
-      },
-      {
-        brandName: 'BMW',
-        brandId: '2'
-      },
-      {
-        brandName: 'Audi',
-        brandId: '3'
-      }
-    ]
-
-    const models: ICarModel[] = [
-      {
-        modelId: '1',
-        modelName: '3 Series',
-        brandId: brands[1]!.brandId
-      },
-      {
-        modelId: '2',
-        modelName: '5 Series',
-        brandId: brands[1]!.brandId
-      },
-      {
-        modelId: '3',
-        modelName: '7 Series',
-        brandId: brands[1]!.brandId
-      },
-      {
-        modelId: '4',
-        modelName: 'S600',
-        brandId: brands[0]!.brandId
-      },
-      {
-        modelId: '5',
-        modelName: 'S500',
-        brandId: brands[0]!.brandId
-      },
-      {
-        modelId: '6',
-        modelName: 'W126',
-        brandId: brands[0]!.brandId
-      },
-      {
-        modelId: '7',
-        modelName: 'Q5',
-        brandId: brands[2]!.brandId
-      },
-      {
-        modelId: '8',
-        modelName: 'Q7',
-        brandId: brands[2]!.brandId
-      },
-      {
-        modelId: '9',
-        modelName: 'S7',
-        brandId: brands[2]!.brandId
-      }
-    ]
-
-    const cities: ICarCity[] = [
+  get cities (): ICarCity[] {
+    return [
       {
         cityId: '1',
         cityName: 'Львів'
@@ -100,44 +14,77 @@ class SearchFilters {
         cityName: 'Тернопіль'
       }
     ]
+  }
 
-    const years: IYearItem[] = this.generateYears(2020, 2024).map(item => ({ value: `${item}`, label: `${item}` }))
+  get vehicleTypes (): IVehicleType[] {
+    return [
+      { label: 'Легкові', value: 'Car' },
+      { label: 'Вантажівки', value: 'Truck-2' },
+      { label: 'Мото', value: 'Motorbike' },
+      { label: 'Сільгосптехніка', value: 'Backhoe' },
+      { label: 'Автобуси', value: 'Minibus' },
+      { label: 'Спецтехніка', value: 'Truck' },
+      { label: 'Причепи', value: 'Caravan' },
+      { label: 'Автобудинки', value: 'Camper' }
+    ]
+  }
 
-    const price: ICarFilterOptionPrice = {
+  async getBrands (): Promise<TTables<'car brands'>[]> {
+    const { data } = await supabase
+      .from('car brands')
+      .select()
+
+    return data || []
+  }
+
+  async getModels (): Promise<TTables<'car models'>[]> {
+    const { data } = await supabase
+      .from('car models')
+      .select()
+
+    return data || []
+  }
+
+  get price () {
+    return {
       min: 0,
-      max: 50000
+      max: 100000
+    }
+  }
+
+  getYears (start: number, end: number) {
+    return this.generateYears(start, end).map(item => ({ value: `${item}`, label: `${item}` }))
+  }
+
+  generateYears (start: number, end: number) {
+    const yearList = Array.from({ length: end - start + 1 }, (_, i) => end - i)
+
+    return yearList
+  }
+
+  convertToLocationQueryRaw (searchData: Record<string, TSearchFilters>) {
+    const params = {
+      ...searchData
     }
 
-    function groupModelsByBrand (brands: ICarBrand[], models: ICarModel[]) {
-      const brandMap = Object.fromEntries(brands.map((brand) =>
-        [
-          brand.brandId,
-          {
-            brandId: brand.brandId,
-            brandName: brand.brandName,
-            modelsList: [] as unknown as ICarModel[]
-          }
-        ]))
+    return params
+  }
 
-      models.forEach((model) => {
-        brandMap[model.brandId]?.modelsList.push(model)
-      })
+  groupModelsByBrand (brands: TTables<'car brands'>[], models: TTables<'car models'>[]) {
+    const brandMap = brands.reduce((acc, brand) => {
+      acc[brand.id] = {
+        ...brand,
+        models: []
+      }
 
-      return Object.values(brandMap)
-    }
+      return acc
+    }, {} as Record<number, IMappedCarModel>)
 
-    const selectOptions = {
-      vehicleTypes,
-      brands,
-      models: groupModelsByBrand(brands, models),
-      cities,
-      years,
-      price
-    }
-
-    return Promise.resolve({
-      ...selectOptions
+    models.forEach((model) => {
+      brandMap[model.brand_id]?.models.push(model)
     })
+
+    return brandMap
   }
 }
 

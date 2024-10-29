@@ -15,6 +15,10 @@
 </template>
 
 <script lang="ts" setup>
+type TSliderTypes = 'primary' | 'secondary'
+type TLabelPositions = 'start' | 'end'
+type TSliderMark = Record<number, string>
+
 const positions: Record<string, TLabelPositions> = {
   start: 'start',
   end: 'end'

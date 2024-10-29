@@ -10,12 +10,12 @@
     "preview": "vite preview",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "openapi-generate": "npx openapi-typescript https://fakerestapi.azurewebsites.net/swagger/v1/swagger.json -o ./src/api/types/schema.d.ts",
-    "postinstall": "run-p openapi-generate"
+    "generate-supabase-type": "npx supabase gen types typescript --project-id vqlpuzwqlsxbptasdzor > src/api/types/database.types.ts",
+    "postinstall": "run-p generate-supabase-type"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.6",
     "@vueuse/core": "^10.11.0",
-    "axios": "^1.7.2",
     "element-plus": "^2.7.6",
     "pinia": "^2.1.7",
     "portal-vue": "^3.0.0",
@@ -40,6 +40,7 @@
     "postcss": "^8.4.39",
     "rollup-plugin-visualizer": "^5.12.0",
     "sass": "^1.77.6",
+    "supabase": "^1.207.9",
     "tailwindcss": "^3.4.4",
     "typescript": "~5.5.3",
     "unplugin-auto-import": "^0.17.6",

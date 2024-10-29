@@ -1,21 +1,21 @@
 <template>
   <VueperSlides
     class="no-shadow w-full"
-    :visible-slides="3"
-    slide-multiple
+    :visibleSlides="3"
+    slideMultiple
     arrowsOutside
     disableArrowsOnEdges
     :bullets="false"
     :gap="1.5"
-    fixed-height="520px"
+    fixedHeight="520px"
     :touchable="false"
   >
     <VueperSlide
       v-for="car in cars"
-      :key="car.carId"
+      :key="car.id"
     >
       <template #content>
-        <CarCard :car="{...car, rate: rate}" />
+        <CarCard :car="car" :rate="rate" />
       </template>
     </VueperSlide>
 
@@ -34,7 +34,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
 import CarCard from './CarCard/CarCard.vue'
 
 defineProps<{
-  cars: IBasicCarData[]
+  cars: TCar[]
 }>()
 
 const rate = ref(0)

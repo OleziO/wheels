@@ -1,21 +1,4 @@
-import axios from 'axios'
+import { createClient } from '@supabase/supabase-js'
+import type { Database } from './types/database.types'
 
-import {
-  requestErrorInterceptor,
-  requestInterceptor,
-  errorInterceptor,
-  responseInterceptor
-} from './interceptors'
-
-const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
-})
-
-instance.interceptors.response.use(
-  res => responseInterceptor(res),
-  err => errorInterceptor(err)
-)
-
-instance.interceptors.request.use(requestInterceptor, requestErrorInterceptor)
-
-export const useApiClient = instance
+export const supabase = createClient<Database>(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)

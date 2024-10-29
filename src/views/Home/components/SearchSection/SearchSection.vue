@@ -17,8 +17,8 @@
         <AppSelect
           v-model="searchData.brands"
           placeholder="Оберіть марку"
-          key-label="brandName"
-          key-value="brandId"
+          key-label="brand"
+          key-value="id"
           :options="searchFiltersOptions?.brands"
           multiple
           collapse-tags
@@ -27,11 +27,11 @@
           v-model="searchData.models"
           grouped
           placeholder="Оберіть модель"
-          group-key-label="brandName"
-          group-key-value="modelsList"
-          key-value="modelId"
-          key-label="modelName"
-          :options="groupedModels"
+          group-key-label="brand"
+          group-key-value="models"
+          key-value="id"
+          key-label="model"
+          :options="pickedBrandsModels"
           multiple
           collapse-tags
         />
@@ -85,64 +85,77 @@
       <AppButton
         class="w-full"
         icon="icon-search"
-        @click="router.push({name: routeNames.search, query: query})"
+        @click="$router.push({name: $routeNames.search, query: query})"
       >
         Шукати
       </AppButton>
     </div>
   </section>
 </template>
+
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue'
-import SearchFilters from '@/services/search-service/search.service'
-import { router } from '@/router'
-import { routeNames } from '@/router/route-names'
-
-const searchFiltersOptions = ref<ICarsFiltersOptions>(
-  {
-    vehicleTypes: [],
-    brands: [],
-    models: [],
-    cities: [],
-    years: [],
-    price: {
-      min: 0,
-      max: 50000
-    }
-  }
-)
-
 const searchData = ref<ICarsSearchData>({
   vehicleTypes: [],
   brands: [],
   models: [],
   cities: [],
   years: [],
-  price: [0, 50000]
+  price: [20000, 50000]
 })
 
-const groupedModels = computed(() => {
-  if (searchData.value.brands.length) {
-    return searchFiltersOptions?.value.models?.filter((model) => {
-      return searchData.value.brands.find(brand => {
-        return brand === model.brandId
-      })
-    })
-  } else {
-    return []
+const vehicleTypes = ref <IVehicleType[]>([])
+const brands = ref<TTables<'car brands'>[]>([])
+const models = ref<TTables<'car models'>[]>([])
+const cities = ref<ICarCity[]>([])
+const price = ref<ICarPriceFilter>({ min: 0, max: 50000 })
+const years = ref<ICarYearFilter[]>([])
+
+const searchFiltersOptions = computed(() => {
+  return {
+    vehicleTypes: vehicleTypes.value,
+    brands: brands.value,
+    models: searchService.groupModelsByBrand(brands.value, models.value),
+    cities: cities.value,
+    price: price.value,
+    years: years.value
   }
 })
 
+function getFilters () {
+  Promise.all([searchService.getBrands(), searchService.getModels()]).then(([brandsResponse, modelsResponse]) => {
+    vehicleTypes.value = searchService.vehicleTypes
+    brands.value = brandsResponse
+    models.value = modelsResponse
+    cities.value = searchService.cities
+    price.value = searchService.price
+    years.value = searchService.getYears(1940, 2024)
+  })
+}
+
+const pickedBrandsModels = computed(() => {
+  const picedBrands = searchData.value.brands
+  const mappedModelsObj = searchFiltersOptions.value.models
+
+  if (picedBrands.length) {
+    const filteredModels = picedBrands.reduce((modelsAcc, brand) => {
+      if (mappedModelsObj[brand]) {
+        modelsAcc[brand] = mappedModelsObj[brand]
+      }
+      return modelsAcc
+    }, {} as Record<number, IMappedCarModel>)
+
+    return Object.values(filteredModels)
+  }
+
+  return []
+})
+
 const query = computed(() => {
-  return SearchFilters.convertToLocationQueryRaw(searchData.value)
+  return searchService.convertToLocationQueryRaw(searchData.value)
 })
 
 onBeforeMount(async () => {
-  SearchFilters.getHomePageFilters()
-    .then((data) => { searchFiltersOptions.value = data })
-    .catch(error => {
-      console.error('Error fetching filters:', error)
-    })
+  getFilters()
 })
 
 </script>
