@@ -59,9 +59,9 @@ function setLabel (value: number, label: string = '') {
   if (label) {
     if (props.labelPosition && props.labelPosition === positions.start) {
       computedLabel = `${label}${value}`
-    } else {
-      computedLabel = `${value}${label}`
     }
+
+    computedLabel = `${value}${label}`
   }
 
   return computedLabel

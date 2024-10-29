@@ -18,14 +18,14 @@ class SearchService {
 
   get vehicleTypes (): IVehicleType[] {
     return [
-      { label: 'Легкові', value: 'Car' },
-      { label: 'Вантажівки', value: 'Truck-2' },
-      { label: 'Мото', value: 'Motorbike' },
-      { label: 'Сільгосптехніка', value: 'Backhoe' },
-      { label: 'Автобуси', value: 'Minibus' },
-      { label: 'Спецтехніка', value: 'Truck' },
-      { label: 'Причепи', value: 'Caravan' },
-      { label: 'Автобудинки', value: 'Camper' }
+      { label: 'Легкові', value: 'car' },
+      { label: 'Вантажівки', value: 'truck-2' },
+      { label: 'Мото', value: 'motorbike' },
+      { label: 'Сільгосптехніка', value: 'backhoe' },
+      { label: 'Автобуси', value: 'minibus' },
+      { label: 'Спецтехніка', value: 'truck' },
+      { label: 'Причепи', value: 'caravan' },
+      { label: 'Автобудинки', value: 'camper' }
     ]
   }
 

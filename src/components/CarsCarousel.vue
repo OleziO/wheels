@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { VueperSlides, VueperSlide } from 'vueperslides'
-import CarCard from './CarCard/CarCard.vue'
+import CarCard from './car-card/CarCard.vue'
 
 defineProps<{
   cars: TCar[]

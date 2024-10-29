@@ -42,7 +42,7 @@
         </p>
       </div>
       <div class="grid grid-cols-2 gap-4">
-        <CarInfoWithIcon
+        <CarInfo
           v-for="info in carInfo"
           :key="info.icon"
           :text="info.text"
@@ -51,7 +51,7 @@
       </div>
 
       <div class="flex justify-between items-end mt-2">
-        <CarInfoWithIcon
+        <CarInfo
           textColor="!text-blue-light"
           :text="timeService.timeAgo(new Date(car.created_at))"
           icon="icon-time"
@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import moneyService from '@/services/money.service'
 import timeService from '@/services/time.service'
-import CarInfoWithIcon from './components/CarInfoWithIcon.vue'
+import CarInfo from './components/CarCardInfoWithIcon.vue'
 import SearchFilters from '@/services/search-service/search.service'
 import { routeNames } from '@/router/route-names'
 import { RouterLink } from 'vue-router'
