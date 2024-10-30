@@ -7,8 +7,8 @@
         :key="brand.id"
         class="h-fit w-1/5 shadow hover:scale-110"
         type="icon"
-        @click="router.push({
-          name: routeNames.search,
+        @click="$router.push({
+          name: $routeNames.search,
           query: SearchService.convertToLocationQueryRaw({brand: brand.id}
           )})"
       >
@@ -27,12 +27,9 @@
 <script setup lang="ts">
 import SectionLayout from '@/layouts/SectionLayout.vue'
 import SearchService from '@/services/search-service/search.service'
-import { router } from '@/router'
-import { routeNames } from '@/router/route-names'
 
-const brands = ref<TTables<'car brands'>[]>([])
+defineProps<{
+  brands: TTables<'brands'>[]
+}>()
 
-onBeforeMount(() => {
-  carsService.getPopularBrands().then((brandsData) => { if (brands.value) brands.value = brandsData || [] })
-})
 </script>

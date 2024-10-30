@@ -16,7 +16,8 @@ export default {
         25: '100px'
       },
       borderRadius: {
-        12.5: '50px'
+        12.5: '50px',
+        25: '100px'
       },
       fontFamily: {
         roboto: ['Roboto', 'sans', 'sans-serif'],

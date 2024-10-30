@@ -3,8 +3,8 @@ interface IVehicleType {
   value: string
 }
 
-interface IMappedCarModel extends TTables<'car brands'>{
-  models: TTables<'car models'>[]
+interface IMappedCarModel extends TTables<'brands'>{
+  models: TTables<'models'>[]
 }
 
 interface ICarCity {
@@ -22,13 +22,11 @@ interface ICarPriceFilter {
   max: number
 }
 
-type TCarPriceRangePrice = [number, number]
-
 interface ICarsSearchData {
   vehicleTypes: string[]
-  brands: number[]
+  brands: string[]
   models: string[]
   cities: string[]
   years: number[]
-  price: TCarPriceRangePrice
+  price: [number, number]
 }

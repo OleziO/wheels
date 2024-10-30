@@ -18,8 +18,8 @@
           v-model="searchData.brands"
           placeholder="Оберіть марку"
           key-label="brand"
-          key-value="id"
-          :options="searchFiltersOptions?.brands"
+          key-value="brand"
+          :options="computedSortedBrands"
           multiple
           collapse-tags
         />
@@ -96,6 +96,10 @@
 <script setup lang="ts">
 import SearchService from '@/services/search-service/search.service'
 
+const props = defineProps<{
+  searchFiltersOptions: any
+}>()
+
 const searchData = ref<ICarsSearchData>({
   vehicleTypes: [],
   brands: [],
@@ -105,38 +109,13 @@ const searchData = ref<ICarsSearchData>({
   price: [20000, 50000]
 })
 
-const vehicleTypes = ref <IVehicleType[]>([])
-const brands = ref<TTables<'car brands'>[]>([])
-const models = ref<TTables<'car models'>[]>([])
-const cities = ref<ICarCity[]>([])
-const price = ref<ICarPriceFilter>({ min: 0, max: 50000 })
-const years = ref<ICarYearFilter[]>([])
-
-const searchFiltersOptions = computed(() => {
-  return {
-    vehicleTypes: vehicleTypes.value,
-    brands: brands.value,
-    models: SearchService.groupModelsByBrand(brands.value, models.value),
-    cities: cities.value,
-    price: price.value,
-    years: years.value
-  }
+const computedSortedBrands = computed(() => {
+  return (props.searchFiltersOptions.brands as TTables<'brands'>[]).sort((a, b) => a.brand.localeCompare(b.brand))
 })
-
-function getFilters () {
-  Promise.all([SearchService.getBrands(), SearchService.getModels()]).then(([brandsResponse, modelsResponse]) => {
-    vehicleTypes.value = SearchService.vehicleTypes
-    brands.value = brandsResponse
-    models.value = modelsResponse
-    cities.value = SearchService.cities
-    price.value = SearchService.price
-    years.value = SearchService.getYears(1940, 2024)
-  })
-}
 
 const pickedBrandsModels = computed(() => {
   const picedBrands = searchData.value.brands
-  const mappedModelsObj = searchFiltersOptions.value.models
+  const mappedModelsObj = props.searchFiltersOptions.models
 
   if (picedBrands.length) {
     const filteredModels = picedBrands.reduce((modelsAcc, brand) => {
@@ -144,7 +123,7 @@ const pickedBrandsModels = computed(() => {
         modelsAcc[brand] = mappedModelsObj[brand]
       }
       return modelsAcc
-    }, {} as Record<number, IMappedCarModel>)
+    }, {} as Record<string, IMappedCarModel>)
 
     return Object.values(filteredModels)
   }
@@ -154,10 +133,6 @@ const pickedBrandsModels = computed(() => {
 
 const query = computed(() => {
   return SearchService.convertToLocationQueryRaw(searchData.value)
-})
-
-onBeforeMount(async () => {
-  getFilters()
 })
 
 </script>

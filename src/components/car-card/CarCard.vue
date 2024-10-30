@@ -1,11 +1,11 @@
 <template>
-  <RouterLink
+  <div
     class="w-[400px] rounded-lg
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
-    :to="{
-      name: routeNames.car,
-      query: SearchFilters.convertToLocationQueryRaw({id: car.id}
-      )}"
+    @click="$router.push({
+      name: $routeNames.car,
+      query: SearchFilters.convertToLocationQueryRaw({id: car.id})
+    })"
   >
     <el-image
       :src="car.car_picture || ''"
@@ -28,13 +28,13 @@
       <div
         class="flex gap-7 mr-5 justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       >
-        <AppButton icon="icon-thumb-down" class="!rounded-full" />
-        <AppButton icon="icon-thumb-up" class="!rounded-full" />
+        <AppButton icon="icon-thumb-down" class="!rounded-full" @click.stop="updateRate('+')" />
+        <AppButton icon="icon-thumb-up" class="!rounded-full" @click.stop="updateRate('-')" />
       </div>
     </div>
 
     <div class="rounded-tr-12.5 p-5 relative -mt-12.5 bg-creamy-light flex flex-col gap-4">
-      <h4 class="h4 text-gray-dark">{{ `${car.brand} ${car['car models'].model} ${car.manufacture_year}` }}</h4>
+      <h4 class="h4 text-gray-dark">{{ `${car.models.brand} ${car.models.model} ${car.manufacture_year}` }}</h4>
       <div class="flex gap-4">
         <h3 class="h3 text-blue-light">{{ moneyService.numToMoneyWithFormat(car.price, '$') }}</h3>
         <p class="body-2 text-gray-light">
@@ -42,7 +42,7 @@
         </p>
       </div>
       <div class="grid grid-cols-2 gap-4">
-        <CarInfoWithIcon
+        <CarInfo
           v-for="info in carInfo"
           :key="info.icon"
           :text="info.text"
@@ -51,7 +51,7 @@
       </div>
 
       <div class="flex justify-between items-end mt-2">
-        <CarInfoWithIcon
+        <CarInfo
           textColor="!text-blue-light"
           :text="timeService.timeAgo(new Date(car.created_at))"
           icon="icon-time"
@@ -63,16 +63,14 @@
         </div>
       </div>
     </div>
-  </RouterLink>
+  </div>
 </template>
 
 <script setup lang="ts">
 import moneyService from '@/services/money.service'
 import timeService from '@/services/time.service'
-import CarInfoWithIcon from './components/CarInfoWithIcon.vue'
+import CarInfo from './components/CarCardInfoWithIcon.vue'
 import SearchFilters from '@/services/search-service/search.service'
-import { routeNames } from '@/router/route-names'
-import { RouterLink } from 'vue-router'
 
 const props = defineProps<{
   car: TCar
@@ -87,6 +85,10 @@ const carInfo = computed(() => [
   { text: props.car.fuel_type, icon: 'icon-oil' },
   { text: props.car.transmission_type, icon: 'icon-steering-fill' }
 ])
+
+async function updateRate (operation: '+' | '-') {
+  carsService.updateCarRating(props.car.id, operation === '+' ? 1 : -1)
+}
 
 </script>
 

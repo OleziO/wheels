@@ -1,7 +1,11 @@
 <template>
   <SectionLayout>
     <h2>Найновіші з пропозицій</h2>
-    <CarsCarousel :cars="carsData" />
+    <div class="max-w-[1240px] mx-auto">
+      <CarsCarousel
+        :cars="carsData"
+      />
+    </div>
 
     <AppButton
       class="w-[400px] mx-auto mt-12.5"
@@ -17,10 +21,8 @@
 <script setup lang="ts">
 import SectionLayout from '@/layouts/SectionLayout.vue'
 
-const carsData = ref<TCar[]>([])
-
-onBeforeMount(() => {
-  carsService.getPopularCars().then((cars) => { carsData.value = cars as TCar[] })
-})
+defineProps<{
+  carsData: TCar[]
+}>()
 
 </script>

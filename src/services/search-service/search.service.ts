@@ -18,28 +18,29 @@ class SearchService {
 
   get vehicleTypes (): IVehicleType[] {
     return [
-      { label: 'Легкові', value: 'Car' },
-      { label: 'Вантажівки', value: 'Truck-2' },
-      { label: 'Мото', value: 'Motorbike' },
-      { label: 'Сільгосптехніка', value: 'Backhoe' },
-      { label: 'Автобуси', value: 'Minibus' },
-      { label: 'Спецтехніка', value: 'Truck' },
-      { label: 'Причепи', value: 'Caravan' },
-      { label: 'Автобудинки', value: 'Camper' }
+      { label: 'Легкові', value: 'car' },
+      { label: 'Вантажівки', value: 'truck-2' },
+      { label: 'Мото', value: 'motorbike' },
+      { label: 'Сільгосптехніка', value: 'backhoe' },
+      { label: 'Автобуси', value: 'minibus' },
+      { label: 'Спецтехніка', value: 'truck' },
+      { label: 'Причепи', value: 'caravan' },
+      { label: 'Автобудинки', value: 'camper' }
     ]
   }
 
-  async getBrands (): Promise<TTables<'car brands'>[]> {
+  async getBrands (): Promise<TTables<'brands'>[]> {
     const { data } = await supabase
-      .from('car brands')
+      .from('brands')
       .select()
+      .order('cars_count', { ascending: false })
 
     return data || []
   }
 
-  async getModels (): Promise<TTables<'car models'>[]> {
+  async getModels (): Promise<TTables<'models'>[]> {
     const { data } = await supabase
-      .from('car models')
+      .from('models')
       .select()
 
     return data || []
@@ -70,18 +71,18 @@ class SearchService {
     return params
   }
 
-  groupModelsByBrand (brands: TTables<'car brands'>[], models: TTables<'car models'>[]) {
+  groupModelsByBrand (brands: TTables<'brands'>[], models: TTables<'models'>[]) {
     const brandMap = brands.reduce((acc, brand) => {
-      acc[brand.id] = {
+      acc[brand.brand] = {
         ...brand,
-        models: []
+        models: [] as TTables<'models'>[]
       }
 
       return acc
-    }, {} as Record<number, IMappedCarModel>)
+    }, {} as Record<string, IMappedCarModel>)
 
     models.forEach((model) => {
-      brandMap[model.brand_id]?.models.push(model)
+      brandMap[model.brand]?.models.push(model)
     })
 
     return brandMap

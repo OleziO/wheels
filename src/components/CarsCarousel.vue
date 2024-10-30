@@ -6,7 +6,7 @@
     arrowsOutside
     disableArrowsOnEdges
     :bullets="false"
-    :gap="1.5"
+    :gap="1"
     fixedHeight="520px"
     :touchable="false"
   >
@@ -31,16 +31,11 @@
 
 <script setup lang="ts">
 import { VueperSlides, VueperSlide } from 'vueperslides'
-import CarCard from './CarCard/CarCard.vue'
+import CarCard from './car-card/CarCard.vue'
 
 defineProps<{
   cars: TCar[]
 }>()
 
 const rate = ref(0)
-
-onMounted(() => {
-  moneyService.gettUSDtoUAH().then(data => { rate.value = data })
-})
-
 </script>
