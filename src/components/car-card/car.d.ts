@@ -1,1 +1,1 @@
-type TCar = TTables<'cars'> & {'car models': TTables<'car models'>}
+type TCar = TTables<'cars'> & {'models': TTables<'models'>}

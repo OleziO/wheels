@@ -6,7 +6,7 @@
     arrowsOutside
     disableArrowsOnEdges
     :bullets="false"
-    :gap="1.5"
+    :gap="1"
     fixedHeight="520px"
     :touchable="false"
   >
@@ -38,9 +38,4 @@ defineProps<{
 }>()
 
 const rate = ref(0)
-
-onMounted(() => {
-  moneyService.gettUSDtoUAH().then(data => { rate.value = data })
-})
-
 </script>

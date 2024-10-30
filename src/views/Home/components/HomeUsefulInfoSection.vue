@@ -3,7 +3,7 @@
     <div class="px-25 pt-8 pb-11">
       <h2 class="!text-creamy !mb-6">Важливо про автомобілі</h2>
 
-      <ul class="flex flex-col gap-5 ml-25">
+      <ul class="flex flex-col gap-5 ml-25 relative z-50">
         <li v-for="linkData in usefulLinks" :key="linkData.title" class="link-item text-creamy-light">
           <el-link :href="linkData.link" target="_blank" :underline="false">
             <span

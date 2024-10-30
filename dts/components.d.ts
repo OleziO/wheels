@@ -42,7 +42,7 @@ declare module 'vue' {
     HomePopularSearches: typeof import('../src/views/home/components/HomePopularSearchesSection.vue')['default']
     HomePopularSearchesSection: typeof import('./../src/views/home/components/HomePopularSearchesSection.vue')['default']
     HomePopularSearchesUsefulInfoSection: typeof import('./../src/views/home/components/HomePopularSearchesUsefulInfoSection.vue')['default']
-    HomeSearchSection: typeof import('./../src/views/home/components/search-section/HomeSearchSection.vue')['default']
+    HomeSearchSection: typeof import('./../src/views/home/components/HomeSearchSection.vue')['default']
     HomeSellingSection: typeof import('./../src/views/home/components/HomeSellingSection.vue')['default']
     HomeUsefulInfo: typeof import('../src/views/home/components/HomeUsefulInfoSection.vue')['default']
     HomeUSefulInfo: typeof import('./../src/views/home/components/HomeUSefulInfo.vue')['default']
@@ -54,5 +54,8 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SearchSection: typeof import('../src/views/home/components/search-section/SearchSection.vue')['default']
     SellingSection: typeof import('../src/views/home/components/HomeSellingSection.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

@@ -29,17 +29,18 @@ class SearchService {
     ]
   }
 
-  async getBrands (): Promise<TTables<'car brands'>[]> {
+  async getBrands (): Promise<TTables<'brands'>[]> {
     const { data } = await supabase
-      .from('car brands')
+      .from('brands')
       .select()
+      .order('cars_count', { ascending: false })
 
     return data || []
   }
 
-  async getModels (): Promise<TTables<'car models'>[]> {
+  async getModels (): Promise<TTables<'models'>[]> {
     const { data } = await supabase
-      .from('car models')
+      .from('models')
       .select()
 
     return data || []
@@ -70,18 +71,18 @@ class SearchService {
     return params
   }
 
-  groupModelsByBrand (brands: TTables<'car brands'>[], models: TTables<'car models'>[]) {
+  groupModelsByBrand (brands: TTables<'brands'>[], models: TTables<'models'>[]) {
     const brandMap = brands.reduce((acc, brand) => {
-      acc[brand.id] = {
+      acc[brand.brand] = {
         ...brand,
-        models: []
+        models: [] as TTables<'models'>[]
       }
 
       return acc
-    }, {} as Record<number, IMappedCarModel>)
+    }, {} as Record<string, IMappedCarModel>)
 
     models.forEach((model) => {
-      brandMap[model.brand_id]?.models.push(model)
+      brandMap[model.brand]?.models.push(model)
     })
 
     return brandMap

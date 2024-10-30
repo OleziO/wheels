@@ -28,9 +28,8 @@
 import SectionLayout from '@/layouts/SectionLayout.vue'
 import SearchService from '@/services/search-service/search.service'
 
-const brands = ref<TTables<'car brands'>[]>([])
+defineProps<{
+  brands: TTables<'brands'>[]
+}>()
 
-onBeforeMount(() => {
-  carsService.getPopularBrands().then((brandsData) => { brands.value = brandsData || [] })
-})
 </script>
