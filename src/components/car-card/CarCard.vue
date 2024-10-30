@@ -28,8 +28,8 @@
       <div
         class="flex gap-7 mr-5 justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       >
-        <AppButton icon="icon-thumb-down" class="!rounded-full" @click.stop="updateRate('+')" />
-        <AppButton icon="icon-thumb-up" class="!rounded-full" @click.stop="updateRate('-')" />
+        <AppButton icon="icon-thumb-down" class="!rounded-full" @click.stop="updateRate('-')" />
+        <AppButton icon="icon-thumb-up" class="!rounded-full" @click.stop="updateRate('+')" />
       </div>
     </div>
 
