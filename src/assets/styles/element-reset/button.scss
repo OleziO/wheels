@@ -1,4 +1,6 @@
 .el-button {
+  @apply button-text;
+
   & + & {
     margin-left: 0;
   }
@@ -22,13 +24,13 @@
   &.line-light {
     @apply text-blue-light border-solid border-blue-light bg-transparent
     hover:bg-blue-extra-light hover:text-creamy-light
-    focus:bg-blue focus:text-creamy-light;
+    focus:bg-blue focus:text-creamy-light body-2;
   }
 
   &.line-dark {
     @apply text-blue-light border-solid border-blue-light bg-transparent
     hover:bg-blue-light hover:text-creamy-light
-    focus:bg-blue-dark focus:text-creamy-light;
+    focus:bg-blue-dark focus:text-creamy-light body-2;
   }
 
   &.text{
