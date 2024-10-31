@@ -1,5 +1,5 @@
 <template>
-  <SectionLayout class="max-w-[1440px] mx-auto">
+  <SectionLayout>
     <h2>Популярні пошукові запити</h2>
     <el-checkbox-group v-model="data" class="grid grid-cols-4 gap-x-5 gap-y-8">
       <el-checkbox-button

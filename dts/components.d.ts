@@ -17,6 +17,8 @@ declare module 'vue' {
     AppSlider: typeof import('./../src/components/shared/AppSlider.vue')['default']
     CarCard: typeof import('./../src/components/car-card/CarCard.vue')['default']
     CarCardInfoWithIcon: typeof import('./../src/components/car-card/components/CarCardInfoWithIcon.vue')['default']
+    CardList: typeof import('../src/views/search/components/SearchCarList.vue')['default']
+    CarList: typeof import('../src/views/search/components/SearchCarList.vue')['default']
     CarsCarousel: typeof import('./../src/components/CarsCarousel.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckboxButton: typeof import('element-plus/es')['ElCheckboxButton']
@@ -28,6 +30,7 @@ declare module 'vue' {
     ElLink: typeof import('element-plus/es')['ElLink']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElOptionGroup: typeof import('element-plus/es')['ElOptionGroup']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     HomeFAQSection: typeof import('./../src/views/home/components/HomeFAQSection.vue')['default']
@@ -41,6 +44,8 @@ declare module 'vue' {
     IconButton: typeof import('./../src/components/shared/app-header/components/IconButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchCarList: typeof import('./../src/views/search/components/SearchCarList.vue')['default']
+    SearchFiltersSection: typeof import('./../src/views/search/components/SearchFiltersSection.vue')['default']
     SearchVehicleTypes: typeof import('./../src/views/search/components/SearchVehicleTypes.vue')['default']
   }
   export interface ComponentCustomProperties {

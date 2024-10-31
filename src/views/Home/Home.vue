@@ -4,10 +4,20 @@
     <SearchSection :search-filters-options="searchFiltersOptions" />
     <SellingSection />
     <PopularSearches />
-    <OffersSection :cars-data="cars" />
+    <OffersSection :cars-data="cars" :rate="rate" />
     <FavoriteCarsBrandsSection :brands="popularBrands" />
     <UsefulInfoSection />
     <FAQSection />
+    <div class="w-full text-center">
+      <RouterLink
+        class="text-orange hover:bg-creamy-light mb-12
+      hover:text-orange-light inline-flex flex-col items-center gap-4 mx-auto"
+        :to="{ name: $routeNames.home }"
+      >
+        <i class="icon-arrow-up-s" />
+        <span>На початок</span>
+      </RouterLink>
+    </div>
   </div>
 </template>
 
@@ -53,7 +63,7 @@ const popularBrands = computed(() => {
 
 async function fetchData () {
   const [rateData, carsData] = await Promise.all([
-    moneyService.gettUSDtoUAH(),
+    moneyService.getUSDtoUAH(),
     carsService.getPopularCars()
   ])
 

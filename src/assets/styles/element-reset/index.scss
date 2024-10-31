@@ -83,6 +83,7 @@
 @use "element-plus/theme-chalk/src/switch";
 @use "element-plus/theme-chalk/src/collapse";
 @use "element-plus/theme-chalk/src/collapse-item";
+@use "element-plus/theme-chalk/src/pagination";
 @use "element-plus/theme-chalk/src/checkbox";
 @use "element-plus/theme-chalk/src/checkbox-button";
 
@@ -92,6 +93,7 @@
 @import "./select.scss";
 @import "./link.scss";
 @import "./collapse.scss";
+@import "./pagination.scss";
 @import "./checkbox.scss";
 @import "./checkbox-button.scss";
 

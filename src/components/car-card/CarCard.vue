@@ -77,7 +77,7 @@ const props = defineProps<{
   rate: number
 }>()
 
-const priceUAH = computed(() => moneyService.numToMoneyWithFormat(props.rate * props.car.price, 'грн.', 'end'))
+const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(props.rate * props.car.price), 'грн.', 'end'))
 
 const carInfo = computed(() => [
   { text: `${props.car.car_mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },

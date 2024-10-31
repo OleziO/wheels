@@ -46,6 +46,35 @@ class SearchService {
     return data || []
   }
 
+  async getCars () {
+    const { data } = await supabase
+      .from('cars')
+      .select(`
+        *,
+        models (*)`)
+
+    return data
+  }
+
+  async getCarsWithPagination (start: number, end: number) {
+    const { data } = await supabase
+      .from('cars')
+      .select(`
+        *,
+        models (*)`)
+      .range(start, end)
+
+    return data
+  }
+
+  async getCarsCount () {
+    const { count } = await supabase
+      .from('cars')
+      .select(undefined, { count: 'exact', head: true })
+
+    return count
+  }
+
   get price () {
     return {
       min: 0,
