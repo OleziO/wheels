@@ -1,9 +1,19 @@
 import currency from '@/api/currency'
 
 class MoneyService {
-  async gettUSDtoUAH () {
-    const response = await currency.rateUSD()
-    return response.data[0].rate as number
+  rate
+
+  constructor () {
+    this.rate = 0
+  }
+
+  async getUSDtoUAH () {
+    if (!this.rate) {
+      const response = await currency.rateUSD()
+      this.rate = response.data[0].rate as number
+    }
+
+    return this.rate
   }
 
   numToMoneyWithFormat (amount: number, moneyText: string, moneyPosition: 'start' | 'end' = 'start') {

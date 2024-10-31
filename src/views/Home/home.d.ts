@@ -29,4 +29,5 @@ interface ICarsSearchData {
   cities: string[]
   years: number[]
   price: [number, number]
+  page?: number
 }

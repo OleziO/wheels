@@ -35,7 +35,6 @@ import CarCard from './car-card/CarCard.vue'
 
 defineProps<{
   cars: TCar[]
+  rate: number
 }>()
-
-const rate = ref(0)
 </script>

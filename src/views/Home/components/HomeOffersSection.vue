@@ -4,6 +4,7 @@
     <div class="max-w-[1240px] mx-auto">
       <CarsCarousel
         :cars="carsData"
+        :rate="rate"
       />
     </div>
 
@@ -23,6 +24,7 @@ import SectionLayout from '@/layouts/SectionLayout.vue'
 
 defineProps<{
   carsData: TCar[]
+  rate: number
 }>()
 
 </script>
