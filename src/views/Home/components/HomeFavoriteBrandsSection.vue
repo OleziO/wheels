@@ -7,9 +7,9 @@
         :key="brand.id"
         class="h-fit w-1/5 shadow hover:scale-110"
         type="icon"
-        @click="$router.push({
+        @click="router.push({
           name: $routeNames.search,
-          query: SearchService.convertToLocationQueryRaw({brand: brand.id}
+          query: searchService.convertToLocationQueryRaw({brand: brand.id}
           )})"
       >
         <div class="flex flex-col items-center gap-4 p-10 max-w-[220px]">
@@ -25,8 +25,10 @@
 </template>
 
 <script setup lang="ts">
+import searchService from '@/services/search-service/search.service'
 import SectionLayout from '@/layouts/SectionLayout.vue'
-import SearchService from '@/services/search-service/search.service'
+
+import { router } from '@/router'
 
 defineProps<{
   brands: TTables<'brands'>[]

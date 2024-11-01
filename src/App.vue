@@ -14,6 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-import PageLayout from './layouts/PageLayout.vue'
+import PageLayout from '@/layouts/PageLayout.vue'
 const { messages, locale } = useI18n()
 </script>

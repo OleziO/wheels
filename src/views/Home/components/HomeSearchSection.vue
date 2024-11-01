@@ -36,11 +36,11 @@
           collapse-tags
         />
         <AppSelect
-          v-model="searchData.cities"
+          v-model="searchData.location"
           placeholder="Оберіть регіон"
           :options="searchFiltersOptions?.cities"
-          key-value="cityId"
-          key-label="cityName"
+          key-value="value"
+          key-label="label"
           multiple
           collapse-tags
         />
@@ -52,17 +52,17 @@
 
           <div class="flex gap-9 items-center">
             <AppSelect
-              v-model="searchData.years[0]"
+              v-model="searchData.manufactureYear[0]"
               placeholder="Будь-який"
-              :options="searchFiltersOptions?.years"
+              :options="searchFiltersOptions?.manufactureYear"
             />
 
             <p> до </p>
 
             <AppSelect
-              v-model="searchData.years.sort()[1]"
+              v-model="searchData.manufactureYear[1]"
               placeholder="Будь-який"
-              :options="searchFiltersOptions?.years"
+              :options="searchFiltersOptions?.manufactureYear"
             />
           </div>
         </div>
@@ -85,7 +85,7 @@
       <AppButton
         class="w-full"
         icon="icon-search"
-        @click="$router.push({name: $routeNames.search, query: query})"
+        @click="router.push({name: $routeNames.search, query: query})"
       >
         Шукати
       </AppButton>
@@ -94,7 +94,8 @@
 </template>
 
 <script setup lang="ts">
-import SearchService from '@/services/search-service/search.service'
+import searchService from '@/services/search-service/search.service'
+import { router } from '@/router'
 
 const props = defineProps<{
   searchFiltersOptions: any
@@ -104,9 +105,9 @@ const searchData = ref<ICarsSearchData>({
   vehicleTypes: [],
   brands: [],
   models: [],
-  cities: [],
-  years: [],
-  price: [20000, 50000]
+  location: [],
+  manufactureYear: [],
+  price: [0, 1000000]
 })
 
 const computedSortedBrands = computed(() => {
@@ -114,25 +115,11 @@ const computedSortedBrands = computed(() => {
 })
 
 const pickedBrandsModels = computed(() => {
-  const picedBrands = searchData.value.brands
-  const mappedModelsObj = props.searchFiltersOptions.models
-
-  if (picedBrands.length) {
-    const filteredModels = picedBrands.reduce((modelsAcc, brand) => {
-      if (mappedModelsObj[brand]) {
-        modelsAcc[brand] = mappedModelsObj[brand]
-      }
-      return modelsAcc
-    }, {} as Record<string, IMappedCarModel>)
-
-    return Object.values(filteredModels)
-  }
-
-  return []
+  return searchService.getPickedModels(searchData.value.brands, props.searchFiltersOptions.models)
 })
 
 const query = computed(() => {
-  return SearchService.convertToLocationQueryRaw(searchData.value)
+  return searchService.convertToLocationQueryRaw(searchData.value)
 })
 
 </script>

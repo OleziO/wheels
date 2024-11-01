@@ -11,7 +11,7 @@
     <div class="w-full text-center">
       <RouterLink
         class="text-orange hover:bg-creamy-light mb-12
-      hover:text-orange-light inline-flex flex-col items-center gap-4 mx-auto"
+        hover:text-orange-light inline-flex flex-col items-center gap-4 mx-auto"
         :to="{ name: $routeNames.home }"
       >
         <i class="icon-arrow-up-s" />
@@ -23,35 +23,37 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import HeroSection from './components/HomeHeroSection.vue'
-import SearchSection from './components/HomeSearchSection.vue'
-import SellingSection from './components/HomeSellingSection.vue'
-import PopularSearches from './components/HomePopularSearchesSection.vue'
-import OffersSection from './components/HomeOffersSection.vue'
-import FavoriteCarsBrandsSection from './components/HomeFavoriteBrandsSection.vue'
-import UsefulInfoSection from './components/HomeUsefulInfoSection.vue'
-import FAQSection from './components/HomeFAQSection.vue'
-import moneyService from '@/services/money.service'
-import carsService from './cars.service'
-import searchService from '@/services/search-service/search.service'
 
-const rate = ref(0)
-const cars = ref<TCar[]>([])
-const vehicleTypes = ref <IVehicleType[]>([])
+import FavoriteCarsBrandsSection from '@/views/home/components/HomeFavoriteBrandsSection.vue'
+import PopularSearches from '@/views/home/components/HomePopularSearchesSection.vue'
+import UsefulInfoSection from '@/views/home/components/HomeUsefulInfoSection.vue'
+import SellingSection from '@/views/home/components/HomeSellingSection.vue'
+import SearchSection from '@/views/home/components/HomeSearchSection.vue'
+import OffersSection from '@/views/home/components/HomeOffersSection.vue'
+import HeroSection from '@/views/home/components/HomeHeroSection.vue'
+import FAQSection from '@/views/home/components/HomeFAQSection.vue'
+
+import searchService from '@/services/search-service/search.service'
+import moneyService from '@/services/money.service'
+import carsService from '@/views/home/cars.service'
+
+const vehicleTypes = ref<TTables<'vehicle_types'>[]>([])
+const price = ref<IRangeOption>({ min: 0, max: 1000000 })
+const cities = ref<TTables<'locations'>[]>([])
 const brands = ref<TTables<'brands'>[]>([])
 const models = ref<TTables<'models'>[]>([])
-const cities = ref<ICarCity[]>([])
-const price = ref<ICarPriceFilter>({ min: 0, max: 50000 })
-const years = ref<ICarYearFilter[]>([])
+const years = ref<IFilterOption[]>([])
+const cars = ref<TCar[]>([])
+const rate = ref(0)
 
 const searchFiltersOptions = computed(() => {
   return {
+    models: searchService.groupModelsByBrand(brands.value, models.value),
     vehicleTypes: vehicleTypes.value,
     brands: brands.value,
-    models: searchService.groupModelsByBrand(brands.value, models.value),
     cities: cities.value,
     price: price.value,
-    years: years.value
+    manufactureYear: years.value
   }
 })
 
@@ -72,14 +74,14 @@ async function fetchData () {
 }
 
 function getFilters () {
-  return Promise.all([searchService.getBrands(), searchService.getModels()])
-    .then(([brandsResponse, modelsResponse]) => {
-      vehicleTypes.value = searchService.vehicleTypes
+  return searchService.getFilters()
+    .then(([brandsResponse, modelsResponse, locationResponse, vehicleTypesResponse]) => {
+      years.value = searchService.getYears(1940)
+      vehicleTypes.value = vehicleTypesResponse
+      price.value = searchService.price
+      cities.value = locationResponse
       brands.value = brandsResponse
       models.value = modelsResponse
-      cities.value = searchService.cities
-      price.value = searchService.price
-      years.value = searchService.getYears(1940, 2024)
     })
 }
 
