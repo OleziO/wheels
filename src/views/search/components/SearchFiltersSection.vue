@@ -100,6 +100,8 @@
         key-label="label"
         key-value="value"
         :options="searchFiltersOptions.involvedAccident"
+        multiple
+        collapse-tags
       />
       <AppSelect
         v-model="searchData.techCondition"
@@ -107,6 +109,8 @@
         key-label="label"
         key-value="value"
         :options="searchFiltersOptions.techCondition"
+        multiple
+        collapse-tags
       />
       <AppSelect
         v-model="searchData.coating"
@@ -114,19 +118,31 @@
         key-label="label"
         key-value="value"
         :options="searchFiltersOptions.coating"
+        multiple
+        collapse-tags
       />
     </SearchSectionLayout>
 
-    <AppButton type="text" text class="hover:!bg-creamy-light">Скинути всі фільтри</AppButton>
+    <div class="flex flex-col gap-3">
+      <AppButton
+        type="text"
+        text
+        class="hover:!bg-creamy-light body-2"
+        icon="icon-filter-off"
+        @click="router.push({name: routeNames.search})"
+      >
+        Скинути всі фільтри
+      </AppButton>
 
-    <AppButton
-      type="secondary"
-      class="w-full"
-      icon="icon-search"
-      @click="router.push({name: $routeNames.search, query: query})"
-    >
-      Шукати
-    </AppButton>
+      <AppButton
+        type="secondary"
+        class="w-full"
+        icon="icon-search"
+        @click="router.push({name: $routeNames.search, query: query})"
+      >
+        Шукати
+      </AppButton>
+    </div>
   </div>
 </template>
 
@@ -140,6 +156,7 @@ import YearFilter from '@/views/search/components/SearchYearFilter.vue'
 
 import searchService from '@/services/search-service/search.service'
 import { router } from '@/router'
+import { routeNames } from '@/router/route-names'
 
 const searchData = defineModel<ICarsSearchDataExtended>('searchData', { required: true })
 const props = defineProps<{
@@ -147,7 +164,7 @@ const props = defineProps<{
 }>()
 
 const computedSortedBrands = computed(() => {
-  return (props.searchFiltersOptions.brands as TTables<'brands'>[]).sort((a, b) => a.brand.localeCompare(b.brand))
+  return ([...props.searchFiltersOptions.brands as TTables<'brands'>[]]).sort((a, b) => a.brand.localeCompare(b.brand))
 })
 
 const pickedBrandsModels = computed(() => {

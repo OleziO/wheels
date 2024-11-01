@@ -10,16 +10,6 @@ class CarsService {
     return data
   }
 
-  async getPopularBrands () {
-    const { data } = await supabase
-      .from('brands')
-      .select()
-      .order('cars_count', { ascending: false })
-      .limit(5)
-
-    return data
-  }
-
   async updateCarRating (carId: string, operation: 1 | -1) {
     const { data: car } = await supabase
       .from('cars')

@@ -1,9 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 type TSearchFilters = string | string[] | number | number[] | [numeber, number]
+
+interface IPopularBrand {
+  brand: string
+  brand_logo: string
+  car_count: number
+}
 
 interface IFilterOption {
   label: string
-  value: string
+  value: string | boolean
 }
 
 interface IMappedCarModel extends TTables<'brands'>{
@@ -33,7 +38,7 @@ interface ICarsSearchDataExtended extends ICarsSearchData{
   page: number
   carsConditions: string
   mileage: [number, number]
-  engine: number[]
+  engineVolume: number[]
   involvedAccident: string[]
   techCondition: string[]
   coating: string[]

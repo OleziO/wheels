@@ -37,6 +37,7 @@ import searchService from '@/services/search-service/search.service'
 import moneyService from '@/services/money.service'
 import carsService from '@/views/home/cars.service'
 
+const popularBrands = ref<IPopularBrand[]>([])
 const vehicleTypes = ref<TTables<'vehicle_types'>[]>([])
 const price = ref<IRangeOption>({ min: 0, max: 1000000 })
 const cities = ref<TTables<'locations'>[]>([])
@@ -58,10 +59,6 @@ const searchFiltersOptions = computed(() => {
 })
 
 const loading = ref(false)
-
-const popularBrands = computed(() => {
-  return brands.value.slice(0, 5)
-})
 
 async function fetchData () {
   const [rateData, carsData] = await Promise.all([
@@ -90,6 +87,7 @@ onMounted(async () => {
     loading.value = true
     await getFilters()
     await fetchData()
+    popularBrands.value = await searchService.getPopularBrands()
   } catch (error) {
     console.error('Error fetching home data:', error)
   } finally {

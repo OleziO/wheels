@@ -111,7 +111,7 @@ const searchData = ref<ICarsSearchData>({
 })
 
 const computedSortedBrands = computed(() => {
-  return (props.searchFiltersOptions.brands as TTables<'brands'>[]).sort((a, b) => a.brand.localeCompare(b.brand))
+  return ([...props.searchFiltersOptions.brands as TTables<'brands'>[]]).sort((a, b) => a.brand.localeCompare(b.brand))
 })
 
 const pickedBrandsModels = computed(() => {

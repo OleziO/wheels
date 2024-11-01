@@ -25,25 +25,7 @@ const props = defineProps<{
   query: ICarsSearchDataExtended
 }>()
 
-const searchData = ref<ICarsSearchDataExtended>({
-  involvedAccident: props.query.involvedAccident || [],
-  transmissionTypes: props.query.transmissionTypes || [],
-  manufactureYear: props.query.manufactureYear || [],
-  carsConditions: props.query.carsConditions || 'All',
-  vehicleTypes: props.query.vehicleTypes || [],
-  mileage: props.query.mileage || [0, 2000],
-  price: props.query.price || [0, 1000000],
-  techCondition: props.query.coating || [],
-  fuelTypes: props.query.fuelTypes || [],
-  driveTypes: props.query.driveTypes || [],
-  location: props.query.location || [],
-  bodyType: props.query.bodyType || [],
-  coating: props.query.coating || [],
-  brands: props.query.brands || [],
-  models: props.query.models || [],
-  engine: props.query.engine || [],
-  page: props.query.page || 1
-})
+const searchData = ref<ICarsSearchDataExtended>(getQueryData())
 
 const carsPage = ref(+(props.query.page || 1))
 const totalCarsCount = ref(0)
@@ -65,7 +47,7 @@ const techCondition = ref<IFilterOption[]>([])
 const brands = ref<TTables<'brands'>[]>([])
 const models = ref<TTables<'models'>[]>([])
 const coating = ref<IFilterOption[]>([])
-const engine = ref<IFilterOption[]>([])
+const engineVolume = ref<IFilterOption[]>([])
 
 const price = ref<IRangeOption>({ min: 0, max: 1000000 })
 const mileage = ref<IRangeOption>({ min: 0, max: 2000 })
@@ -85,7 +67,7 @@ const searchFiltersOptions = computed(() => {
     bodyType: bodyType.value,
     coating: coating.value,
     mileage: mileage.value,
-    engine: engine.value,
+    engineVolume: engineVolume.value,
     brands: brands.value,
     price: price.value
   }
@@ -101,6 +83,46 @@ const paginationIndexes = computed(() => {
   }
 })
 
+function getQueryData () {
+  const fields = [
+    'transmissionTypes',
+    'involvedAccident',
+    'vehicleTypes',
+    'mileage',
+    'price',
+    'driveTypes',
+    'techCondition',
+    'fuelTypes',
+    'location',
+    'bodyType',
+    'coating',
+    'brands',
+    'models'
+  ]
+
+  return {
+    ...getArrFields(fields),
+    involvedAccident: props.query.involvedAccident || '',
+    manufactureYear: props.query.manufactureYear || [null, null],
+    engineVolume: props.query.engineVolume || [null, null],
+    carsConditions: props.query.carsConditions || 'All',
+    page: props.query.page || 1
+  }
+}
+
+function getArrFields (fields: string[]) {
+  const result: any = {}
+
+  fields.forEach(field => {
+    const key = field as keyof ICarsSearchDataExtended
+    const arrField = toArr(props.query[key])
+
+    if (arrField) { result[key] = toArr(props.query[key]) }
+  })
+
+  return result
+}
+
 async function getFilters () {
   const [
     brandsResponse,
@@ -111,28 +133,68 @@ async function getFilters () {
     bodyTypeResponse,
     transmissionTypesResponse,
     fuelTypesResponse,
-    driveTypesResponse
+    driveTypesResponse,
+    techConditionResponse
   ] = await searchService.getExtendedFilters()
 
-  manufactureYear.value = searchService.getYears(1940)
   transmissionTypes.value = transmissionTypesResponse
   carsConditions.value = carConditionsResponse
+  techCondition.value = techConditionResponse
   vehicleTypes.value = vehicleTypesResponse
   fuelTypes.value = fuelTypesResponse
   driveTypes.value = driveTypesResponse
   locations.value = locationResponse
   bodyType.value = bodyTypeResponse
-  price.value = searchService.price
   brands.value = brandsResponse
   models.value = modelsResponse
+
+  manufactureYear.value = searchService.getYears(1940)
+  involvedAccident.value = searchService.accidentTypes
+  engineVolume.value = searchService.engineVolumes
+  price.value = searchService.price
 }
 
 async function setCarsWithPagination (start: number, end: number) {
-  const filters = (Object.keys(props.query), length ? searchData.value : {}) as ICarsSearchDataExtended
+  const filters = parseSearchData()
+  totalCarsCount.value = await searchService.getCarsCount(filters)
   cars.value = (await searchService.getCarsWithPagination(start, end, filters) || []) as TCar[]
 }
 
-watch(() => [carsPage, props.query], async () => {
+function toArr (data: any) {
+  if (!data || !data.length) return ''
+  return Array.isArray(data) ? data : [data]
+}
+
+function validateQuery () {
+  const result: any = {}
+
+  for (const key in searchData.value) {
+    const field = key as keyof ICarsSearchDataExtended
+
+    if (searchData.value[field] ||
+      (Array.isArray(searchData.value[field]) &&
+        (searchData.value[field][0] || searchData.value[field][1]))
+    ) {
+      result[field] = searchData.value[field]
+    }
+  }
+
+  return result
+}
+
+function parseSearchData () {
+  const parsedSearchData = {
+    ...validateQuery(),
+    carsConditions: searchData.value.carsConditions === 'All'
+      ? ['New', 'Used']
+      : searchData.value.carsConditions
+  }
+  const filters = (Object.keys(props.query).length ? parsedSearchData : {}) as ICarsSearchDataExtended
+
+  return filters
+}
+
+watch(() => [carsPage, props, props.query], async () => {
   try {
     loading.value = true
     await setCarsWithPagination(paginationIndexes.value.start, paginationIndexes.value.end)
@@ -145,8 +207,6 @@ onMounted(async () => {
   try {
     loading.value = true
     await getFilters()
-    const filters = (Object.keys(props.query), length ? searchData.value : {}) as ICarsSearchDataExtended
-    totalCarsCount.value = await searchService.getCarsCount(filters) || 0
     await setCarsWithPagination(paginationIndexes.value.start, paginationIndexes.value.end)
     rate.value = await moneyService.getUSDtoUAH()
   } finally {

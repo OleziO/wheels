@@ -3,15 +3,15 @@
     <h4>Об'єм двигуна (л)</h4>
     <div class="flex gap-3 items-center">
       <AppSelect
-        v-model="searchData.engine[0]"
+        v-model="searchData.engineVolume[0]"
         placeholder="Всі"
-        :options="searchFiltersOptions?.engine"
+        :options="searchFiltersOptions?.engineVolume"
       />
       <p> до </p>
       <AppSelect
-        v-model="searchData.engine[1]"
+        v-model="searchData.engineVolume[1]"
         placeholder="Всі"
-        :options="searchFiltersOptions?.engine"
+        :options="searchFiltersOptions?.engineVolume"
       />
     </div>
   </div>
