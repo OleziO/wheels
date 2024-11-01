@@ -113,11 +113,11 @@
         collapse-tags
       />
       <AppSelect
-        v-model="searchData.coating"
+        v-model="searchData.paintType"
         placeholder="Лакофарбове покриття"
         key-label="label"
         key-value="value"
-        :options="searchFiltersOptions.coating"
+        :options="searchFiltersOptions.paintType"
         multiple
         collapse-tags
       />

@@ -99,6 +99,14 @@ class SearchService {
     return data || []
   }
 
+  async getCarPaintConditions (): Promise<TTables<'paint_conditions'>[]> {
+    const { data } = await supabase
+      .from('paint_conditions')
+      .select('*')
+
+    return data || []
+  }
+
   get price () {
     return {
       min: 0,
@@ -153,7 +161,8 @@ class SearchService {
       this.getTransmissionTypes(),
       this.getFuelTypes(),
       this.getDriveTypes(),
-      this.getCarTechConditions()
+      this.getCarTechConditions(),
+      this.getCarPaintConditions()
     ])
   }
 
@@ -178,17 +187,19 @@ class SearchService {
       .select('*, models!inner(*)', selectOptions)
 
     enum EMatchFilters {
-      brands = 'models.brand',
-      models = 'models.id',
-      location = 'location',
-      bodyType = 'body_type',
       transmissionTypes = 'transmission_type',
-      fuelTypes = 'fuel_type',
-      driveTypes = 'drive_type',
-      vehicleTypes = 'vehicle_types',
-      engine = 'engine_volume',
+      involvedAccident = 'was_in_accident',
       carsConditions = 'car_condition',
-      involvedAccident = 'was_in_accident'
+      engineVolume = 'engine_volume',
+      vehicleTypes = 'vehicle_types',
+      paintType = 'paint_condition',
+      driveTypes = 'drive_type',
+      Type = ' tech_conditions',
+      brands = 'models.brand',
+      fuelTypes = 'fuel_type',
+      bodyType = 'body_type',
+      location = 'location',
+      models = 'models.id',
 
     }
 
@@ -261,13 +272,78 @@ class SearchService {
     return brandMap
   }
 
+  validateQuery (searchData: ICarsSearchDataExtended) {
+    const result: any = {}
+
+    for (const key in searchData) {
+      const field = searchData[key as keyof ICarsSearchDataExtended]
+
+      if (
+        (Array.isArray(field) && field.length && (field[0] || field[1])) ||
+        (!Array.isArray(field) && field)
+      ) {
+        result[key as keyof ICarsSearchDataExtended] = field
+      }
+    }
+
+    return result
+  }
+
+  get sarchArrFieldsNames () {
+    return [
+      'transmissionTypes',
+      'involvedAccident',
+      'vehicleTypes',
+      'mileage',
+      'price',
+      'driveTypes',
+      'techCondition',
+      'fuelTypes',
+      'location',
+      'bodyType',
+      'coating',
+      'brands',
+      'models'
+    ]
+  }
+
+  getArrFields (query: any) {
+    const result: any = {}
+
+    this.sarchArrFieldsNames.forEach(field => {
+      const key = field as keyof ICarsSearchDataExtended
+      const arrField = this.queryDataToArr(query[key])
+
+      if (arrField) { result[key] = arrField }
+    })
+
+    return result
+  }
+
+  queryDataToArr (data: any) {
+    if (!data || !data.length || !Object.values(data).length) return ''
+    return Array.isArray(data) ? data : [data]
+  }
+
+  parseSearchData (searchData: ICarsSearchDataExtended, query: Record<string, any>) {
+    const parsedSearchData = {
+      ...this.validateQuery(searchData),
+      carsConditions: searchData.carsConditions === 'All'
+        ? ['New', 'Used']
+        : searchData.carsConditions
+    }
+
+    const filters = (Object.values(query).length ? parsedSearchData : {}) as ICarsSearchDataExtended
+
+    return filters
+  }
+
   convertToLocationQueryRaw (searchData: Record<string, any>) {
     const params = {
       ...searchData
     }
 
-    console.log(params)
-    return params
+    return this.validateQuery(params as ICarsSearchDataExtended)
   }
 }
 

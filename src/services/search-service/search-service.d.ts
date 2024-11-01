@@ -41,7 +41,7 @@ interface ICarsSearchDataExtended extends ICarsSearchData{
   engineVolume: number[]
   involvedAccident: string[]
   techCondition: string[]
-  coating: string[]
+  paintType: string[]
   bodyType: string[]
   transmissionTypes: string[]
   driveTypes: string[]
