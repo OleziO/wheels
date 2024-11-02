@@ -67,6 +67,7 @@
 @use "element-plus/theme-chalk/src/badge";
 @use "element-plus/theme-chalk/src/message";
 @use "element-plus/theme-chalk/src/select";
+@use "element-plus/theme-chalk/src/image";
 @use "element-plus/theme-chalk/src/slider";
 @use "element-plus/theme-chalk/src/input";
 @use "element-plus/theme-chalk/src/carousel";
@@ -85,7 +86,10 @@
 @use "element-plus/theme-chalk/src/collapse-item";
 @use "element-plus/theme-chalk/src/pagination";
 @use "element-plus/theme-chalk/src/checkbox";
+@use "element-plus/theme-chalk/src/checkbox-group";
 @use "element-plus/theme-chalk/src/checkbox-button";
+@use "element-plus/theme-chalk/src/radio";
+@use "element-plus/theme-chalk/src/radio-button";
 
 @import "./button.scss";
 @import "./slider.scss";
@@ -96,5 +100,7 @@
 @import "./pagination.scss";
 @import "./checkbox.scss";
 @import "./checkbox-button.scss";
+@import "./radio.scss";
+@import "./radio-button.scss";
 
 

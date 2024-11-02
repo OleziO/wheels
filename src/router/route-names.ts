@@ -9,5 +9,6 @@ export const routeNames = {
   profile: 'profile',
   favorites: 'favorites',
   chats: 'chats',
+  uikit: 'uikit',
   car: 'car'
 }

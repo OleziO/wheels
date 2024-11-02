@@ -1,4 +1,4 @@
-.el-checkbox__inner {
+.el-radio {
   @apply border border-creamy-dark rounded-md w-5 h-5;
   
   &::after {
@@ -8,25 +8,25 @@
   }
 
   &:hover {
-    @apply border-creamy-dark
+    @apply border-creamy-dark;
   }
 }
 
-.el-checkbox__label {
+.el-radio {
   @apply pl-4 body-2;
 }
 
-.el-checkbox__input {
+.el-radio {
   &.is-checked {
     + .el-checkbox__label {
       @apply text-gray-dark;
     }
 
-    .el-checkbox__inner {
+    .el-radio {
       @apply border-2 border-blue-light bg-creamy-light;
 
       &::after {
-        @apply transform scale-y-100 border-0
+        @apply transform scale-y-100 border-0;
       }
     }
   }
@@ -44,8 +44,4 @@
       }
     }
   }
-}
-
-.el-checkbox {
-  @apply h-fit
 }

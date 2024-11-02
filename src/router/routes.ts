@@ -56,6 +56,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/chats',
     name: routeNames.chats,
     component: () => import('@/views/Chats.vue')
+  },
+  {
+    path: '/uikit',
+    name: routeNames.uikit,
+    component: () => import('@/views/UiKit.vue')
   }
 ]
 

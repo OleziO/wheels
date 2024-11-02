@@ -7,9 +7,9 @@
       :format-tooltip="formatToolTip"
       :range-start-label="startLabel"
       :range-end-label="endLabel"
-      :min="min"
-      :max="max"
-      :step="step"
+      :min="+min"
+      :max="+max"
+      :step="+step"
     />
   </div>
 </template>
@@ -61,7 +61,7 @@ function setLabel (value: number, label: string = '') {
       computedLabel = `${label}${value}`
     }
 
-    computedLabel = `${value}${label}`
+    computedLabel = `${value} ${label}`
   }
 
   return computedLabel

@@ -2,17 +2,30 @@
   <div
     class="w-[400px] rounded-lg
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
-    @click="$router.push({
+    @click="router.push({
       name: $routeNames.car,
-      query: SearchFilters.convertToLocationQueryRaw({id: car.id})
+      query: searchService.convertToLocationQueryRaw({id: car.id})
     })"
   >
-    <el-image
-      :src="car.car_picture || ''"
-      alt="Car Picture"
-      class="w-full h-[320px]"
-      fit="cover"
-    />
+    <div class="w-full h-[320px] overflow-hidden">
+      <el-image
+        :src="car.car_picture || ''"
+        alt="Car Picture"
+        class="w-full h-full flex justify-center"
+        fit="cover"
+      >
+        <template #error>
+          <div class="w-full h-full flex justify-center items-center h1 text-gray-light">
+            <el-image
+              src="./src/assets/images/car-placeholder.jpg"
+              alt="Car Picture"
+              class="w-full h-full flex justify-center"
+              fit="cover"
+            />
+          </div>
+        </template>
+      </el-image>
+    </div>
 
     <div class="card-label absolute top-5 z-50 w-full">
       <span>
@@ -67,10 +80,13 @@
 </template>
 
 <script setup lang="ts">
+import CarInfo from '@/components/car-card/components/CarCardInfoWithIcon.vue'
+
+import searchService from '@/services/search-service/search.service'
 import moneyService from '@/services/money.service'
 import timeService from '@/services/time.service'
-import CarInfo from './components/CarCardInfoWithIcon.vue'
-import SearchFilters from '@/services/search-service/search.service'
+
+import { router } from '@/router'
 
 const props = defineProps<{
   car: TCar
@@ -80,14 +96,14 @@ const props = defineProps<{
 const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(props.rate * props.car.price), 'грн.', 'end'))
 
 const carInfo = computed(() => [
-  { text: `${props.car.car_mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
+  { text: `${props.car.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
   { text: props.car.location || 'Україна', icon: 'icon-map-pin-2' },
   { text: props.car.fuel_type, icon: 'icon-oil' },
   { text: props.car.transmission_type, icon: 'icon-steering-fill' }
 ])
 
 async function updateRate (operation: '+' | '-') {
-  carsService.updateCarRating(props.car.id, operation === '+' ? 1 : -1)
+  searchService.updateCarRating(props.car.id, operation === '+' ? 1 : -1)
 }
 
 </script>

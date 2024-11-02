@@ -11,7 +11,7 @@
     <AppButton
       class="w-[400px] mx-auto mt-12.5"
       icon-suffix
-      @click="$router.push({ name: $routeNames.search })"
+      @click="router.push({ name: $routeNames.search })"
     >
       Більше пропозицій
       <icon class="icon-arrow-right-down text-xs" />
@@ -21,6 +21,8 @@
 
 <script setup lang="ts">
 import SectionLayout from '@/layouts/SectionLayout.vue'
+
+import { router } from '@/router'
 
 defineProps<{
   carsData: TCar[]
