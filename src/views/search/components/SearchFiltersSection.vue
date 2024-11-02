@@ -12,6 +12,18 @@
       </RadioButton>
     </el-radio-group>
 
+    <SearchSectionLayout title="Тип транспорту">
+      <AppSelect
+        v-model="searchData.vehicleTypes"
+        placeholder="Оберіть тип транспорту"
+        :options="searchFiltersOptions?.vehicleTypes"
+        key-value="value"
+        key-label="label"
+        multiple
+        collapse-tags
+      />
+    </SearchSectionLayout>
+
     <SearchSectionLayout title="Регіон">
       <AppSelect
         v-model="searchData.location"
@@ -129,18 +141,12 @@
         text
         class="hover:!bg-creamy-light body-2"
         icon="icon-filter-off"
-        @click="router.push({name: routeNames.search})"
+        @click="router.replace({
+          name: routeNames.search,
+          query: {}
+        })"
       >
         Скинути всі фільтри
-      </AppButton>
-
-      <AppButton
-        type="secondary"
-        class="w-full"
-        icon="icon-search"
-        @click="router.push({name: $routeNames.search, query: query})"
-      >
-        Шукати
       </AppButton>
     </div>
   </div>
@@ -158,9 +164,9 @@ import searchService from '@/services/search-service/search.service'
 import { router } from '@/router'
 import { routeNames } from '@/router/route-names'
 
-const searchData = defineModel<ICarsSearchDataExtended>('searchData', { required: true })
+const searchData = defineModel<ICarsSearchDataExtended>({ required: true })
 const props = defineProps<{
-  searchFiltersOptions: Record<string, any>
+  searchFiltersOptions: ISearchFiltersOptions
 }>()
 
 const computedSortedBrands = computed(() => {
@@ -171,5 +177,4 @@ const pickedBrandsModels = computed(() => {
   return searchService.getPickedModels(searchData.value.brands, props.searchFiltersOptions.models)
 })
 
-const query = computed(() => searchService.convertToLocationQueryRaw(searchData.value))
 </script>

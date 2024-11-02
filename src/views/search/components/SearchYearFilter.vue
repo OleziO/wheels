@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  searchFiltersOptions: any
+  searchFiltersOptions: ISearchFiltersOptions
 }>()
 
 const searchData = defineModel<ICarsSearchDataExtended>({ required: true })

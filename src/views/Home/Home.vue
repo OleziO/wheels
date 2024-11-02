@@ -35,7 +35,6 @@ import FAQSection from '@/views/home/components/HomeFAQSection.vue'
 
 import searchService from '@/services/search-service/search.service'
 import moneyService from '@/services/money.service'
-import carsService from '@/views/home/cars.service'
 
 const popularBrands = ref<IPopularBrand[]>([])
 const vehicleTypes = ref<TTables<'vehicle_types'>[]>([])
@@ -63,7 +62,7 @@ const loading = ref(false)
 async function fetchData () {
   const [rateData, carsData] = await Promise.all([
     moneyService.getUSDtoUAH(),
-    carsService.getPopularCars()
+    searchService.getPopularCars()
   ])
 
   rate.value = rateData || 0

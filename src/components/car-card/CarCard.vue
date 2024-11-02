@@ -4,7 +4,7 @@
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
     @click="router.push({
       name: $routeNames.car,
-      query: SearchFilters.convertToLocationQueryRaw({id: car.id})
+      query: searchService.convertToLocationQueryRaw({id: car.id})
     })"
   >
     <div class="w-full h-[320px] overflow-hidden">
@@ -82,7 +82,7 @@
 <script setup lang="ts">
 import CarInfo from '@/components/car-card/components/CarCardInfoWithIcon.vue'
 
-import SearchFilters from '@/services/search-service/search.service'
+import searchService from '@/services/search-service/search.service'
 import moneyService from '@/services/money.service'
 import timeService from '@/services/time.service'
 
@@ -103,7 +103,7 @@ const carInfo = computed(() => [
 ])
 
 async function updateRate (operation: '+' | '-') {
-  carsService.updateCarRating(props.car.id, operation === '+' ? 1 : -1)
+  searchService.updateCarRating(props.car.id, operation === '+' ? 1 : -1)
 }
 
 </script>

@@ -1,18 +1,6 @@
 <template>
   <section class="bg-creamy px-25 py-12.5">
-    <el-checkbox-group v-model="searchData.vehicleTypes" class="flex justify-between">
-      <el-checkbox-button
-        v-for="item in searchFiltersOptions?.vehicleTypes"
-        :key="item.value"
-        :value="item.value"
-        class="vehicle-type flex flex-col justify-center items-center"
-      >
-        <el-image :src="`src/assets/images/home-page/${item.value}.png`" class="h-20" />
-        <p class="text-gray-dark body-1">{{ item.label }}</p>
-      </el-checkbox-button>
-    </el-checkbox-group>
-
-    <div class="w-full flex gap-25 mt-12">
+    <div class="w-full flex gap-25">
       <div class="flex-1 flex flex-col gap-6">
         <AppSelect
           v-model="searchData.brands"
@@ -85,7 +73,7 @@
       <AppButton
         class="w-full"
         icon="icon-search"
-        @click="router.push({name: $routeNames.search, query: query})"
+        @click="router.replace({name: $routeNames.search, query: query})"
       >
         Шукати
       </AppButton>

@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  value: string
+  value: string | boolean | number
 }>()
 
 </script>

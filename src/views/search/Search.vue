@@ -1,8 +1,17 @@
 <template>
-  <div v-loading.fullscreen="loading">
-    <VehicleTypes v-model="searchData.vehicleTypes" :vehicleTypes="searchFiltersOptions.vehicleTypes" />
-    <div class="flex justify-between mt-12.5 px-25">
-      <FiltersSection v-model:searchData="searchData" :searchFiltersOptions="searchFiltersOptions" />
+  <div v-loading.fullscreen="loading" class="flex justify-between px-25 mt-12">
+    <FiltersSection v-model="searchData" :searchFiltersOptions="searchFiltersOptions" />
+
+    <div class="flex flex-col items-center gap-12.5 py-8">
+      <AppInput placeholder="Що ви шукаєте?">
+        <AppButton
+          class="px-8"
+          icon="icon-search"
+          @click="updateQuery"
+        >
+          Шукати
+        </AppButton>
+      </AppInput>
       <CarList
         v-model="carsPage"
         :rate="rate"
@@ -15,63 +24,47 @@
 </template>
 
 <script setup lang="ts">
+
 import FiltersSection from '@/views/search/components/SearchFiltersSection.vue'
-import VehicleTypes from '@/views/search/components/SearchVehicleTypes.vue'
 import CarList from '@/views/search/components/SearchCarList.vue'
 
 import searchService from '@/services/search-service/search.service'
+import { router } from '@/router'
+import { routeNames } from '@/router/route-names'
 
 const props = defineProps<{
   query: ICarsSearchDataExtended
 }>()
 
-const searchData = ref<ICarsSearchDataExtended>(getQueryData())
+const loading = ref(false)
+
+const searchData = ref<ICarsSearchDataExtended>(getQueryData(props.query))
+const searchFiltersOptions = ref<ISearchFiltersOptions>({
+  transmissionTypes: [],
+  carsConditions: [],
+  vehicleTypes: [],
+  driveTypes: [],
+  fuelTypes: [],
+  location: [],
+  involvedAccident: [],
+  bodyType: [],
+  manufactureYear: [],
+  techCondition: [],
+  engineVolume: [],
+  brands: [],
+  models: {},
+  paintType: [],
+  price: { min: 0, max: 1000000 },
+  mileage: { min: 0, max: 2000 }
+})
 
 const carsPage = ref(+(props.query.page || 1))
 const totalCarsCount = ref(0)
 const cars = ref<TCar[]>([])
 const carsPerPage = ref(20)
-const loading = ref(false)
 const rate = ref(0)
 
-const transmissionTypes = ref<TTables<'transmission_types'>[]>([])
-const carsConditions = ref<TTables<'car_conditions'>[]>([])
-const vehicleTypes = ref<TTables<'vehicle_types'>[]>([])
-const driveTypes = ref<TTables<'drive_types'>[]>([])
-const fuelTypes = ref<TTables<'fuel_types'>[]>([])
-const locations = ref<TTables<'locations'>[]>([])
-const involvedAccident = ref<IFilterOption[]>([])
-const bodyType = ref<TTables<'body_types'>[]>([])
-const manufactureYear = ref<IFilterOption[]>([])
-const techCondition = ref<IFilterOption[]>([])
-const engineVolume = ref<IFilterOption[]>([])
-const brands = ref<TTables<'brands'>[]>([])
-const models = ref<TTables<'models'>[]>([])
-const paintType = ref<IFilterOption[]>([])
-
-const price = ref<IRangeOption>({ min: 0, max: 1000000 })
-const mileage = ref<IRangeOption>({ min: 0, max: 2000 })
-
-const searchFiltersOptions = computed(() => {
-  return {
-    models: searchService.groupModelsByBrand(brands.value, models.value),
-    involvedAccident: involvedAccident.value,
-    transmissionTypes: transmissionTypes.value,
-    manufactureYear: manufactureYear.value,
-    carsConditions: carsConditions.value,
-    techCondition: techCondition.value,
-    vehicleTypes: vehicleTypes.value,
-    driveTypes: driveTypes.value,
-    fuelTypes: fuelTypes.value,
-    location: locations.value,
-    bodyType: bodyType.value,
-    paintType: paintType.value,
-    mileage: mileage.value,
-    engineVolume: engineVolume.value,
-    brands: brands.value,
-    price: price.value
-  }
-})
+const route = useRoute()
 
 const paginationIndexes = computed(() => {
   const start = (carsPage.value - 1) * carsPerPage.value
@@ -83,9 +76,25 @@ const paginationIndexes = computed(() => {
   }
 })
 
-function getQueryData () {
+async function getFilters () {
+  const data = await searchService.getExtendedFilters()
+
+  const updatedFilters: ISearchFiltersOptions = {
+    ...data,
+    models: searchService.groupModelsByBrand(data.brands, data.models),
+    manufactureYear: searchService.getYears(1940),
+    involvedAccident: searchService.accidentTypes,
+    engineVolume: searchService.engineVolumes,
+    price: searchService.price,
+    mileage: searchFiltersOptions.value.mileage
+  }
+
+  return updatedFilters
+}
+
+function getQueryData (data: ICarsSearchDataExtended) {
   return {
-    ...searchService.getArrFields(props.query),
+    ...searchService.getArrFields(data),
     involvedAccident: props.query.involvedAccident || '',
     manufactureYear: props.query.manufactureYear || [null, null],
     engineVolume: props.query.engineVolume || [null, null],
@@ -94,65 +103,32 @@ function getQueryData () {
   }
 }
 
-async function getFilters () {
-  const [
-    brandsResponse,
-    modelsResponse,
-    locationResponse,
-    vehicleTypesResponse,
-    carConditionsResponse,
-    bodyTypeResponse,
-    transmissionTypesResponse,
-    fuelTypesResponse,
-    driveTypesResponse,
-    techConditionResponse,
-    paintResponse
-  ] = await searchService.getExtendedFilters()
-
-  transmissionTypes.value = transmissionTypesResponse
-  carsConditions.value = carConditionsResponse
-  techCondition.value = techConditionResponse
-  vehicleTypes.value = vehicleTypesResponse
-  driveTypes.value = driveTypesResponse
-  fuelTypes.value = fuelTypesResponse
-  locations.value = locationResponse
-  bodyType.value = bodyTypeResponse
-  paintType.value = paintResponse
-  brands.value = brandsResponse
-  models.value = modelsResponse
-
-  manufactureYear.value = searchService.getYears(1940)
-  involvedAccident.value = searchService.accidentTypes
-  engineVolume.value = searchService.engineVolumes
-  price.value = searchService.price
-}
-
 async function setCarsWithPagination (start: number, end: number) {
-  const filters = searchService.parseSearchData(searchData.value, props.query)
-
-  totalCarsCount.value = await searchService.getCarsCount(filters)
-  searchData.value = getQueryData()
+  const filtersData = searchService.parseSearchData(searchData.value, props.query)
+  totalCarsCount.value = await searchService.getCarsCount(filtersData)
   rate.value = await moneyService.getUSDtoUAH()
-  cars.value = await searchService.getCarsWithPagination(start, end, filters) as TCar[]
+  cars.value = await searchService.getCarsWithPagination(start, end, filtersData)
 }
 
-watch(() => [carsPage, props, props.query], async () => {
-  try {
+function updateQuery () {
+  const query = searchService.convertToLocationQueryRaw(searchData.value)
+  router.replace({ name: routeNames.search, query: { ...query } })
+}
+
+watch(
+  () => [carsPage.value, route.query],
+  async () => {
     loading.value = true
     await setCarsWithPagination(paginationIndexes.value.start, paginationIndexes.value.end)
-    searchData.value = getQueryData()
-  } finally {
     loading.value = false
-  }
-}, { deep: true })
+  },
+  { deep: true, immediate: true }
+)
 
 onMounted(async () => {
-  try {
-    loading.value = true
-    await getFilters()
-    await setCarsWithPagination(paginationIndexes.value.start, paginationIndexes.value.end)
-  } finally {
-    loading.value = false
-  }
+  loading.value = true
+  searchFiltersOptions.value = await getFilters()
+  await setCarsWithPagination(paginationIndexes.value.start, paginationIndexes.value.end)
+  loading.value = false
 })
 </script>

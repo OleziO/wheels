@@ -3,7 +3,7 @@
     <el-checkbox-group v-model="data" class="grid grid-cols-4 gap-x-5 gap-y-8">
       <CheckboxButton
         v-for="item in vehicleTypes"
-        :key="item.value"
+        :key="item.label"
         :value="item.value"
       >
         {{ item.label }}

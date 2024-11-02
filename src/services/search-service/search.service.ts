@@ -1,117 +1,101 @@
+import type { Database } from '@/api/types/database.types'
+
 class SearchService {
-  async getVehicleTypes (): Promise<TTables<'vehicle_types'>[]> {
+  private async fetchFromTable<T> (tableName: keyof Database['public']['Tables']): Promise<T[]> {
     const { data } = await supabase
-      .from('vehicle_types')
+      .from(tableName)
       .select('*')
 
-    return data || []
+    return (data || []) as T[]
+  }
+
+  async getVehicleTypes (): Promise<TTables<'vehicle_types'>[]> {
+    return this.fetchFromTable<TTables<'vehicle_types'>>('vehicle_types')
   }
 
   async getBodyTypes (): Promise<TTables<'body_types'>[]> {
-    const { data } = await supabase
-      .from('body_types')
-      .select('*')
-
-    return data || []
+    return this.fetchFromTable<TTables<'body_types'>>('body_types')
   }
 
   async getTransmissionTypes (): Promise<TTables<'transmission_types'>[]> {
-    const { data } = await supabase
-      .from('transmission_types')
-      .select('*')
-
-    return data || []
+    return this.fetchFromTable<TTables<'transmission_types'>>('transmission_types')
   }
 
   async getBrands (): Promise<TTables<'brands'>[]> {
-    const { data } = await supabase
-      .from('brands')
-      .select('*')
-
-    return data || []
+    return this.fetchFromTable<TTables<'brands'>>('brands')
   }
 
-  async getPopularBrands () {
+  async getPopularBrands (): Promise<IPopularBrand[]> {
     const { data } = await supabase
       .rpc('get_car_counts_by_brand')
-
     return JSON.parse(JSON.stringify(data)) as IPopularBrand[]
+  }
+
+  async getFuelTypes (): Promise<TTables<'fuel_types'>[]> {
+    return this.fetchFromTable<TTables<'fuel_types'>>('fuel_types')
+  }
+
+  async getDriveTypes (): Promise<TTables<'drive_types'>[]> {
+    return this.fetchFromTable<TTables<'drive_types'>>('drive_types')
+  }
+
+  async getModels (): Promise<TTables<'models'>[]> {
+    return this.fetchFromTable<TTables<'models'>>('models')
+  }
+
+  async getCarConditions (): Promise<TTables<'car_conditions'>[]> {
+    return this.fetchFromTable<TTables<'car_conditions'>>('car_conditions')
+  }
+
+  async getCarTechConditions (): Promise<TTables<'tech_conditions'>[]> {
+    return this.fetchFromTable<TTables<'tech_conditions'>>('tech_conditions')
+  }
+
+  async getCarPaintConditions (): Promise<TTables<'paint_conditions'>[]> {
+    return this.fetchFromTable<TTables<'paint_conditions'>>('paint_conditions')
+  }
+
+  async getPopularCars () {
+    const { data } = await supabase
+      .from('cars')
+      .select(`
+        *,
+        models (*)`)
+      .limit(9)
+
+    return data
+  }
+
+  async updateCarRating (carId: string, operation: 1 | -1) {
+    const { data: car } = await supabase
+      .from('cars')
+      .select()
+      .eq('id', carId)
+
+    if (car?.length && car[0]) {
+      await supabase
+        .from('cars')
+        .update({ car_rate: car[0]?.car_rate + operation })
+        .eq('id', car[0].id)
+    }
   }
 
   async getLocations (): Promise<TTables<'locations'>[]> {
     const { data } = await supabase
       .from('locations')
       .select('*')
-      .order('label', { ascending: true })
+      .order('label')
 
     return data || []
   }
 
-  async getFuelTypes (): Promise<TTables<'fuel_types'>[]> {
-    const { data } = await supabase
-      .from('fuel_types')
-      .select('*')
-
-    return data || []
-  }
-
-  async getDriveTypes (): Promise<TTables<'drive_types'>[]> {
-    const { data } = await supabase
-      .from('drive_types')
-      .select('*')
-
-    return data || []
-  }
-
-  async getModels (): Promise<TTables<'models'>[]> {
-    const { data } = await supabase
-      .from('models')
-      .select()
-
-    return data || []
-  }
-
-  async getCars () {
-    const { data } = await supabase
-      .from('cars')
-      .select('*, models!inner(*)')
-
-    return data
-  }
-
-  async getCarsCount (filters: ICarsSearchDataExtended) {
+  async getCarsCount (filters: ICarsSearchDataExtended): Promise<number> {
     const { count } = await this.getFilteredCars(filters, { count: 'exact', head: true })
-
     return count || 0
   }
 
-  async getCarConditions (): Promise<TTables<'car_conditions'>[]> {
-    const { data } = await supabase
-      .from('car_conditions')
-      .select('*')
-    return data || []
-  }
-
-  async getCarTechConditions (): Promise<TTables<'tech_conditions'>[]> {
-    const { data } = await supabase
-      .from('tech_conditions')
-      .select('*')
-    return data || []
-  }
-
-  async getCarPaintConditions (): Promise<TTables<'paint_conditions'>[]> {
-    const { data } = await supabase
-      .from('paint_conditions')
-      .select('*')
-
-    return data || []
-  }
-
   get price () {
-    return {
-      min: 0,
-      max: 1000000 // 1M
-    }
+    return { min: 0, max: 1000000 } // 1M
   }
 
   get accidentTypes (): IFilterOption[] {
@@ -121,28 +105,22 @@ class SearchService {
     ]
   }
 
-  getYears (start: number) {
+  getYears (start: number): { value: string; label: string }[] {
     const end = new Date().getFullYear()
-    const yearList = Array.from({ length: end - start + 1 }, (_, i) => end - i)
-
-    return yearList.map(item => ({ value: `${item}`, label: `${item}` }))
-  }
-
-  get engineVolumes () {
-    const start = 0.1
-    const end = 7
-    const step = 0.1
-
-    const engineList = Array.from({ length: Math.ceil((end - start) / step) + 1 }, (_, i) => {
-      const value = (end - i * step).toFixed(1)
-      return parseFloat(value)
+    return Array.from({ length: end - start + 1 }, (_, i) => {
+      const year = end - i
+      return { value: `${year}`, label: `${year}` }
     })
-
-    return engineList.map(item => ({ value: `${item}`, label: `${item}` })).reverse()
   }
 
-  async getFilters () {
-    return await Promise.all([
+  get engineVolumes (): { value: string; label: string }[] {
+    const start = 0.1; const end = 7; const step = 0.1
+    const volumes = Array.from({ length: Math.ceil((end - start) / step) + 1 }, (_, i) => (end - i * step).toFixed(1))
+    return volumes.map(item => ({ value: item, label: item })).reverse()
+  }
+
+  async getFilters (): Promise<any[]> {
+    return Promise.all([
       this.getBrands(),
       this.getModels(),
       this.getLocations(),
@@ -150,8 +128,20 @@ class SearchService {
     ])
   }
 
-  async getExtendedFilters () {
-    return await Promise.all([
+  async getExtendedFilters (): Promise<any> {
+    const [
+      brands,
+      models,
+      location,
+      vehicleTypes,
+      carsConditions,
+      bodyType,
+      transmissionTypes,
+      fuelTypes,
+      driveTypes,
+      techCondition,
+      paintType
+    ] = await Promise.all([
       this.getBrands(),
       this.getModels(),
       this.getLocations(),
@@ -164,17 +154,29 @@ class SearchService {
       this.getCarTechConditions(),
       this.getCarPaintConditions()
     ])
+
+    return {
+      transmissionTypes,
+      carsConditions,
+      techCondition,
+      vehicleTypes,
+      driveTypes,
+      fuelTypes,
+      location,
+      bodyType,
+      paintType,
+      brands,
+      models
+    }
   }
 
   async getCarsWithPagination (
     start: number,
     end: number,
     filters: ICarsSearchDataExtended
-  ) {
+  ): Promise<any[]> {
     const query = this.getFilteredCars(filters, { count: 'exact' })
-
     const { data } = await query.range(start, end)
-
     return data || []
   }
 
@@ -185,37 +187,34 @@ class SearchService {
     let queryReq = supabase
       .from('cars')
       .select('*, models!inner(*)', selectOptions)
+      .order('created_at', { ascending: false })
 
-    enum EMatchFilters {
-      transmissionTypes = 'transmission_type',
-      involvedAccident = 'was_in_accident',
-      carsConditions = 'car_condition',
-      engineVolume = 'engine_volume',
-      vehicleTypes = 'vehicle_types',
-      paintType = 'paint_condition',
-      driveTypes = 'drive_type',
-      Type = ' tech_conditions',
-      brands = 'models.brand',
-      fuelTypes = 'fuel_type',
-      bodyType = 'body_type',
-      location = 'location',
-      models = 'models.id',
-
+    const matchFilters = {
+      transmissionTypes: 'transmission_type',
+      involvedAccident: 'was_in_accident',
+      carsConditions: 'car_condition',
+      engineVolume: 'engine_volume',
+      vehicleTypes: 'vehicle_types',
+      paintType: 'paint_condition',
+      driveTypes: 'drive_type',
+      type: 'tech_conditions',
+      fuelTypes: 'fuel_type',
+      brands: 'models.brand',
+      bodyType: 'body_type',
+      location: 'location',
+      models: 'models.id'
     }
 
-    enum EGreaterOrLessFilters {
-      price = 'price',
-      engineVolume = 'engine_volume',
-      manufactureYear = 'manufacture_year',
-      mileage = 'mileage'
+    const rangeFilters = {
+      price: 'price',
+      engineVolume: 'engine_volume',
+      manufactureYear: 'manufacture_year',
+      mileage: 'mileage'
     }
-
-    const clientKeysMatchFilter = Object.keys(EMatchFilters) as string[]
-    const clientKeysGreaterOrLessFilter = Object.keys(EGreaterOrLessFilters) as string[]
 
     for (const field in filters) {
-      const key = field as keyof typeof filters
-      const allFilters = { ...EMatchFilters, ...EGreaterOrLessFilters }
+      const key = field as keyof ICarsSearchDataExtended
+      const allFilters = { ...matchFilters, ...rangeFilters }
 
       if (!filters.hasOwnProperty(field)) continue
 
@@ -223,11 +222,11 @@ class SearchService {
       if (!databaseKey) continue
 
       const data = Array.isArray(filters[key]) ? filters[key] : [filters[key]]
-      if (!data.length) continue
+      if (!data) continue
 
-      else if (clientKeysMatchFilter.includes(key)) {
+      if (key in matchFilters) {
         queryReq = queryReq.in(databaseKey, data)
-      } else if (clientKeysGreaterOrLessFilter.includes(key)) {
+      } else if (key in rangeFilters) {
         const [min, max] = data
         if (min) queryReq = queryReq.gte(databaseKey, min)
         if (max) queryReq = queryReq.lte(databaseKey, max)
@@ -241,7 +240,7 @@ class SearchService {
     const pickedBrands = Array.isArray(brands) ? brands : [brands]
     const mappedModelsObj = models
 
-    if (pickedBrands.length) {
+    if (pickedBrands) {
       const filteredModels = pickedBrands.reduce((modelsAcc, brand) => {
         if (mappedModelsObj[brand]) {
           modelsAcc[brand] = mappedModelsObj[brand]
@@ -257,39 +256,28 @@ class SearchService {
 
   groupModelsByBrand (brands: TTables<'brands'>[], models: TTables<'models'>[]) {
     const brandMap = brands.reduce((acc, brand) => {
-      acc[brand.brand] = {
-        ...brand,
-        models: [] as TTables<'models'>[]
-      }
-
+      acc[brand.brand] = { ...brand, models: [] as TTables<'models'>[] }
       return acc
     }, {} as Record<string, IMappedCarModel>)
 
-    models.forEach((model) => {
+    models.forEach(model => {
       brandMap[model.brand]?.models.push(model)
     })
 
     return brandMap
   }
 
-  validateQuery (searchData: ICarsSearchDataExtended) {
-    const result: any = {}
+  validateQuery (searchData: ICarsSearchDataExtended | ICarsSearchData) {
+    return Object.fromEntries(
+      Object.entries(searchData).filter(entry => {
+        const value = entry[1]
 
-    for (const key in searchData) {
-      const field = searchData[key as keyof ICarsSearchDataExtended]
-
-      if (
-        (Array.isArray(field) && field.length && (field[0] || field[1])) ||
-        (!Array.isArray(field) && field)
-      ) {
-        result[key as keyof ICarsSearchDataExtended] = field
-      }
-    }
-
-    return result
+        return !!(Array.isArray(value) && (value[0] || value[1])) || !!(!Array.isArray(value) && value)
+      })
+    ) as ICarsSearchDataExtended
   }
 
-  get sarchArrFieldsNames () {
+  get searchArrFieldsNames () {
     return [
       'transmissionTypes',
       'involvedAccident',
@@ -310,7 +298,7 @@ class SearchService {
   getArrFields (query: any) {
     const result: any = {}
 
-    this.sarchArrFieldsNames.forEach(field => {
+    this.searchArrFieldsNames.forEach(field => {
       const key = field as keyof ICarsSearchDataExtended
       const arrField = this.queryDataToArr(query[key])
 
@@ -321,8 +309,7 @@ class SearchService {
   }
 
   queryDataToArr (data: any) {
-    if (!data || !data.length || !Object.values(data).length) return ''
-    return Array.isArray(data) ? data : [data]
+    return data ? (Array.isArray(data) ? data : [data]) : ''
   }
 
   parseSearchData (searchData: ICarsSearchDataExtended, query: Record<string, any>) {
@@ -333,17 +320,17 @@ class SearchService {
         : searchData.carsConditions
     }
 
-    const filters = (Object.values(query).length ? parsedSearchData : {}) as ICarsSearchDataExtended
+    const filters = (query ? parsedSearchData : {}) as ICarsSearchDataExtended
 
     return filters
   }
 
-  convertToLocationQueryRaw (searchData: Record<string, any>) {
-    const params = {
+  convertToLocationQueryRaw (searchData: any) {
+    const validatedData = this.validateQuery({
       ...searchData
-    }
+    })
 
-    return this.validateQuery(params as ICarsSearchDataExtended)
+    return validatedData as typeof searchData & { [key: string]: any }
   }
 }
 

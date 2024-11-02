@@ -47,3 +47,25 @@ interface ICarsSearchDataExtended extends ICarsSearchData{
   driveTypes: string[]
   fuelTypes: string[]
 }
+
+interface ISearchFiltersOptions {
+  transmissionTypes: TTables<'transmission_types'>[]
+  carsConditions: TTables<'car_conditions'>[]
+  vehicleTypes: TTables<'vehicle_types'>[]
+  driveTypes: TTables<'drive_types'>[]
+  fuelTypes: TTables<'fuel_types'>[]
+  location: TTables<'locations'>[]
+  bodyType: TTables<'body_types'>[]
+  brands: TTables<'brands'>[]
+
+  involvedAccident: IFilterOption[]
+  manufactureYear: IFilterOption[]
+  techCondition: IFilterOption[]
+  engineVolume: IFilterOption[]
+  paintType: IFilterOption[]
+
+  price: IRangeOption
+  mileage: IRangeOption
+
+  models: Record<string, IMappedCarModel>
+}
