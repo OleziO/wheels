@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-8 px-5 py-8 w-[400px]">
+  <div class="flex flex-col gap-8 px-5 py-8 min-w-[400px] max-w-[400px]">
     <h2 class="h2 text-gray-dark">Фільтри</h2>
 
     <el-radio-group v-model="searchData.carsConditions" class="flex items-center gap-4">
@@ -81,7 +81,6 @@
     <SearchSectionLayout title="Модель">
       <AppSelect
         v-model="searchData.models"
-        grouped
         placeholder="Оберіть модель"
         group-key-label="brand"
         group-key-value="models"

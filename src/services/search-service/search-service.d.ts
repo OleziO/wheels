@@ -36,6 +36,8 @@ interface ICarsSearchData {
 
 interface ICarsSearchDataExtended extends ICarsSearchData{
   page: number
+  perPage: number
+  sortignType: string
   carsConditions: string
   mileage: [number, number]
   engineVolume: number[]
@@ -45,6 +47,7 @@ interface ICarsSearchDataExtended extends ICarsSearchData{
   bodyType: string[]
   transmissionTypes: string[]
   driveTypes: string[]
+  search: string
   fuelTypes: string[]
 }
 
@@ -63,6 +66,8 @@ interface ISearchFiltersOptions {
   techCondition: IFilterOption[]
   engineVolume: IFilterOption[]
   paintType: IFilterOption[]
+  perPage: IFilterOption[]
+  sortingTypes: IFilterOption[]
 
   price: IRangeOption
   mileage: IRangeOption

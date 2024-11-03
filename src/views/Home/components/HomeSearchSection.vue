@@ -13,7 +13,6 @@
         />
         <AppSelect
           v-model="searchData.models"
-          grouped
           placeholder="Оберіть модель"
           group-key-label="brand"
           group-key-value="models"

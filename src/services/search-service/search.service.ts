@@ -119,6 +119,82 @@ class SearchService {
     return volumes.map(item => ({ value: item, label: item })).reverse()
   }
 
+  get perPage () {
+    return [
+      {
+        label: 'Показувати по 5 оголошень',
+        value: '5'
+      },
+      {
+        label: 'Показувати по 10 оголошень',
+        value: '10'
+      },
+      {
+        label: 'Показувати по 15 оголошень',
+        value: '15'
+      },
+      {
+        label: 'Показувати по 20 оголошень',
+        value: '20'
+      },
+      {
+        label: 'Показувати по 25 оголошень',
+        value: '25'
+      },
+      {
+        label: 'Показувати по 30 оголошень',
+        value: '30'
+      }
+    ]
+  }
+
+  sort (data: TCar[], type: string) {
+    const sortTypes = {
+      date: (a: TCar, b: TCar) => b.created_at.localeCompare(a.created_at),
+      price_asc: (a: TCar, b: TCar) => a.price - b.price,
+      price_desc: (a: TCar, b: TCar) => b.price - a.price,
+      year_asc: (a: TCar, b: TCar) => (a.manufacture_year || 0) - (b.manufacture_year || 0),
+      year_desc: (a: TCar, b: TCar) => (b.manufacture_year || 0) - (a.manufacture_year || 0),
+      mileage_asc: (a: TCar, b: TCar) => (a.mileage || 0) - (b.mileage || 0),
+      mileage_desc: (a: TCar, b: TCar) => (b.mileage || 0) - (a.mileage || 0)
+    }
+
+    return [...data].sort(sortTypes[type as keyof typeof sortTypes])
+  }
+
+  get sortingTypes () {
+    return [
+      {
+        label: 'Дата додавання',
+        value: 'date'
+      },
+      {
+        label: 'Від дешевих до дорогих',
+        value: 'price_asc'
+      },
+      {
+        label: 'Від дорогих до дешевих',
+        value: 'price_desc'
+      },
+      {
+        label: 'Рік випуску, за зростанням',
+        value: 'year_asc'
+      },
+      {
+        label: 'Рік випуску, за спаданням',
+        value: 'year_desc'
+      },
+      {
+        label: 'Пробіг, за зростанням',
+        value: 'mileage_asc'
+      },
+      {
+        label: 'Пробіг, за спаданням',
+        value: 'mileage_desc'
+      }
+    ]
+  }
+
   async getFilters (): Promise<any[]> {
     return Promise.all([
       this.getBrands(),

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-[400px] rounded-lg
+    class="w-full rounded-lg
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
     @click="router.push({
       name: $routeNames.car,

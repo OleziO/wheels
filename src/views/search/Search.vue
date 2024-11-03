@@ -1,9 +1,9 @@
 <template>
-  <div v-loading.fullscreen="loading" class="flex justify-between px-25 mt-12">
+  <div v-loading.fullscreen="loading" class="flex justify-between px-25 mt-12 gap-5">
     <FiltersSection v-model="searchData" :searchFiltersOptions="searchFiltersOptions" />
 
-    <div class="flex flex-col items-center gap-12.5 py-8">
-      <AppInput placeholder="Що ви шукаєте?">
+    <div class="w-full flex flex-col items-center gap-4 py-8">
+      <AppInput v-model="searchData.search" placeholder="Що ви шукаєте?">
         <AppButton
           class="px-8"
           icon="icon-search"
@@ -12,11 +12,32 @@
           Шукати
         </AppButton>
       </AppInput>
+
+      <div class="w-full pb-5">
+        <p class="w-full flex justify-end body-1 text-gravel mb-4">Результатів: {{ totalCarsCount }}</p>
+        <div class="flex w-full gap-5">
+          <AppSelect
+            v-model="searchData.sortignType"
+            placeholder="Сортування"
+            key-value="value"
+            key-label="label"
+            :options="searchFiltersOptions.sortingTypes"
+          />
+          <AppSelect
+            v-model="searchData.perPage"
+            placeholder="Оголошень на сторінці"
+            key-value="value"
+            key-label="label"
+            :options="searchFiltersOptions.perPage"
+          />
+        </div>
+      </div>
+
       <CarList
-        v-model="carsPage"
+        v-model="searchData"
         :rate="rate"
         :cars="cars"
-        :per-page="carsPerPage"
+        :per-page="searchData.perPage"
         :total-cars-count="totalCarsCount"
       />
     </div>
@@ -36,6 +57,7 @@ const props = defineProps<{
   query: ICarsSearchDataExtended
 }>()
 
+const route = useRoute()
 const loading = ref(false)
 
 const searchData = ref<ICarsSearchDataExtended>(getQueryData(props.query))
@@ -46,29 +68,27 @@ const searchFiltersOptions = ref<ISearchFiltersOptions>({
   driveTypes: [],
   fuelTypes: [],
   location: [],
-  involvedAccident: [],
   bodyType: [],
-  manufactureYear: [],
   techCondition: [],
-  engineVolume: [],
   brands: [],
   models: {},
   paintType: [],
   price: { min: 0, max: 1000000 },
-  mileage: { min: 0, max: 2000 }
+  mileage: { min: 0, max: 2000 },
+  manufactureYear: searchService.getYears(1940),
+  perPage: searchService.perPage,
+  involvedAccident: searchService.accidentTypes,
+  engineVolume: searchService.engineVolumes,
+  sortingTypes: searchService.sortingTypes
 })
 
-const carsPage = ref(+(props.query.page || 1))
 const totalCarsCount = ref(0)
 const cars = ref<TCar[]>([])
-const carsPerPage = ref(20)
 const rate = ref(0)
 
-const route = useRoute()
-
 const paginationIndexes = computed(() => {
-  const start = (carsPage.value - 1) * carsPerPage.value
-  const end = start + carsPerPage.value - 1
+  const start = (searchData.value.page - 1) * searchData.value.perPage
+  const end = start + (searchData.value.perPage - 1)
 
   return {
     start,
@@ -80,13 +100,9 @@ async function getFilters () {
   const data = await searchService.getExtendedFilters()
 
   const updatedFilters: ISearchFiltersOptions = {
+    ...searchFiltersOptions.value,
     ...data,
-    models: searchService.groupModelsByBrand(data.brands, data.models),
-    manufactureYear: searchService.getYears(1940),
-    involvedAccident: searchService.accidentTypes,
-    engineVolume: searchService.engineVolumes,
-    price: searchService.price,
-    mileage: searchFiltersOptions.value.mileage
+    models: searchService.groupModelsByBrand(data.brands, data.models)
   }
 
   return updatedFilters
@@ -99,7 +115,10 @@ function getQueryData (data: ICarsSearchDataExtended) {
     manufactureYear: props.query.manufactureYear || [null, null],
     engineVolume: props.query.engineVolume || [null, null],
     carsConditions: props.query.carsConditions || 'All',
-    page: props.query.page || 1
+    page: props.query.page || '1',
+    perPage: props.query.perPage || '20',
+    sortignType: props.query.sortignType || 'date',
+    search: props.query.search || ''
   }
 }
 
@@ -107,7 +126,10 @@ async function setCarsWithPagination (start: number, end: number) {
   const filtersData = searchService.parseSearchData(searchData.value, props.query)
   totalCarsCount.value = await searchService.getCarsCount(filtersData)
   rate.value = await moneyService.getUSDtoUAH()
-  cars.value = await searchService.getCarsWithPagination(start, end, filtersData)
+  cars.value = searchService.sort(
+    await searchService.getCarsWithPagination(start, end, filtersData),
+    searchData.value.sortignType
+  )
 }
 
 function updateQuery () {
@@ -116,7 +138,7 @@ function updateQuery () {
 }
 
 watch(
-  () => [carsPage.value, route.query],
+  () => [searchData.value.page, searchData.value.perPage, searchData.value.sortignType, route.query],
   async () => {
     loading.value = true
     await setCarsWithPagination(paginationIndexes.value.start, paginationIndexes.value.end)

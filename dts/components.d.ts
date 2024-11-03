@@ -20,9 +20,7 @@ declare module 'vue' {
     CarsCarousel: typeof import('./../src/components/CarsCarousel.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
-    ElCheckboxButton: typeof import('element-plus/es')['ElCheckboxButton']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
-    ElCheckboxItem: typeof import('element-plus/es')['ElCheckboxItem']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
@@ -51,13 +49,11 @@ declare module 'vue' {
     SearchCheckboxButton: typeof import('./../src/views/search/components/shared/SearchCheckboxButton.vue')['default']
     SearchCheckboxGroup: typeof import('./../src/views/search/components/SearchCheckboxGroup.vue')['default']
     SearchEngineFilter: typeof import('./../src/views/search/components/SearchEngineFilter.vue')['default']
-    SearchFilters: typeof import('@/views/search/components/SearchFilters.vue')['default']
     SearchFiltersSection: typeof import('./../src/views/search/components/SearchFiltersSection.vue')['default']
     SearchRadioButton: typeof import('./../src/views/search/components/shared/SearchRadioButton.vue')['default']
     SearchSliderSection: typeof import('./../src/views/search/components/SearchSliderSection.vue')['default']
     SearchVehicleTypes: typeof import('./../src/views/search/components/SearchVehicleTypes.vue')['default']
     SearchYearFilter: typeof import('./../src/views/search/components/SearchYearFilter.vue')['default']
-    SearchYEarFilter: typeof import('@/views/search/components/SearchYEarFilter.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

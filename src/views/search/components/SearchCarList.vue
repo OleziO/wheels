@@ -1,6 +1,6 @@
 <template>
   <div v-if="!cars.length" class="w-full flex justify-center mt-12">
-    <h2 class="text-red-error h4">Оголошення не знайдені</h2>
+    <h2 class="text-gravel h4">Оголошення не знайдені</h2>
   </div>
 
   <div v-else class="flex flex-col gap-19 items-center mb-25">
@@ -8,11 +8,11 @@
       <CarCard v-for="car in cars" :key="car.id" :car="car" :rate="rate" />
     </div>
     <el-pagination
-      v-model:current-page="page"
+      :current-page="+searchData.page"
       background
       layout="prev, pager, next"
-      :total="totalCarsCount"
-      :page-size="perPage"
+      :total="+totalCarsCount"
+      :page-size="+searchData.perPage"
       prev-text="Назад"
       next-text="Вперед"
       hide-on-single-page
@@ -29,13 +29,12 @@ defineProps<{
   cars: TCar[]
   rate: number
   totalCarsCount: number
-  perPage: number
 }>()
 
-const page = defineModel<number>()
+const searchData = defineModel<ICarsSearchDataExtended>({ required: true })
 
 function handlePageChange (newPage: number) {
-  page.value = newPage
+  searchData.value.page = newPage
   router.push({ name: routeNames.search, query: { ...router.currentRoute.value.query, page: newPage.toString() } })
 }
 </script>
