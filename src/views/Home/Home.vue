@@ -1,13 +1,21 @@
 <template>
   <div v-loading.fullscreen="loading">
     <HeroSection />
+
     <SearchSection :search-filters-options="searchFiltersOptions" />
+
     <SellingSection />
+
     <PopularSearches />
+
     <OffersSection :cars-data="cars" :rate="rate" />
+
     <FavoriteCarsBrandsSection :brands="popularBrands" />
+
     <UsefulInfoSection />
+
     <FAQSection />
+
     <div class="w-full text-center">
       <RouterLink
         class="text-orange hover:bg-creamy-light mb-12
