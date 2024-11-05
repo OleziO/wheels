@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: routeNames.home,
-    component: () => import('@/views/home/Home.vue')
+    component: () => import('@/views/home-page/Home.vue')
   },
   {
     path: '/car',
@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/search',
     name: routeNames.search,
-    component: () => import('@/views/search/Search.vue'),
+    component: () => import('@/views/search-page/Search.vue'),
     props: (route) => ({ query: route.query })
   },
   {
