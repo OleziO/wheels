@@ -1,34 +1,33 @@
 import type { Plugin } from 'vue'
 import { createI18n } from 'vue-i18n'
 
-import { en, de } from './translations'
+const messages = {
+  en: {
+    recently: 'Recently',
+    year: ['year', 'years'],
+    month: ['month', 'months'],
+    day: ['day', 'days'],
+    hour: ['hour', 'hours'],
+    minute: ['minute', 'minutes']
+  },
+  uk: {
+    recently: 'Недавно',
+    year: ['рік', 'роки', 'років'],
+    month: ['місяць', 'місяці', 'місяців'],
+    day: ['день', 'дні', 'днів'],
+    hour: ['годину', 'години', 'годин'],
+    minute: ['хвилину', 'хвилини', 'хвилин']
+  }
+}
 
 const i18n = createI18n({
   legacy: false,
-  locale: 'en',
+  locale: 'uk',
   fallbackLocale: 'en',
-  datetimeFormats: {
-    en: {
-      short: {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      }
-    },
-    de: {
-      short: {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      }
-    }
-  },
-
-  messages: {
-    ...en,
-    ...de
-  }
+  messages
 })
+
+export default i18n
 
 const I18nPlugin: Plugin = {
   install: (app) => {

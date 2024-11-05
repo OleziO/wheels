@@ -3,7 +3,7 @@
     <div class="w-full flex gap-25">
       <div class="flex-1 flex flex-col gap-6">
         <AppSelect
-          v-model="searchData.brands"
+          v-model="searchStore.searchData.brands"
           placeholder="Оберіть марку"
           key-label="brand"
           key-value="brand"
@@ -12,20 +12,20 @@
           collapse-tags
         />
         <AppSelect
-          v-model="searchData.models"
+          v-model="searchStore.searchData.models"
           placeholder="Оберіть модель"
           group-key-label="brand"
           group-key-value="models"
           key-value="id"
           key-label="model"
-          :options="pickedBrandsModels"
+          :options="searchStore.mappedModels(searchStore.searchData.brands)"
           multiple
           collapse-tags
         />
         <AppSelect
-          v-model="searchData.location"
+          v-model="searchStore.searchData.location"
           placeholder="Оберіть регіон"
-          :options="searchFiltersOptions?.cities"
+          :options="searchStore.searchFilterOptions.location"
           key-value="value"
           key-label="label"
           multiple
@@ -39,28 +39,28 @@
 
           <div class="flex gap-9 items-center">
             <AppSelect
-              v-model="searchData.manufactureYear[0]"
+              v-model="searchStore.searchData.fromManufactureYear"
               placeholder="Будь-який"
-              :options="searchFiltersOptions?.manufactureYear"
+              :options="searchStore.searchFilterOptions.manufactureYear"
             />
 
             <p> до </p>
 
             <AppSelect
-              v-model="searchData.manufactureYear[1]"
+              v-model="searchStore.searchData.toManufactureYear"
               placeholder="Будь-який"
-              :options="searchFiltersOptions?.manufactureYear"
+              :options="searchStore.searchFilterOptions.manufactureYear"
             />
           </div>
         </div>
         <div class="body-2 text-gray-dark">
           <p>Ціна</p>
           <AppSlider
-            v-model="searchData.price"
+            v-model="searchStore.searchData.price"
             label="$"
             label-position="start"
-            :min="searchFiltersOptions?.price.min"
-            :max="searchFiltersOptions?.price.max"
+            :min="searchStore.searchFilterOptions.price.min"
+            :max="searchStore.searchFilterOptions.price.max"
             :step="500"
           />
         </div>
@@ -72,7 +72,7 @@
       <AppButton
         class="w-full"
         icon="icon-search"
-        @click="router.replace({name: $routeNames.search, query: query})"
+        @click="replaceRouterQuery($routeNames.search, searchStore.searchData)"
       >
         Шукати
       </AppButton>
@@ -81,32 +81,13 @@
 </template>
 
 <script setup lang="ts">
-import searchService from '@/services/search-service/search.service'
-import { router } from '@/router'
+import { replaceRouterQuery } from '@/router'
+import { orderBy } from 'lodash-es'
 
-const props = defineProps<{
-  searchFiltersOptions: any
-}>()
-
-const searchData = ref<ICarsSearchData>({
-  vehicleTypes: [],
-  brands: [],
-  models: [],
-  location: [],
-  manufactureYear: [],
-  price: [0, 1000000]
-})
+const searchStore = useSearchStore()
 
 const computedSortedBrands = computed(() => {
-  return ([...props.searchFiltersOptions.brands as TTables<'brands'>[]]).sort((a, b) => a.brand.localeCompare(b.brand))
-})
-
-const pickedBrandsModels = computed(() => {
-  return searchService.getPickedModels(searchData.value.brands, props.searchFiltersOptions.models)
-})
-
-const query = computed(() => {
-  return searchService.convertToLocationQueryRaw(searchData.value)
+  return orderBy(searchStore.searchFilterOptions.brands, 'brand', 'asc')
 })
 
 </script>

@@ -1,47 +1,17 @@
-interface ITimeIntervals {
-  value: number
-  forms: [string, string, string]
-}
+import { formatDistanceToNow } from 'date-fns'
+import { uk, enUS } from 'date-fns/locale'
 
 class TimeService {
   timeAgo (date: Date): string {
-    const now = new Date()
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+    const { locale } = useI18n()
+    const distance = formatDistanceToNow(date, {
+      addSuffix: true,
+      locale: locale.value === 'uk' ? uk : enUS
+    })
 
-    const timeIntervals: ITimeIntervals[] = [
-      { value: 31536000, forms: ['рік', 'роки', 'років'] },
-      { value: 2592000, forms: ['місяць', 'місяці', 'місяців'] },
-      { value: 86400, forms: ['день', 'дні', 'днів'] },
-      { value: 3600, forms: ['годину', 'години', 'годин'] },
-      { value: 60, forms: ['хвилину', 'хвилини', 'хвилин'] }
-    ]
-
-    for (const { value, forms } of timeIntervals) {
-      const interval = Math.floor(seconds / value)
-      if (interval >= 1) {
-        const form = this.getPluralForm(interval, forms)
-        return `${interval} ${form} тому`
-      }
-    }
-
-    return 'Недавно'
-  }
-
-  private getPluralForm (number: number, forms: [string, string, string]): string {
-    const n = Math.abs(number) % 100
-    const n1 = n % 10
-
-    if (n > 10 && n < 20) {
-      return forms[2]
-    }
-    if (n1 > 1 && n1 < 5) {
-      return forms[1]
-    }
-    if (n1 === 1) {
-      return forms[0]
-    }
-    return forms[2]
+    return distance.charAt(0).toUpperCase() + distance.slice(1)
   }
 }
 
-export default new TimeService()
+const timeService = new TimeService()
+export default timeService

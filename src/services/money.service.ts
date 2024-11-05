@@ -1,7 +1,8 @@
+import { useI18n } from 'vue-i18n'
 import currency from '@/api/currency'
 
 class MoneyService {
-  rate
+  rate: number
 
   constructor () {
     this.rate = 0
@@ -18,14 +19,24 @@ class MoneyService {
 
   numToMoneyWithFormat (amount: number, moneyText: string, moneyPosition: 'start' | 'end' = 'start') {
     const formattedAmount = this.formatCurrency(amount)
+    const { t } = useI18n()
 
-    if (moneyPosition === 'start') return `${moneyText}${formattedAmount}`
-    return `${formattedAmount} ${moneyText}`
+    const formattedMoneyText = t(moneyText)
+
+    if (moneyPosition === 'start') {
+      return `${formattedMoneyText}${formattedAmount}`
+    }
+    return `${formattedAmount} ${formattedMoneyText}`
   }
 
   formatCurrency (amount: number): string {
-    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+    return new Intl.NumberFormat('uk-UA', {
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount)
   }
 }
 
-export default new MoneyService()
+const moneyService = new MoneyService()
+export default moneyService

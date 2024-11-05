@@ -1,11 +1,8 @@
 <template>
   <div
-    class="w-full rounded-lg
+    class="w-full rounded-lg cursor-pointer
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
-    @click="router.push({
-      name: $routeNames.car,
-      query: searchService.convertToLocationQueryRaw({id: car.id})
-    })"
+    @click="replaceRouterQuery($routeNames.car, {id: car.id})"
   >
     <div class="w-full h-[320px] overflow-hidden">
       <el-image
@@ -30,7 +27,7 @@
     <div class="card-label absolute top-5 z-50 w-full">
       <span>
         <div v-if="car.vin" class="relative h-fit bg-blue-light py-2 px-4">
-          <p class="text-white body-2">Перевірений VIN-код</p>
+          <p class="text-white body-2 whitespace-nowrap">Перевірений VIN-код</p>
           <span
             class="absolute right-0 top-0 translate-x-full
       border-y-[20px] border-y-transparent border-l-[15px] border-l-blue-light"
@@ -80,13 +77,10 @@
 </template>
 
 <script setup lang="ts">
+import { moneyService, searchService, timeService } from '@/services/index.service'
+
 import CarInfo from '@/components/car-card/components/CarCardInfoWithIcon.vue'
-
-import searchService from '@/services/search-service/search.service'
-import moneyService from '@/services/money.service'
-import timeService from '@/services/time.service'
-
-import { router } from '@/router'
+import { replaceRouterQuery } from '@/router'
 
 const props = defineProps<{
   car: TCar

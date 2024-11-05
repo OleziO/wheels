@@ -332,6 +332,9 @@
     "searchSectionService": true,
     "searchService": true,
     "supabase": true,
-    "carsService": true
+    "carsService": true,
+    "useSearchStore": true,
+    "homeService": true,
+    "indexService": true
   }
 }

@@ -4,15 +4,15 @@
   </div>
 
   <div v-else class="flex flex-col gap-19 items-center mb-25">
-    <div class="grid grid-cols-2 w-fit gap-5">
+    <div v-loading.fullscreen="!cars.length" class="grid grid-cols-2 w-fit gap-5">
       <CarCard v-for="car in cars" :key="car.id" :car="car" :rate="rate" />
     </div>
     <el-pagination
-      :current-page="+searchData.page"
+      :current-page="+searchStore.searchData.page"
       background
       layout="prev, pager, next"
       :total="+totalCarsCount"
-      :page-size="+searchData.perPage"
+      :page-size="+searchStore.searchData.perPage"
       prev-text="Назад"
       next-text="Вперед"
       hide-on-single-page
@@ -22,8 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { router } from '@/router'
-import { routeNames } from '@/router/route-names'
+import { replaceRouterQuery, routeNames } from '@/router'
 
 defineProps<{
   cars: TCar[]
@@ -31,10 +30,10 @@ defineProps<{
   totalCarsCount: number
 }>()
 
-const searchData = defineModel<ICarsSearchDataExtended>({ required: true })
+const searchStore = useSearchStore()
 
 function handlePageChange (newPage: number) {
-  searchData.value.page = newPage
-  router.push({ name: routeNames.search, query: { ...router.currentRoute.value.query, page: newPage.toString() } })
+  searchStore.searchData.page = newPage
+  replaceRouterQuery(routeNames.search, searchStore.searchData.page)
 }
 </script>

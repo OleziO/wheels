@@ -2,73 +2,73 @@
   <div class="flex flex-col gap-8 px-5 py-8 min-w-[400px] max-w-[400px]">
     <h2 class="h2 text-gray-dark">Фільтри</h2>
 
-    <el-radio-group v-model="searchData.carsConditions" class="flex items-center gap-4">
-      <RadioButton
-        v-for="item in searchFiltersOptions.carsConditions"
-        :key="item.value"
+    <el-radio-group v-model="searchStore.searchData.carsConditions" class="flex items-center gap-4">
+      <SearchRadioButton
+        v-for="item in searchStore.searchFilterOptions.carsConditions"
+        :key="item.label"
         :value="item.value"
       >
         {{ item.label }}
-      </RadioButton>
+      </SearchRadioButton>
     </el-radio-group>
 
-    <SearchSectionLayout title="Тип транспорту">
+    <SearchSectionWrapper title="Тип транспорту">
       <AppSelect
-        v-model="searchData.vehicleTypes"
+        v-model="searchStore.searchData.vehicleTypes"
         placeholder="Оберіть тип транспорту"
-        :options="searchFiltersOptions?.vehicleTypes"
+        :options="searchStore.searchFilterOptions?.vehicleTypes"
         key-value="value"
         key-label="label"
         multiple
         collapse-tags
       />
-    </SearchSectionLayout>
+    </SearchSectionWrapper>
 
-    <SearchSectionLayout title="Регіон">
+    <SearchSectionWrapper title="Регіон">
       <AppSelect
-        v-model="searchData.location"
+        v-model="searchStore.searchData.location"
         placeholder="Оберіть регіон"
-        :options="searchFiltersOptions?.location"
+        :options="searchStore.searchFilterOptions?.location"
         key-value="value"
         key-label="label"
         multiple
         collapse-tags
       />
-    </SearchSectionLayout>
+    </SearchSectionWrapper>
 
-    <SearchSectionLayout title="Тип кузова">
+    <SearchSectionWrapper title="Тип кузова">
       <AppSelect
-        v-model="searchData.bodyType"
+        v-model="searchStore.searchData.bodyType"
         placeholder="Оберіть тип кузова"
-        :options="searchFiltersOptions?.bodyType"
+        :options="searchStore.searchFilterOptions?.bodyType"
         key-value="value"
         key-label="label"
         multiple
         collapse-tags
       />
-    </SearchSectionLayout>
+    </SearchSectionWrapper>
 
-    <SliderSection
-      v-model="searchData.price"
+    <SearchSliderSection
+      v-model="searchStore.searchData.price"
       title="Ціна"
-      :min="searchFiltersOptions?.price.min"
-      :max="searchFiltersOptions?.price.max"
+      :min="searchStore.searchFilterOptions?.price.min"
+      :max="searchStore.searchFilterOptions?.price.max"
       :step="500"
       label="$"
     />
 
-    <SliderSection
-      v-model="searchData.mileage"
+    <SearchSliderSection
+      v-model="searchStore.searchData.mileage"
       title="Пробіг"
-      :min="searchFiltersOptions?.mileage.min"
-      :max="searchFiltersOptions?.mileage.max"
+      :min="searchStore.searchFilterOptions?.mileage.min"
+      :max="searchStore.searchFilterOptions?.mileage.max"
       :step="10"
       label="тис.км"
     />
 
-    <SearchSectionLayout title="Марка">
+    <SearchSectionWrapper title="Марка">
       <AppSelect
-        v-model="searchData.brands"
+        v-model="searchStore.searchData.brands"
         placeholder="Оберіть марку"
         key-label="brand"
         key-value="brand"
@@ -76,63 +76,71 @@
         multiple
         collapse-tags
       />
-    </SearchSectionLayout>
+    </SearchSectionWrapper>
 
-    <SearchSectionLayout title="Модель">
+    <SearchSectionWrapper title="Модель">
       <AppSelect
-        v-model="searchData.models"
+        v-model="searchStore.searchData.models"
         placeholder="Оберіть модель"
         group-key-label="brand"
         group-key-value="models"
         key-value="id"
         key-label="model"
-        :options="pickedBrandsModels"
+        :options="searchStore.mappedModels(searchStore.searchData.brands)"
         multiple
         collapse-tags
       />
-    </SearchSectionLayout>
+    </SearchSectionWrapper>
 
-    <YearFilter v-model="searchData" :search-filters-options="searchFiltersOptions" />
+    <SearchYearFilter v-model="searchStore.searchData" :search-filters-options="searchStore.searchFilterOptions" />
 
-    <CheckboxGroup
-      v-model="searchData.transmissionTypes"
+    <SearchCheckboxGroup
+      v-model="searchStore.searchData.transmissionTypes"
       title="Коробка передач"
-      :options="searchFiltersOptions.transmissionTypes"
+      :options="searchStore.searchFilterOptions.transmissionTypes"
     />
-    <CheckboxGroup v-model="searchData.fuelTypes" title="Паливо" :options="searchFiltersOptions.fuelTypes" />
-    <CheckboxGroup v-model="searchData.driveTypes" title="Тип приводу" :options="searchFiltersOptions.driveTypes" />
+    <SearchCheckboxGroup
+      v-model="searchStore.searchData.fuelTypes"
+      title="Паливо"
+      :options="searchStore.searchFilterOptions.fuelTypes"
+    />
+    <SearchCheckboxGroup
+      v-model="searchStore.searchData.driveTypes"
+      title="Тип приводу"
+      :options="searchStore.searchFilterOptions.driveTypes"
+    />
 
-    <EngineFilter v-model="searchData" :search-filters-options="searchFiltersOptions" />
+    <SearchEngineFilter v-model="searchStore.searchData" :search-filters-options="searchStore.searchFilterOptions" />
 
-    <SearchSectionLayout title="Стан">
+    <SearchSectionWrapper title="Стан">
       <AppSelect
-        v-model="searchData.involvedAccident"
+        v-model="searchStore.searchData.involvedAccident"
         placeholder="Участь в дтп"
         key-label="label"
         key-value="value"
-        :options="searchFiltersOptions.involvedAccident"
+        :options="searchStore.searchFilterOptions.involvedAccident"
         multiple
         collapse-tags
       />
       <AppSelect
-        v-model="searchData.techCondition"
+        v-model="searchStore.searchData.techCondition"
         placeholder="Технічний стан"
         key-label="label"
         key-value="value"
-        :options="searchFiltersOptions.techCondition"
+        :options="searchStore.searchFilterOptions.techCondition"
         multiple
         collapse-tags
       />
       <AppSelect
-        v-model="searchData.paintType"
+        v-model="searchStore.searchData.paintType"
         placeholder="Лакофарбове покриття"
         key-label="label"
         key-value="value"
-        :options="searchFiltersOptions.paintType"
+        :options="searchStore.searchFilterOptions.paintType"
         multiple
         collapse-tags
       />
-    </SearchSectionLayout>
+    </SearchSectionWrapper>
 
     <div class="flex flex-col gap-3">
       <AppButton
@@ -140,10 +148,7 @@
         text
         class="hover:!bg-creamy-light body-2"
         icon="icon-filter-off"
-        @click="router.replace({
-          name: routeNames.search,
-          query: {}
-        })"
+        @click="resetFilters"
       >
         Скинути всі фільтри
       </AppButton>
@@ -152,28 +157,19 @@
 </template>
 
 <script setup lang="ts">
-import RadioButton from '@/views/search/components/shared/SearchRadioButton.vue'
-import SearchSectionLayout from '@/views/search/layouts/SearchSectionLayout.vue'
-import CheckboxGroup from '@/views/search/components/SearchCheckboxGroup.vue'
-import SliderSection from '@/views/search/components/SearchSliderSection.vue'
-import EngineFilter from '@/views/search/components/SearchEngineFilter.vue'
-import YearFilter from '@/views/search/components/SearchYearFilter.vue'
 
-import searchService from '@/services/search-service/search.service'
-import { router } from '@/router'
-import { routeNames } from '@/router/route-names'
+import { replaceRouterQuery, routeNames, validateData } from '@/router'
+import { cloneDeep, orderBy } from 'lodash-es'
 
-const searchData = defineModel<ICarsSearchDataExtended>({ required: true })
-const props = defineProps<{
-  searchFiltersOptions: ISearchFiltersOptions
-}>()
+const searchStore = useSearchStore()
 
 const computedSortedBrands = computed(() => {
-  return ([...props.searchFiltersOptions.brands as TTables<'brands'>[]]).sort((a, b) => a.brand.localeCompare(b.brand))
+  return orderBy(searchStore.searchFilterOptions.brands, 'brand', 'asc')
 })
 
-const pickedBrandsModels = computed(() => {
-  return searchService.getPickedModels(searchData.value.brands, props.searchFiltersOptions.models)
-})
+function resetFilters () {
+  searchStore.searchData = cloneDeep(searchStore.defaultSearchData)
+  replaceRouterQuery(routeNames.search, validateData(searchStore.searchData))
+}
 
 </script>
