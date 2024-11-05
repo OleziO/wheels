@@ -40,7 +40,6 @@ withDefaults(
     groupKeyValue?: string
   }>(),
   {
-    grouped: false,
     keyLabel: 'value',
     keyValue: 'value'
   }

@@ -1,21 +1,13 @@
 <template>
   <div v-loading.fullscreen="loading">
-    <HeroSection />
-
-    <SearchSection :search-filters-options="searchFiltersOptions" />
-
-    <SellingSection />
-
-    <PopularSearches />
-
-    <OffersSection :cars-data="cars" :rate="rate" />
-
-    <FavoriteCarsBrandsSection :brands="popularBrands" />
-
-    <UsefulInfoSection />
-
-    <FAQSection />
-
+    <HomeHeroSection />
+    <HomeSearchSection />
+    <HomeSellingSection />
+    <HomePopularSearchesSection />
+    <HomeOffersSection :cars-data="cars" :rate="rate" />
+    <HomeFavoriteBrandsSection :brands="popularBrands" />
+    <HomeUsefulInfoSection />
+    <HomeFAQSection />
     <div class="w-full text-center">
       <RouterLink
         class="text-orange hover:bg-creamy-light mb-12
@@ -30,40 +22,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { moneyService, searchService } from '@/services/index.service'
+import { cloneDeep } from 'lodash-es'
 
-import FavoriteCarsBrandsSection from '@/views/home/components/HomeFavoriteBrandsSection.vue'
-import PopularSearches from '@/views/home/components/HomePopularSearchesSection.vue'
-import UsefulInfoSection from '@/views/home/components/HomeUsefulInfoSection.vue'
-import SellingSection from '@/views/home/components/HomeSellingSection.vue'
-import SearchSection from '@/views/home/components/HomeSearchSection.vue'
-import OffersSection from '@/views/home/components/HomeOffersSection.vue'
-import HeroSection from '@/views/home/components/HomeHeroSection.vue'
-import FAQSection from '@/views/home/components/HomeFAQSection.vue'
-
-import searchService from '@/services/search-service/search.service'
-import moneyService from '@/services/money.service'
+const searchStore = useSearchStore()
 
 const popularBrands = ref<IPopularBrand[]>([])
-const vehicleTypes = ref<TTables<'vehicle_types'>[]>([])
-const price = ref<IRangeOption>({ min: 0, max: 1000000 })
-const cities = ref<TTables<'locations'>[]>([])
-const brands = ref<TTables<'brands'>[]>([])
-const models = ref<TTables<'models'>[]>([])
-const years = ref<IFilterOption[]>([])
 const cars = ref<TCar[]>([])
 const rate = ref(0)
-
-const searchFiltersOptions = computed(() => {
-  return {
-    models: searchService.groupModelsByBrand(brands.value, models.value),
-    vehicleTypes: vehicleTypes.value,
-    brands: brands.value,
-    cities: cities.value,
-    price: price.value,
-    manufactureYear: years.value
-  }
-})
 
 const loading = ref(false)
 
@@ -77,28 +43,19 @@ async function fetchData () {
   cars.value = (carsData as TCar[]) || []
 }
 
-function getFilters () {
-  return searchService.getFilters()
-    .then(([brandsResponse, modelsResponse, locationResponse, vehicleTypesResponse]) => {
-      years.value = searchService.getYears(1940)
-      vehicleTypes.value = vehicleTypesResponse
-      price.value = searchService.price
-      cities.value = locationResponse
-      brands.value = brandsResponse
-      models.value = modelsResponse
-    })
-}
-
-onMounted(async () => {
+async function init () {
+  loading.value = true
   try {
-    loading.value = true
-    await getFilters()
     await fetchData()
-    popularBrands.value = await searchService.getPopularBrands()
+    searchStore.searchData = cloneDeep(searchStore.defaultSearchData)
+    searchStore.getSearchFilterOptions()
+    popularBrands.value = await homeService.getPopularBrands()
   } catch (error) {
     console.error('Error fetching home data:', error)
   } finally {
     loading.value = false
   }
-})
+}
+
+onMounted(init)
 </script>

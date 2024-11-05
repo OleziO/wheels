@@ -7,10 +7,7 @@
         :key="brand.brand"
         class="h-fit w-1/5 shadow hover:scale-110"
         type="icon"
-        @click="router.push({
-          name: $routeNames.search,
-          query: searchService.convertToLocationQueryRaw({brands: brand.brand}
-          )})"
+        @click="replaceRouterQuery($routeNames.search, {brands: brand.brand})"
       >
         <div class="flex flex-col items-center gap-4 p-10 max-w-[220px]">
           <el-image :src="brand.brand_logo || ''" :alt="brand.brand" class="h-14" />
@@ -25,10 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import searchService from '@/services/search-service/search.service'
+import { replaceRouterQuery } from '@/router'
 import SectionLayout from '@/layouts/SectionLayout.vue'
-
-import { router } from '@/router'
 
 defineProps<{
   brands: IPopularBrand[]

@@ -8,10 +8,11 @@ interface IPopularBrand {
 
 interface IFilterOption {
   label: string
-  value: string | boolean
+  value: string | any
 }
 
-interface IMappedCarModel extends TTables<'brands'>{
+interface IMappedCarModel{
+  brand: string
   models: TTables<'models'>[]
 }
 
@@ -30,21 +31,24 @@ interface ICarsSearchData {
   brands: string[]
   models: string[]
   location: string[]
-  manufactureYear: number[]
+  fromManufactureYear: number | null
+  toManufactureYear: number | null
   price: [number, number]
-}
-
-interface ICarsSearchDataExtended extends ICarsSearchData{
   page: number
+  perPage: string
+  sortingType: keyof TCar
+  sortingOrder: 'asc' | 'desc'
   carsConditions: string
   mileage: [number, number]
-  engineVolume: number[]
-  involvedAccident: string[]
+  fromEngineVolume: number | null
+  toEngineVolume: number | null
+  involvedAccident: string[] | null
   techCondition: string[]
   paintType: string[]
   bodyType: string[]
   transmissionTypes: string[]
   driveTypes: string[]
+  search: string
   fuelTypes: string[]
 }
 
@@ -63,9 +67,11 @@ interface ISearchFiltersOptions {
   techCondition: IFilterOption[]
   engineVolume: IFilterOption[]
   paintType: IFilterOption[]
+  perPage: IFilterOption[]
+  sortingTypes: IFilterOption[]
 
   price: IRangeOption
   mileage: IRangeOption
 
-  models: Record<string, IMappedCarModel>
+  models: IMappedCarModel[]
 }

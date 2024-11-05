@@ -3,24 +3,20 @@
     <h4>Об'єм двигуна (л)</h4>
     <div class="flex gap-3 items-center">
       <AppSelect
-        v-model="searchData.engineVolume[0]"
+        v-model="searchType.searchData.fromEngineVolume"
         placeholder="Всі"
-        :options="searchFiltersOptions?.engineVolume"
+        :options="searchType.searchFilterOptions?.engineVolume"
       />
       <p> до </p>
       <AppSelect
-        v-model="searchData.engineVolume[1]"
+        v-model="searchType.searchData.toEngineVolume"
         placeholder="Всі"
-        :options="searchFiltersOptions?.engineVolume"
+        :options="searchType.searchFilterOptions.engineVolume"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  searchFiltersOptions: ISearchFiltersOptions
-}>()
-
-const searchData = defineModel<ICarsSearchDataExtended>({ required: true })
+const searchType = useSearchStore()
 </script>

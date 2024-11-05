@@ -1,6 +1,6 @@
 <template>
   <el-radio-button
-    :value="value"
+    :value="value || ''"
     class="search-radio flex justify-center items-center w-full"
   >
     <slot />
@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  value: string
+  value: string | null
 }>()
 
 </script>

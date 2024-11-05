@@ -7,7 +7,7 @@
         :key="search.title"
         type="line-light"
         :icon="(search.icon as TIcons)"
-        @click="router.push({name: routeNames.search, query: SearchFilters.convertToLocationQueryRaw(search.filters)})"
+        @click="replaceRouterQuery($routeNames.search, search.filters)"
       >
         {{ search.title }}
       </AppButton>
@@ -17,9 +17,7 @@
 
 <script setup lang="ts">
 import SectionLayout from '@/layouts/SectionLayout.vue'
-import SearchFilters from '@/services/search-service/search.service'
-import { router } from '@/router'
-import { routeNames } from '@/router/route-names'
+import { replaceRouterQuery } from '@/router'
 
 interface IPopularSearch{
   title: string

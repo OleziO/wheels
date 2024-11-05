@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import SectionLayout from '@/layouts/SectionLayout.vue'
 
-import { router } from '@/router'
+const router = useRouter()
 
 defineProps<{
   carsData: TCar[]
