@@ -14,7 +14,7 @@
 
     <CarAsideItem class="bg-creamy">
       <div class="flex gap-7">
-        <el-avatar :size="100">
+        <el-avatar class="w-25 h-25 rounded-full overflow-hidden" :src="car.user_profiles!.avatart || ''">
           <div class="w-25 h-25 rounded-full flex justify-center items-center bg-gray-light text-creamy-light">
             <i class="icon-user-3 h2" />
           </div>
@@ -22,7 +22,7 @@
 
         <div class="flex flex-col gap-2.5">
           <p class="secondary text-gravel">Продавець</p>
-          <h4 class="h4 text-gray-dark">Олексій</h4>
+          <h4 class="h4 text-gray-dark">{{ car.user_profiles!.first_name }}</h4>
           <p class="secondary text-gravel">На сайті був <b>22 хв тому</b></p>
         </div>
       </div>
@@ -32,7 +32,9 @@
           Написати в чат
         </AppButton>
 
-        <AppButton type="line-light" icon="icon-phone">Зателефонувати</AppButton>
+        <a :href="`tel:+38${car.user_profiles?.phone}`">
+          <AppButton type="line-light" class="w-full" icon="icon-phone">Зателефонувати</AppButton>
+        </a>
       </div>
     </CarAsideItem>
 
