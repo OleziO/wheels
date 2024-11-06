@@ -3,25 +3,25 @@ class CarService {
     const {
       models,
       mileage,
-      color,
+      car_colors: color,
       headlights,
       manufacture_year: manufactureYear,
       engine_volume: engineVolume,
       engine_power: enginePower,
-      fuel_type: fuelType,
-      transmission_type: transmissionType,
-      drive_type: driveType,
-      paint_condition: paintCondition,
-      technical_condition: technicalCondition,
-      interior_material: interiorMaterial,
-      interior_color: interiorColor,
+      fuel_types: fuelType,
+      transmission_types: transmissionType,
+      drive_types: driveType,
+      paint_conditions: paintCondition,
+      tech_conditions: technicalCondition,
+      interior_materials: interiorMaterial,
+      interior_colors: interiorColor,
       interior_seats_adjustments: interiorSeatsAdjustments,
       heated_seats: heatedSeats,
       electric_windows: electricWindows,
       air_conditioning: airConditioning,
       power_steering: powerSteering,
-      steering_wheel_adjustment: steeringWheelAdjustment,
-      spare_wheel: spareWheel,
+      steering_wheel_adjustments: steeringWheelAdjustment,
+      spare_wheels: spareWheel,
       comfort_features: comfortFeatures,
       safety_features: safetyFeatures,
       multimedia_features: multimediaFeatures,
@@ -45,67 +45,67 @@ class CarService {
       },
       {
         label: 'Пальне',
-        value: fuelType && `${fuelType}`
+        value: fuelType?.label
       },
       {
         label: 'Коробка передач',
-        value: `${transmissionType}`
+        value: transmissionType?.label
       },
       {
         label: 'Привід',
-        value: `${driveType}`
+        value: driveType?.label
       },
       {
         label: 'Колір',
-        value: `${color}`
+        value: color?.label
       },
       {
         label: 'Лакофарбове покриття',
-        value: `${paintCondition}`
+        value: paintCondition?.label
       },
       {
         label: 'Технічний стан',
-        value: `${technicalCondition}`
+        value: technicalCondition?.label
       },
       {
         label: 'Фари',
-        value: `${headlights}`
+        value: headlights?.label
       },
       {
         label: 'Матеріали салону',
-        value: `${interiorMaterial}`
+        value: interiorMaterial?.label
       },
       {
         label: 'Колір салону',
-        value: `${interiorColor}`
+        value: interiorColor?.label
       },
       {
         label: 'Регулювання сидінь салону',
-        value: `${interiorSeatsAdjustments}`
+        value: interiorSeatsAdjustments?.label
       },
       {
         label: 'Підігрів сидінь',
-        value: `${heatedSeats}`
+        value: heatedSeats?.label
       },
       {
         label: 'Електросклопідйомники',
-        value: `${electricWindows}`
+        value: electricWindows?.label
       },
       {
         label: 'Кондиціонер',
-        value: `${airConditioning}`
+        value: airConditioning?.label
       },
       {
         label: 'Підсилювач керма',
-        value: `${powerSteering}`
+        value: powerSteering?.label
       },
       {
         label: 'Регулювання керма',
-        value: `${steeringWheelAdjustment}`
+        value: steeringWheelAdjustment?.label
       },
       {
         label: 'Запасне колесо',
-        value: `${spareWheel}`
+        value: spareWheel?.label
       },
       {
         label: 'Безпека',
@@ -138,7 +138,31 @@ class CarService {
   async getCarData (id: string) {
     const { data } = await supabase
       .from('cars')
-      .select('*, models!inner(*), locations!inner(*)')
+      .select(`
+        *, 
+        models(*), 
+        locations(*), 
+        user_profiles(*),
+        air_conditionings(*),
+        electric_windows(*),
+        heated_seats(*),
+        interior_seats_adjustments(*),
+        interior_colors(*),
+        interior_materials(*),
+        headlights(*),
+        car_colors(*),
+        car_conditions(*),
+        paint_conditions(*),
+        tech_conditions(*),
+        vehicle_types(*),
+        body_types(*),
+        drive_types(*),
+        fuel_types(*),
+        transmission_types(*),
+        spare_wheels(*),
+        steering_wheel_adjustments(*),
+        power_steering(*)
+      `)
       .eq('id', id)
 
     return (data ? data[0] : {}) as TCar
@@ -161,7 +185,7 @@ class CarService {
 
     const result = data && data.length ? data : altData
 
-    return result || []
+    return (result || []) as TCar[]
   }
 }
 

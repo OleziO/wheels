@@ -4,6 +4,7 @@
       ref="mainSlideRef"
       :touchable="false"
       fade
+      lazy
       class="no-shadow mainPicture"
       :autoplay="false"
       :bullets="false"
@@ -22,9 +23,17 @@
             class="w-full h-full flex justify-center"
             fit="cover"
           >
+            <template #placeholder>
+              <el-skeleton class="w-full h-full" loading animated>
+                <template #template>
+                  <el-skeleton-item variant="image" class="w-full h-full" />
+                </template>
+              </el-skeleton>
+            </template>
             <template #error>
               <div class="w-full h-full flex justify-center items-center h1 text-gray-light">
                 <el-image
+                  lazy
                   src="./src/assets/images/car-placeholder.jpg"
                   alt="Car Picture"
                   class="w-full h-full flex justify-center"
@@ -46,6 +55,7 @@
       :bullets="false"
       :gap="2.5"
       fixed-height="130px"
+      lazy
       :arrows="false"
       @slide="mainSlideRef.goToSlide($event.currentSlide.index, { emit: false })"
     >
@@ -54,7 +64,15 @@
         :key="i"
         :image="image"
         @click="secondarySlidesRef.goToSlide(i)"
-      />
+      >
+        <template #loader>
+          <el-skeleton class="w-full h-full" loading animated>
+            <template #template>
+              <el-skeleton-item variant="image" class="w-full h-full" />
+            </template>
+          </el-skeleton>
+        </template>
+      </VueperSlide>
     </VueperSlides>
   </div>
 </template>

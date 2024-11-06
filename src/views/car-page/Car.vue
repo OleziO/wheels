@@ -64,7 +64,7 @@
         <div class="mt-12.5">
           <div class="flex items-center gap-14 mb-10 text-gray-dark">
             <h4 class="h4">Зв’язатись з продавцем:</h4>
-            <h3 class="h3">Олексій</h3>
+            <h3 class="h3">{{ car.user_profiles!.first_name }}</h3>
           </div>
 
           <div class="flex gap-5 justify-between">
@@ -103,8 +103,8 @@ const mainCarInfo = ref<IFilterOption[]>([])
 
 const headerCarInfo = computed(() => [
   { text: `${car.value!.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
-  { text: car.value!.fuel_type, icon: 'icon-oil' },
-  { text: car.value!.transmission_type, icon: 'icon-steering-fill' },
+  { text: car.value!.fuel_types?.label, icon: 'icon-oil' },
+  { text: car.value!.transmission_types?.label, icon: 'icon-steering-fill' },
   { text: car.value!.locations.label || 'Україна', icon: 'icon-map-pin-2' }
 ])
 
@@ -112,7 +112,7 @@ async function init () {
   loading.value = true
   try {
     car.value = await carService.getCarData(props.query.id)
-    recomendedCars.value = await carService.getRecomendedCars(car.value.price, car.value.id)
+    recomendedCars.value = await carService.getRecomendedCars(car.value!.price || 0, car.value!.id)
     mainCarInfo.value = carService.getMainInfo(car.value)
     rate.value = await moneyService.getUSDtoUAH()
     location.value = await locationApi.getLocationUrl(car.value!.location)
