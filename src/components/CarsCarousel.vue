@@ -6,7 +6,7 @@
     arrowsOutside
     disableArrowsOnEdges
     :bullets="false"
-    :gap="1"
+    :gap="2"
     fixedHeight="520px"
     :touchable="false"
   >

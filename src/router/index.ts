@@ -38,7 +38,7 @@ export const validateData = function (searchData: ICarsSearchData) {
 export const replaceRouterQuery = function (routeName: string, obj: any) {
   const currentRouteName = router.currentRoute.value.name
   const routerQuery = router.currentRoute.value.query
-  const query = validateData({ ...routerQuery, ...obj })
+  const query = validateData({ ...obj })
 
   if (JSON.stringify(routerQuery) !== JSON.stringify(query)) {
     router.replace({ name: routeName || currentRouteName, query })

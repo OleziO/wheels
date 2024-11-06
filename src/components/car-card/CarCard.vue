@@ -6,7 +6,7 @@
   >
     <div class="w-full h-[320px] overflow-hidden">
       <el-image
-        :src="car.car_picture || ''"
+        :src="car.car_pictures ? car.car_pictures[0] : ''"
         alt="Car Picture"
         class="w-full h-full flex justify-center"
         fit="cover"
@@ -27,9 +27,9 @@
     <div class="card-label absolute top-5 z-50 w-full">
       <span>
         <div v-if="car.vin" class="relative h-fit bg-blue-light py-2 px-4">
-          <p class="text-white body-2 whitespace-nowrap">Перевірений VIN-код</p>
+          <p class="inline-flex text-white body-2 whitespace-nowrap">Перевірений VIN-код</p>
           <span
-            class="absolute right-0 top-0 translate-x-full
+            class="inline-flex absolute right-0 top-0 translate-x-full
       border-y-[20px] border-y-transparent border-l-[15px] border-l-blue-light"
           />
         </div>
@@ -91,7 +91,7 @@ const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(pro
 
 const carInfo = computed(() => [
   { text: `${props.car.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
-  { text: props.car.location || 'Україна', icon: 'icon-map-pin-2' },
+  { text: props.car.locations.label || 'Україна', icon: 'icon-map-pin-2' },
   { text: props.car.fuel_type, icon: 'icon-oil' },
   { text: props.car.transmission_type, icon: 'icon-steering-fill' }
 ])

@@ -200,17 +200,6 @@ class SearchService {
     return this.fetchFromTable<TTables<'paint_conditions'>>('paint_conditions')
   }
 
-  async getPopularCars () {
-    const { data } = await supabase
-      .from('cars')
-      .select(`
-        *,
-        models (*)`)
-      .limit(9)
-
-    return data
-  }
-
   async getLocations (): Promise<TTables<'locations'>[]> {
     const { data } = await supabase
       .from('locations')
@@ -255,7 +244,7 @@ class SearchService {
   ) {
     let queryReq = supabase
       .from('cars')
-      .select('*, models!inner(*)', selectOptions)
+      .select('*, models!inner(*), locations!inner(*)', selectOptions)
       .order('created_at', { ascending: false })
 
     for (const field in filters) {

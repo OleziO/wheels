@@ -38,15 +38,13 @@ import { routeNames } from '@/router/route-names'
 const navLinks = [
   { path: routeNames.search, label: 'Купити' },
   { path: routeNames.create, label: 'Продати' },
-  { path: routeNames.finances, label: 'Фінанси' },
   { path: routeNames.top, label: 'ТОП-100' },
   { path: routeNames.auction, label: 'Аукціон' }
 ]
 
 const iconLinks = [
   { path: routeNames.favorites, icon: 'icon-heart', hoverIcon: 'icon-heart-fill' },
-  { path: routeNames.chats, icon: 'icon-question-answer', hoverIcon: 'icon-question-answer-fill', count: 5 },
-  { path: routeNames.home, icon: 'icon-notification-3', hoverIcon: 'icon-notification-3-fill', count: 3 }
+  { path: routeNames.chats, icon: 'icon-question-answer', hoverIcon: 'icon-question-answer-fill', count: 5 }
 ]
 
 </script>

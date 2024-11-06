@@ -19,5 +19,5 @@ class Currency {
     return await axios.get(this.url)
   }
 }
-
-export default new Currency()
+const currencyApi = new Currency()
+export default currencyApi
