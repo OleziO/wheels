@@ -335,6 +335,7 @@
     "carsService": true,
     "useSearchStore": true,
     "homeService": true,
-    "indexService": true
+    "indexService": true,
+    "carService": true
   }
 }

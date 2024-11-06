@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { moneyService, searchService } from '@/services/index.service'
+import { moneyService } from '@/services/index.service'
 import { cloneDeep } from 'lodash-es'
 
 const searchStore = useSearchStore()
@@ -36,7 +36,7 @@ const loading = ref(false)
 async function fetchData () {
   const [rateData, carsData] = await Promise.all([
     moneyService.getUSDtoUAH(),
-    searchService.getPopularCars()
+    homeService.getPopularCars()
   ])
 
   rate.value = rateData || 0

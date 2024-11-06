@@ -14,7 +14,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/car',
     name: routeNames.car,
-    component: () => import('@/views/Car.vue')
+    component: () => import('@/views/car-page/Car.vue'),
+    props: (route) => ({ query: route.query })
   },
   {
     path: '/create',

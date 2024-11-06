@@ -1,5 +1,5 @@
+import currencyApi from '@/api/currency'
 import { useI18n } from 'vue-i18n'
-import currency from '@/api/currency'
 
 class MoneyService {
   rate: number
@@ -10,7 +10,7 @@ class MoneyService {
 
   async getUSDtoUAH () {
     if (!this.rate) {
-      const response = await currency.rateUSD()
+      const response = await currencyApi.rateUSD()
       this.rate = response.data[0].rate as number
     }
 
