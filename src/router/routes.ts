@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/create',
     name: routeNames.create,
-    component: () => import('@/views/Create.vue')
+    component: () => import('@/views/create-page/Create.vue')
   },
   {
     path: '/search',

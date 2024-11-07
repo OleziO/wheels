@@ -64,7 +64,7 @@
         <div class="mt-12.5">
           <div class="flex items-center gap-14 mb-10 text-gray-dark">
             <h4 class="h4">Зв’язатись з продавцем:</h4>
-            <h3 class="h3">{{ car.user_profiles!.first_name }}</h3>
+            <h3 class="h3">{{ car.user_profiles?.first_name || "Безіменний" }}</h3>
           </div>
 
           <div class="flex gap-5 justify-between">

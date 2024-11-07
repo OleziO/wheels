@@ -39,3 +39,7 @@
     }
   }
 }
+
+.el-textarea .el-input__count {
+  @apply text-creamy-dark bg-creamy-light;
+}

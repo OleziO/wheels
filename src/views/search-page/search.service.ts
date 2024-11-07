@@ -170,8 +170,76 @@ class SearchService {
     return this.fetchFromTable<TTables<'transmission_types'>>('transmission_types')
   }
 
+  async getAirConditioning (): Promise<TTables<'air_conditioning'>[]> {
+    return this.fetchFromTable<TTables<'air_conditioning'>>('air_conditioning')
+  }
+
+  async getElectricWindows (): Promise<TTables<'electric_windows'>[]> {
+    return this.fetchFromTable<TTables<'electric_windows'>>('electric_windows')
+  }
+
+  async getInteriorMaterials (): Promise<TTables<'interior_materials'>[]> {
+    return this.fetchFromTable<TTables<'interior_materials'>>('interior_materials')
+  }
+
+  async getInteriorColors (): Promise<TTables<'interior_colors'>[]> {
+    return this.fetchFromTable<TTables<'interior_colors'>>('interior_colors')
+  }
+
+  async getPowerSteering (): Promise<TTables<'power_steering'>[]> {
+    return this.fetchFromTable<TTables<'power_steering'>>('power_steering')
+  }
+
+  async getSteeringWheelAdjustments (): Promise<TTables<'steering_wheel_adjustments'>[]> {
+    return this.fetchFromTable<TTables<'steering_wheel_adjustments'>>('steering_wheel_adjustments')
+  }
+
+  async getSpareWheels (): Promise<TTables<'spare_wheels'>[]> {
+    return this.fetchFromTable<TTables<'spare_wheels'>>('spare_wheels')
+  }
+
+  async getHeadlights (): Promise<TTables<'headlights'>[]> {
+    return this.fetchFromTable<TTables<'headlighst'>>('headlights')
+  }
+
+  async getInteriorSeatsAdjustments (): Promise<TTables<'interior_seats_adjustments'>[]> {
+    return this.fetchFromTable<TTables<'interior_seats_adjustments'>>('interior_seats_adjustments')
+  }
+
+  async getHeatedSeats (): Promise<TTables<'heated_seats'>[]> {
+    return this.fetchFromTable<TTables<'heated_seats'>>('heated_seats')
+  }
+
+  async getSafetyFeatures (): Promise<TTables<'safety_features'>[]> {
+    return this.fetchFromTable<TTables<'safety_features'>>('safety_features')
+  }
+
+  async getComformFeatures (): Promise<TTables<'comfort_features'>[]> {
+    return this.fetchFromTable<TTables<'comfort_features'>>('comfort_features')
+  }
+
+  async getMultimediaFeatures (): Promise<TTables<'multimedia_features'>[]> {
+    return this.fetchFromTable<TTables<'multimedia_features'>>('multimedia_features')
+  }
+
+  async getOpticFeatures (): Promise<TTables<'optic_features'>[]> {
+    return this.fetchFromTable<TTables<'optic_features'>>('optic_features')
+  }
+
+  async getAirbagFeatures (): Promise<TTables<'airbag_features'>[]> {
+    return this.fetchFromTable<TTables<'airbag_features'>>('airbag_features')
+  }
+
+  async getParkingFeatures (): Promise<TTables<'parking_assistance'>[]> {
+    return this.fetchFromTable<TTables<'parking_assistance'>>('parking_assistance')
+  }
+
   async getBrands (): Promise<TTables<'brands'>[]> {
     return this.fetchFromTable<TTables<'brands'>>('brands')
+  }
+
+  async getColors (): Promise<TTables<'car_colors'>[]> {
+    return this.fetchFromTable<TTables<'car_colors'>>('car_colors')
   }
 
   async getFuelTypes (): Promise<TTables<'fuel_types'>[]> {

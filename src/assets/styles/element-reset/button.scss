@@ -1,6 +1,10 @@
 .el-button {
   @apply button-text;
 
+  &:disabled {
+    @apply opacity-65;
+  }
+
   & + & {
     margin-left: 0;
   }

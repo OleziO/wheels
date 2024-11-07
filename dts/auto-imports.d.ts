@@ -6,6 +6,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -24,6 +25,7 @@ declare global {
   const createPinia: typeof import('pinia')['createPinia']
   const createReactiveFn: typeof import('@vueuse/core')['createReactiveFn']
   const createReusableTemplate: typeof import('@vueuse/core')['createReusableTemplate']
+  const createService: typeof import('../src/views/create-page/create.service')['default']
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
@@ -155,6 +157,7 @@ declare global {
   const useColorMode: typeof import('@vueuse/core')['useColorMode']
   const useConfirmDialog: typeof import('@vueuse/core')['useConfirmDialog']
   const useCounter: typeof import('@vueuse/core')['useCounter']
+  const useCreate: typeof import('../src/views/create-page/create.store')['useCreate']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVar: typeof import('@vueuse/core')['useCssVar']
   const useCssVars: typeof import('vue')['useCssVars']

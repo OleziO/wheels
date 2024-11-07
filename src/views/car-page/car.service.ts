@@ -143,7 +143,7 @@ class CarService {
         models(*), 
         locations(*), 
         user_profiles(*),
-        air_conditionings(*),
+        air_conditioning(*),
         electric_windows(*),
         heated_seats(*),
         interior_seats_adjustments(*),
