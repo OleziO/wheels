@@ -58,8 +58,10 @@ class AuthService {
   }
 
   async logout () {
+    const userStore = useGeneralStore()
     await supabase.auth.signOut()
     localStorage.removeItem('userData')
+    userStore.user = null
   }
 }
 
