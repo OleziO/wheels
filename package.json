@@ -20,6 +20,7 @@
     "date-fns": "^4.1.0",
     "element-plus": "^2.7.6",
     "lodash-es": "^4.17.21",
+    "maska": "^3.0.3",
     "pinia": "^2.1.7",
     "portal-vue": "^3.0.0",
     "vue": "^3.4.31",
