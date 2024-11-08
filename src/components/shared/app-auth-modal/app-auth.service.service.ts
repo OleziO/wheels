@@ -30,6 +30,7 @@ class AuthService {
     if (error) throw error
 
     userStore.user = data.user?.user_metadata as IUser
+    localStorage.setItem('userData', JSON.stringify(userStore.user))
 
     return data
   }
@@ -45,6 +46,7 @@ class AuthService {
     if (error) throw error
 
     userStore.user = data.user?.user_metadata as IUser
+    localStorage.setItem('userData', JSON.stringify(userStore.user))
 
     return data
   }
@@ -57,6 +59,7 @@ class AuthService {
 
   async logout () {
     await supabase.auth.signOut()
+    localStorage.removeItem('userData')
   }
 }
 
