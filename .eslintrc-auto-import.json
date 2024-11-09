@@ -337,6 +337,8 @@
     "homeService": true,
     "indexService": true,
     "carService": true,
-    "ElNotification": true
+    "ElNotification": true,
+    "authServiceService": true,
+    "useAuthStore": true
   }
 }

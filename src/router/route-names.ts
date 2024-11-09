@@ -12,8 +12,3 @@ export const routeNames = {
   uikit: 'uikit',
   car: 'car'
 }
-
-export const privateRouteNames = [
-  routeNames.auction, routeNames.create, routeNames.profile, routeNames.favorites, routeNames.chats, routeNames.uikit
-
-]

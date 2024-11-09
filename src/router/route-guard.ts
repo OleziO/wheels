@@ -1,7 +1,6 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
-import { privateRouteNames } from './route-names'
-import authService from '@/components/shared/app-auth-modal/app-auth.service.service'
-import { useAuthStore } from '@/components/shared/app-auth-modal/app-auth.store'
+import authService from '@/views/auth/auth.service.service'
+import { useAuthStore } from '@/views/auth/auth.store'
 
 export const routeGuard = async (
   to: RouteLocationNormalized,
@@ -11,16 +10,13 @@ export const routeGuard = async (
   const session = await authService.getSession()
   const authStore = useAuthStore()
 
-  if (
-    !session.session &&
-    privateRouteNames.includes(to.name as string)
-  ) {
+  if (to.meta.isAuthProtected && !session.session) {
     localStorage.setItem('redirectAfterLogin', to.name as string)
     authStore.showAuthModal = true
     return next('/')
   }
 
-  if (!session.session) authService.logout()
+  if (!session.session) authStore.logout()
 
   next()
 }

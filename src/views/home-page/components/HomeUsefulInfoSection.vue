@@ -1,5 +1,5 @@
 <template>
-  <SectionLayout class="bg-green-dark relative !max-w-full py-11 ">
+  <HomeSectionWrapper class="bg-green-dark relative !max-w-full py-11 ">
     <div class="max-w-[1240px] mx-auto">
       <h2 class="!text-creamy !mb-6">Важливо про автомобілі</h2>
 
@@ -18,11 +18,11 @@
 
       <el-image :src="handImagePath" class="absolute bottom-0 right-[1vw] h-full" />
     </div>
-  </SectionLayout>
+  </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">
-import SectionLayout from '@/layouts/SectionLayout.vue'
+import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.vue'
 
 const handImagePath = 'src/assets/images/home-page/hand.png'
 

@@ -14,7 +14,7 @@
       </ul>
     </nav>
     <div class="flex gap-[50px] items-center">
-      <ul v-if="userStore.user" class="flex gap-5 text-5 text-xl">
+      <ul v-if="authStore.user" class="flex gap-5 text-5 text-xl">
         <li v-for="(link, index) in iconLinks" :key="index">
           <AppRouterLink :to="link.path" :underlined="false">
             <el-badge :value="link.count" :max="99">
@@ -25,7 +25,7 @@
       </ul>
 
       <AppButton
-        v-if="!generalSotre.user"
+        v-if="!authStore.user"
         type="line-light"
         class="!rounded-[50px] h-10 body-1"
         icon="icon-user-3"
@@ -40,7 +40,7 @@
           class="!rounded-[50px] h-10 body-1"
           icon="icon-user-3"
         >
-          {{ generalSotre.user.first_name }} {{ generalSotre.user.last_name }}
+          {{ authStore.user.first_name }} {{ authStore.user.last_name }}
         </AppButton>
         <template #dropdown>
           <el-dropdown-menu>
@@ -73,18 +73,16 @@
     </div>
   </header>
 
-  <AppAuthModal v-model="authStore.showAuthModal" />
+  <AuthModal v-model="authStore.showAuthModal" />
 </template>
 
 <script setup lang="ts">
 import Logo from '@/assets/images/Logo.vue'
 import { routeNames } from '@/router/route-names'
-import { useAuthStore } from '../app-auth-modal/app-auth.store'
-import authService from '../app-auth-modal/app-auth.service.service'
+import { useAuthStore } from '@/views/auth/auth.store'
+import AuthModal from '@/views/auth/AuthModal.vue'
 
 const authStore = useAuthStore()
-const userStore = useGeneralStore()
-const generalSotre = useGeneralStore()
 
 const navLinks = [
   { path: routeNames.search, label: 'Купити' },
@@ -98,10 +96,7 @@ const iconLinks = [
 ]
 
 async function handleLogout () {
-  userStore.user = null
-
-  await authService.logout()
-
+  await authStore.logout()
   window.location.href = '/'
 }
 

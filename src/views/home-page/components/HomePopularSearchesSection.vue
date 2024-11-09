@@ -1,5 +1,5 @@
 <template>
-  <SectionLayout>
+  <HomeSectionWrapper>
     <h2>Популярні пошукові запити</h2>
     <div class="grid grid-cols-4 gap-5">
       <AppButton
@@ -12,11 +12,11 @@
         {{ search.title }}
       </AppButton>
     </div>
-  </SectionLayout>
+  </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">
-import SectionLayout from '@/layouts/SectionLayout.vue'
+import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.vue'
 import { replaceRouterQuery } from '@/router'
 
 interface IPopularSearch{

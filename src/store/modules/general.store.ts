@@ -1,8 +1,6 @@
 export const useGeneralStore = defineStore('generalStore', () => {
-  const user = ref<IUser | null>(null)
-
   return {
-    user
+
   }
 })
 

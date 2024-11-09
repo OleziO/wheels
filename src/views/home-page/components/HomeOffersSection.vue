@@ -1,5 +1,5 @@
 <template>
-  <SectionLayout>
+  <HomeSectionWrapper>
     <h2>Найновіші з пропозицій</h2>
     <div>
       <CarsCarousel
@@ -16,11 +16,11 @@
       Більше пропозицій
       <icon class="icon-arrow-right-down text-xs" />
     </AppButton>
-  </SectionLayout>
+  </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">
-import SectionLayout from '@/layouts/SectionLayout.vue'
+import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.vue'
 
 const router = useRouter()
 

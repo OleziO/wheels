@@ -7,10 +7,11 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/views/auth/auth.store'
 
-const generalSotre = useGeneralStore()
+const authStore = useAuthStore()
 const userData = localStorage.getItem('userData')
 
-if (userData) generalSotre.user = JSON.parse(userData)
+if (userData) authStore.user = JSON.parse(userData)
 
 </script>
