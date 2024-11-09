@@ -35,11 +35,9 @@ async function handleSubmit (data: ISignIn | ISignUp) {
     const session = await authService.getSession()
 
     if (session.session) {
-      const redirectPath = localStorage.getItem('redirectAfterLogin')
-
-      if (redirectPath) {
-        localStorage.removeItem('redirectAfterLogin')
-        router.push({ name: redirectPath })
+      if (authStore.redirectLink) {
+        router.push({ name: authStore.redirectLink })
+        authStore.redirectLink = null
       }
     }
 

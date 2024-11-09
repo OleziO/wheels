@@ -3,6 +3,7 @@ import authService from './auth.service.service'
 export const useAuthStore = defineStore('authStore', () => {
   const user = ref<IUser | null>(null)
   const showAuthModal = ref(false)
+  const redirectLink = ref<string | null>(null)
 
   async function signIn (loginData: ISignIn) {
     user.value = (await authService.signIn(loginData)).user.user_metadata as IUser
@@ -22,6 +23,7 @@ export const useAuthStore = defineStore('authStore', () => {
   return {
     showAuthModal,
     user,
+    redirectLink,
     signIn,
     signUp,
     logout

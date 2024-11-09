@@ -11,9 +11,9 @@ export const routeGuard = async (
   const authStore = useAuthStore()
 
   if (to.meta.isAuthProtected && !session.session) {
-    localStorage.setItem('redirectAfterLogin', to.name as string)
+    authStore.redirectLink = to.name as string
     authStore.showAuthModal = true
-    return next('/')
+    return next(from.name as string)
   }
 
   if (!session.session) authStore.logout()
