@@ -1,5 +1,5 @@
 <template>
-  <SectionLayout>
+  <HomeSectionWrapper>
     <el-checkbox-group v-model="data" class="grid grid-cols-4 gap-x-5 gap-y-8">
       <SearchCheckboxButton
         v-for="item in vehicleTypes"
@@ -9,7 +9,7 @@
         {{ item.label }}
       </SearChcheckboxButton>
     </el-checkbox-group>
-  </SectionLayout>
+  </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">

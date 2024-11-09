@@ -49,3 +49,13 @@
     @apply bg-transparent text-blue p-0 h-fit;
   }
 }
+
+.menuBtutton {
+  &.text {
+    &:hover {
+      span {
+        @apply no-underline;
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ export const routeNames = {
   rootPage: 'rootPage',
   home: 'home',
   search: 'search',
-  top: 'topRated',
+  top: 'top-rated',
   finances: 'finances',
   auction: 'auction',
   create: 'createCar',

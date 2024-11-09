@@ -1,5 +1,5 @@
 <template>
-  <SectionLayout class="mb-12.5">
+  <HomeSectionWrapper class="mb-12.5">
     <h2>Шукайте улюблені бренди</h2>
     <div class="flex gap-9 mx-auto">
       <AppButton
@@ -18,12 +18,12 @@
         </div>
       </AppButton>
     </div>
-  </SectionLayout>
+  </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">
 import { replaceRouterQuery } from '@/router'
-import SectionLayout from '@/layouts/SectionLayout.vue'
+import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.vue'
 
 defineProps<{
   brands: IPopularBrand[]

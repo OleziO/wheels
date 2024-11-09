@@ -6,6 +6,7 @@ html,
 body,
 #app {
   @apply h-full font-roboto bg-creamy-light box-border;
+  scrollbar-gutter: stable;
 }
 
 html {
@@ -14,9 +15,13 @@ html {
 }
 
 body {
-  @apply text-base;
+  @apply text-base w-full #{!important};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+  scrollbar-gutter: stable;
 }
 
 img, svg {

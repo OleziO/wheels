@@ -20,18 +20,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/create',
     name: routeNames.create,
-    component: () => import('@/views/Create.vue')
+    component: () => import('@/views/Create.vue'),
+    meta: { isAuthProtected: true }
   },
   {
     path: '/search',
     name: routeNames.search,
     component: () => import('@/views/search-page/Search.vue'),
     props: (route) => ({ query: route.query })
-  },
-  {
-    path: '/finances',
-    name: routeNames.finances,
-    component: () => import('@/views/Finances.vue')
   },
   {
     path: '/top-rated',
@@ -41,27 +37,32 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/auction',
     name: routeNames.auction,
-    component: () => import('@/views/Auction.vue')
+    component: () => import('@/views/Auction.vue'),
+    meta: { isAuthProtected: true }
   },
   {
     path: '/favorites',
     name: routeNames.favorites,
-    component: () => import('@/views/Favorites.vue')
+    component: () => import('@/views/Favorites.vue'),
+    meta: { isAuthProtected: true }
   },
   {
     path: '/profile',
     name: routeNames.profile,
-    component: () => import('@/views/Profile.vue')
+    component: () => import('@/views/Profile.vue'),
+    meta: { isAuthProtected: true }
   },
   {
     path: '/chats',
     name: routeNames.chats,
-    component: () => import('@/views/Chats.vue')
+    component: () => import('@/views/Chats.vue'),
+    meta: { isAuthProtected: true }
   },
   {
     path: '/uikit',
     name: routeNames.uikit,
-    component: () => import('@/views/UiKit.vue')
+    component: () => import('@/views/UiKit.vue'),
+    meta: { isAuthProtected: true }
   }
 ]
 

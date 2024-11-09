@@ -21,13 +21,7 @@ class CarService {
       air_conditioning: airConditioning,
       power_steering: powerSteering,
       steering_wheel_adjustments: steeringWheelAdjustment,
-      spare_wheels: spareWheel,
-      comfort_features: comfortFeatures,
-      safety_features: safetyFeatures,
-      multimedia_features: multimediaFeatures,
-      optic_features: opticFeatures,
-      parking_assistance: parkingAssistance,
-      airbag_features: airbagFeatures
+      spare_wheels: spareWheel
     } = car ?? {}
 
     return [
@@ -106,30 +100,6 @@ class CarService {
       {
         label: 'Запасне колесо',
         value: spareWheel?.label
-      },
-      {
-        label: 'Безпека',
-        value: safetyFeatures?.join(' • ')
-      },
-      {
-        label: 'Салон та комфорт',
-        value: comfortFeatures?.join(' • ')
-      },
-      {
-        label: 'Мультимедіа',
-        value: multimediaFeatures?.join(' • ')
-      },
-      {
-        label: 'Оптика',
-        value: opticFeatures?.join(' • ')
-      },
-      {
-        label: 'Система допомоги при паркуванні',
-        value: parkingAssistance?.join(' • ')
-      },
-      {
-        label: 'Подушки безпеки',
-        value: airbagFeatures?.join(' • ')
       }
 
     ].filter(item => item.value && item.value !== 'null')
@@ -143,7 +113,7 @@ class CarService {
         models(*), 
         locations(*), 
         user_profiles(*),
-        air_conditionings(*),
+        air_conditioning(*),
         electric_windows(*),
         heated_seats(*),
         interior_seats_adjustments(*),

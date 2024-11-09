@@ -131,5 +131,5 @@ export const useSearchStore = defineStore('searchStore', () => {
 })
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useGeneralStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useSearchStore, import.meta.hot))
 }
