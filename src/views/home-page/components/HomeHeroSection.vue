@@ -1,6 +1,6 @@
 <template>
   <section
-    class="relative w-full bg-green-dark flex pl-25 py-19 text-creamy h-[630px]"
+    class="relative w-full bg-green-dark flex pl-25 py-19 text-creamy h-[calc(100vh-64px)]"
   >
     <div class="flex flex-col gap-4 w-2/3">
       <h1

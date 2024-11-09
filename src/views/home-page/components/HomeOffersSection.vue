@@ -1,7 +1,7 @@
 <template>
   <SectionLayout>
     <h2>Найновіші з пропозицій</h2>
-    <div class="max-w-[1240px] mx-auto">
+    <div>
       <CarsCarousel
         :cars="carsData"
         :rate="rate"

@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full h-24 flex justify-between items-center gap-2 px-25">
+  <header class="w-full h-16 flex justify-between items-center gap-2 px-25 fixed bg-creamy-light z-50">
     <nav class="flex items-center h-full gap-12">
       <AppRouterLink :to="routeNames.home" :underlined="false">
         <Logo />
