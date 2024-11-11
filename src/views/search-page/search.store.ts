@@ -2,7 +2,7 @@ import searchService from '@/views/search-page/search.service'
 import { cloneDeep } from 'lodash-es'
 
 export const useSearchStore = defineStore('searchStore', () => {
-  const isFetchedSearcFilters = ref(false)
+  const isFetchedSearchFilters = ref(false)
   const defaultSearchData: ICarsSearchData = {
     involvedAccident: null,
     fromManufactureYear: null,
@@ -55,7 +55,7 @@ export const useSearchStore = defineStore('searchStore', () => {
     headlights: [],
     heatedSeats: [],
     safetyFeature: [],
-    comformFeatures: [],
+    comfortFeatures: [],
     multimediaFeatures: [],
     opticFeatures: [],
     parkingFeatures: [],
@@ -70,7 +70,7 @@ export const useSearchStore = defineStore('searchStore', () => {
   })
 
   async function getSearchFilterOptions () {
-    if (isFetchedSearcFilters.value) return searchFilterOptions.value
+    if (isFetchedSearchFilters.value) return searchFilterOptions.value
 
     const [
       brands,
@@ -96,7 +96,7 @@ export const useSearchStore = defineStore('searchStore', () => {
       interiorSeatsAdjustments,
       heatedSeats,
       safetyFeature,
-      comformFeatures,
+      comfortFeatures,
       multimediaFeatures,
       opticFeatures,
       parkingFeatures,
@@ -125,7 +125,7 @@ export const useSearchStore = defineStore('searchStore', () => {
       searchService.getInteriorSeatsAdjustments(),
       searchService.getHeatedSeats(),
       searchService.getSafetyFeatures(),
-      searchService.getComformFeatures(),
+      searchService.getComfortFeatures(),
       searchService.getMultimediaFeatures(),
       searchService.getOpticFeatures(),
       searchService.getParkingFeatures(),
@@ -157,14 +157,14 @@ export const useSearchStore = defineStore('searchStore', () => {
       interiorSeatsAdjustments,
       heatedSeats,
       safetyFeature,
-      comformFeatures,
+      comfortFeatures,
       multimediaFeatures,
       opticFeatures,
       parkingFeatures,
       airbagFeatures
     }
 
-    isFetchedSearcFilters.value = true
+    isFetchedSearchFilters.value = true
   }
 
   function setSearchDataFromQuery (query: ICarsSearchData) {
@@ -199,5 +199,5 @@ export const useSearchStore = defineStore('searchStore', () => {
 })
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useGeneralStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useSearchStore, import.meta.hot))
 }

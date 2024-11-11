@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full border border-b-creamy-dark pb-12.5">
+  <div class="w-full border-b border-b-creamy-dark pb-12.5">
     <div class="flex gap-7 items-center">
       <div class="bg-orange w-10 h-10 flex justify-center items-center rounded-full text-creamy-light">
         {{ sectionNumber }}

@@ -1,6 +1,6 @@
 <template>
   <el-input v-model="model">
-    <template #append>
+    <template v-if="withButton" #append>
       <slot />
     </template>
   </el-input>
@@ -8,5 +8,9 @@
 
 <script setup lang="ts">
 
-const model = defineModel<string>('')
+defineProps<{
+  withButton?: boolean
+}>()
+
+const model = defineModel<string | number>()
 </script>

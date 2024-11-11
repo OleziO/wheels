@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-const create = useCreate()
+const create = useCreateStore()
 const visible = defineModel<boolean>()
 const imageValue = ref<string>('')
 
@@ -29,7 +29,7 @@ function handleCancel () {
 }
 
 function handleSubmit () {
-  create.createData.carPictures.push(imageValue.value)
+  create.createData.car_pictures.push(imageValue.value)
   imageValue.value = ''
   visible.value = false
 }

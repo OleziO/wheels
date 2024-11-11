@@ -1,9 +1,9 @@
 <template>
-  <SectionLayout class="bg-green-dark relative">
-    <div class="px-25 pt-8 pb-11">
+  <HomeSectionWrapper class="bg-green-dark relative !max-w-full py-11 ">
+    <div class="max-w-[1240px] mx-auto">
       <h2 class="!text-creamy !mb-6">Важливо про автомобілі</h2>
 
-      <ul class="flex flex-col gap-5 ml-25 relative z-50">
+      <ul class="flex flex-col gap-5 ml-12.5 relative z-50">
         <li v-for="linkData in usefulLinks" :key="linkData.title" class="link-item text-creamy-light">
           <el-link :href="linkData.link" target="_blank" :underline="false">
             <span
@@ -16,13 +16,13 @@
         </li>
       </ul>
 
-      <el-image :src="handImagePath" class="absolute bottom-0 right-[120px] h-full" />
+      <el-image :src="handImagePath" class="absolute bottom-0 right-[1vw] h-full" />
     </div>
-  </SectionLayout>
+  </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">
-import SectionLayout from '@/layouts/SectionLayout.vue'
+import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.vue'
 
 const handImagePath = 'src/assets/images/home-page/hand.png'
 

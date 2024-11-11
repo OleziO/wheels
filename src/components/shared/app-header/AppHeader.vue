@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full h-24 flex justify-between items-center gap-2 px-25">
+  <header class="w-full h-16 flex justify-between items-center gap-2 px-25 bg-creamy-light z-50">
     <nav class="flex items-center h-full gap-12">
       <AppRouterLink :to="routeNames.home" :underlined="false">
         <Logo />
@@ -14,26 +14,80 @@
       </ul>
     </nav>
     <div class="flex gap-[50px] items-center">
-      <ul class="flex gap-5 text-5 text-xl">
+      <ul v-if="authStore.user" class="flex gap-5 text-5 text-xl">
         <li v-for="(link, index) in iconLinks" :key="index">
           <AppRouterLink :to="link.path" :underlined="false">
-            <IconButton :icon="link.icon as TIcons" :hover-icon="link.hoverIcon as TIcons" :count="link.count" />
+            <el-badge :value="link.count" :max="99">
+              <el-tooltip
+                content="Чати"
+                placement="bottom"
+              >
+                <IconButton :icon="(link.icon as TIcons)" :hover-icon="(link.hoverIcon as TIcons)" />
+              </el-tooltip>
+            </el-badge>
           </AppRouterLink>
         </li>
       </ul>
 
-      <AppRouterLink :to="routeNames.profile" :underlined="false">
-        <AppButton type="line-light" class="!rounded-[50px] h-10 body-1" icon="icon-user-3">
-          Особистий кабінет
+      <AppButton
+        v-if="!authStore.user"
+        type="line-light"
+        class="!rounded-[50px] h-10 body-1"
+        icon="icon-user-3"
+        @click="authStore.showAuthModal = true"
+      >
+        Особистий кабінет
+      </AppButton>
+
+      <el-dropdown v-else placement="bottom">
+        <AppButton
+          type="line-light"
+          class="!rounded-[50px] h-10 body-1"
+          icon="icon-user-3"
+        >
+          {{ authStore.user.first_name }} {{ authStore.user.last_name }}
         </AppButton>
-      </AppRouterLink>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <RouterLink :to="$routeNames.profile" :underlined="false">
+                <AppButton
+                  class="menuBtutton w-full hover:!bg-transparent"
+                  type="text"
+                  text
+                  icon="icon-user-3"
+                >
+                  Особистий кабінет
+                </AppButton>
+              </RouterLink>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <AppButton
+                class="menuBtutton w-full !justify-start hover:!bg-transparent"
+                type="text"
+                text
+                icon="icon-arrow-left"
+                @click="handleLogout"
+              >
+                Вийти
+              </AppButton>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </header>
+
+  <AuthModal v-model="authStore.showAuthModal" />
 </template>
 
 <script setup lang="ts">
 import Logo from '@/assets/images/Logo.vue'
 import { routeNames } from '@/router/route-names'
+import { useAuthStore } from '@/views/auth/auth.store'
+import AuthModal from '@/views/auth/AuthModal.vue'
+
+const authStore = useAuthStore()
 
 const navLinks = [
   { path: routeNames.search, label: 'Купити' },
@@ -43,8 +97,12 @@ const navLinks = [
 ]
 
 const iconLinks = [
-  { path: routeNames.favorites, icon: 'icon-heart', hoverIcon: 'icon-heart-fill' },
   { path: routeNames.chats, icon: 'icon-question-answer', hoverIcon: 'icon-question-answer-fill', count: 5 }
 ]
+
+async function handleLogout () {
+  await authStore.logout()
+  window.location.href = '/'
+}
 
 </script>

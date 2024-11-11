@@ -339,6 +339,10 @@
     "carService": true,
     "createService": true,
     "ElMessageBox": true,
+    "useCreateStore": true,
+    "ElNotification": true,
+    "authServiceService": true,
+    "useAuthStore": true,
     "useCreate": true
   }
 }

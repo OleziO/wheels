@@ -81,7 +81,7 @@ interface ISearchFiltersOptions {
   interiorSeatsAdjustments: IFilterOption[]
   heatedSeats: IFilterOption[]
   safetyFeature: IFilterOption[]
-  comformFeatures: IFilterOption[]
+  comfortFeatures: IFilterOption[]
   multimediaFeatures: IFilterOption[]
   opticFeatures: IFilterOption[]
   parkingFeatures: IFilterOption[]

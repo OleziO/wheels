@@ -14,7 +14,7 @@
 
     <CarAsideItem class="bg-creamy">
       <div class="flex gap-7">
-        <el-avatar class="w-25 h-25 rounded-full overflow-hidden" :src="car.user_profiles?.avatart || ''">
+        <el-avatar class="w-25 h-25 rounded-full overflow-hidden" :src="car.user_profiles?.avatar || ''">
           <div class="w-25 h-25 rounded-full flex justify-center items-center bg-gray-light text-creamy-light">
             <i class="icon-user-3 h2" />
           </div>

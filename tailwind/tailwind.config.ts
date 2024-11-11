@@ -9,6 +9,9 @@ export default {
   theme: {
     colors,
     extend: {
+      screens: {
+        'sm-height': { raw: '(max-width: 1379px)' }
+      },
       spacing: {
         12.5: '50px',
         19: '76px',

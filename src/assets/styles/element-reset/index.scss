@@ -89,10 +89,15 @@
 @use "element-plus/theme-chalk/src/checkbox-group";
 @use "element-plus/theme-chalk/src/skeleton";
 @use "element-plus/theme-chalk/src/skeleton-item";
-@use "element-plus/theme-chalk/src/dialog";
 @use "element-plus/theme-chalk/src/checkbox-button";
 @use "element-plus/theme-chalk/src/radio";
 @use "element-plus/theme-chalk/src/radio-button";
+@use "element-plus/theme-chalk/src/dialog";
+@use "element-plus/theme-chalk/src/notification";
+@use "element-plus/theme-chalk/src/dropdown";
+@use "element-plus/theme-chalk/src/dropdown-item";
+@use "element-plus/theme-chalk/src/tooltip";
+
 
 @import "./button.scss";
 @import "./slider.scss";
@@ -105,5 +110,6 @@
 @import "./checkbox-button.scss";
 @import "./radio.scss";
 @import "./radio-button.scss";
+@import "./dialog.scss"
 
 

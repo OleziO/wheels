@@ -3,7 +3,7 @@
     <SearchFiltersSection v-model="searchStore.searchData" :searchFiltersOptions="searchStore.searchFilterOptions" />
 
     <div class="w-full flex flex-col items-center gap-4 py-8">
-      <AppInput v-model="searchStore.searchData.search" placeholder="Що ви шукаєте?">
+      <AppInput v-model="searchStore.searchData.search" withButton placeholder="Що ви шукаєте?">
         <AppButton
           class="px-8"
           icon="icon-search"
@@ -43,6 +43,7 @@
       />
     </div>
   </div>
+  <AppScrollTopButton />
 </template>
 
 <script setup lang="ts">

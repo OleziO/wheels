@@ -19,6 +19,7 @@
       </RouterLink>
     </div>
   </div>
+  <AppScrollTopButton />
 </template>
 
 <script setup lang="ts">

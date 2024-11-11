@@ -52,7 +52,7 @@
             </template>
           </CarInfoBadge>
         </div>
-        <CarMainInfo :car="mainCarInfo" />
+        <CarMainInfo :car="[...mainCarInfo, ...carFeatures]" />
 
         <div v-if="car.description" class="mt-12.5 text-gray">
           <h3 class="h3 mb-8">Опис від власника</h3>
@@ -75,9 +75,9 @@
       </div>
       <CarAside :car="car" :priceUAH="priceUAH" :location="location" />
     </div>
-    <div class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
+    <div v-if="!loading" class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
       <h3 class="h3 mb-10 text-gray-dark">Рекомендації для вас</h3>
-      <CarsCarousel :rate="rate" :cars="recomendedCars" />
+      <CarsCarousel :rate="rate" :cars="recommendedCars" />
     </div>
   </div>
 </template>
@@ -98,8 +98,9 @@ const car = ref<TCar | null>(null)
 const location = ref('')
 const rate = ref(0)
 const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(rate.value * car.value!.price), 'грн.', 'end'))
-const recomendedCars = ref<TCar[]>([])
+const recommendedCars = ref<TCar[]>([])
 const mainCarInfo = ref<IFilterOption[]>([])
+const carFeatures = ref<IFilterOption[]>([])
 
 const headerCarInfo = computed(() => [
   { text: `${car.value!.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
@@ -112,10 +113,11 @@ async function init () {
   loading.value = true
   try {
     car.value = await carService.getCarData(props.query.id)
-    recomendedCars.value = await carService.getRecomendedCars(car.value!.price || 0, car.value!.id)
-    mainCarInfo.value = carService.getMainInfo(car.value)
     rate.value = await moneyService.getUSDtoUAH()
     location.value = await locationApi.getLocationUrl(car.value!.location)
+    mainCarInfo.value = carService.getMainInfo(car.value)
+    carFeatures.value = await carService.getCarFeatures(props.query.id)
+    recommendedCars.value = await carService.getRecommendedCars(car.value!.price || 0, car.value!.id)
   } finally {
     loading.value = false
   }

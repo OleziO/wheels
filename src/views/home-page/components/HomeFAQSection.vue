@@ -1,5 +1,5 @@
 <template>
-  <SectionLayout>
+  <HomeSectionWrapper>
     <h2>Часті запитання</h2>
     <el-collapse v-model="activeNames" class="mb-25">
       <el-collapse-item
@@ -11,11 +11,11 @@
         <p class="body-2 p-3.5">{{ item.content }}</p>
       </el-collapse-item>
     </el-collapse>
-  </SectionLayout>
+  </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">
-import SectionLayout from '@/layouts/SectionLayout.vue'
+import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.vue'
 
 const activeNames = ref([])
 const faqItems = [

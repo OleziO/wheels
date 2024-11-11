@@ -150,10 +150,10 @@ class SearchService {
     ]
   }
 
-  private async fetchFromTable<T> (tableName: keyof Database['public']['Tables']): Promise<T[]> {
+  private async fetchFromTable<T> (tableName: keyof Database['public']['Tables'], options?: any): Promise<T[]> {
     const { data } = await supabase
       .from(tableName)
-      .select('*')
+      .select('*', options)
 
     return (data || []) as T[]
   }
@@ -199,7 +199,7 @@ class SearchService {
   }
 
   async getHeadlights (): Promise<TTables<'headlights'>[]> {
-    return this.fetchFromTable<TTables<'headlighst'>>('headlights')
+    return this.fetchFromTable<TTables<'headlights'>>('headlights')
   }
 
   async getInteriorSeatsAdjustments (): Promise<TTables<'interior_seats_adjustments'>[]> {
@@ -214,7 +214,7 @@ class SearchService {
     return this.fetchFromTable<TTables<'safety_features'>>('safety_features')
   }
 
-  async getComformFeatures (): Promise<TTables<'comfort_features'>[]> {
+  async getComfortFeatures (): Promise<TTables<'comfort_features'>[]> {
     return this.fetchFromTable<TTables<'comfort_features'>>('comfort_features')
   }
 
