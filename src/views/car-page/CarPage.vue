@@ -1,7 +1,8 @@
 <template>
   <div v-loading.fullscreen="loading">
     <div
-      v-if="car && rate" class="w-full max-w-[1440px] flex justify-between gap-10  mx-auto px-25 py-12.5"
+      v-if="car && rate"
+      class="w-full max-w-[1440px] flex justify-between gap-10  mx-auto px-25 py-12.5"
     >
       <div class="w-full">
         <CarPicturesCarousel :images="car.car_pictures || []" />
@@ -9,14 +10,16 @@
         <div class="mt-10 w-full flex justify-between gap-12.5 px-2.5">
           <span v-for="infoItem in headerCarInfo" :key="infoItem.icon" class="flex gap-2.5">
             <i
-              class="text-[40px] text-blue secondary" :class="infoItem.icon"
+              class="text-[40px] text-blue secondary"
+              :class="infoItem.icon"
             />
+
             <p class="text-blue button-text">{{ infoItem.text }}</p>
           </span>
         </div>
 
         <div class="flex justify-between gap-5 mt-11">
-          <CarInfoBadge v-if="car.registration_plate">
+          <CarPageInfoBadge v-if="car.registration_plate">
             <template #icon>
               <RegistrationPlateIcon />
             </template>
@@ -26,9 +29,9 @@
                 {{ car.registration_plate }}
               </span>
             </template>
-          </CarInfoBadge>
+          </CarPageInfoBadge>
 
-          <CarInfoBadge v-if="car.vin">
+          <CarPageInfoBadge v-if="car.vin">
             <template #icon>
               <i class="icon-check-double" />
             </template>
@@ -38,9 +41,9 @@
                 Перевірений VIN-код
               </span>
             </template>
-          </CarInfoBadge>
+          </CarPageInfoBadge>
 
-          <CarInfoBadge v-if="car.vin">
+          <CarPageInfoBadge v-if="car.vin">
             <template #icon>
               <i class="icon-check-double" />
             </template>
@@ -50,12 +53,14 @@
                 {{ car.vin }}
               </span>
             </template>
-          </CarInfoBadge>
+          </CarPageInfoBadge>
         </div>
-        <CarMainInfo :car="mainCarInfo" />
+
+        <CarPageMainInfoSection :car="mainCarInfo" />
 
         <div v-if="car.description" class="mt-12.5 text-gray">
           <h3 class="h3 mb-8">Опис від власника</h3>
+
           <p class="body-2">
             {{ car.description }}
           </p>
@@ -64,16 +69,18 @@
         <div class="mt-12.5">
           <div class="flex items-center gap-14 mb-10 text-gray-dark">
             <h4 class="h4">Зв’язатись з продавцем:</h4>
+
             <h3 class="h3">{{ car.user_profiles?.first_name || 'Продавець' }}</h3>
           </div>
 
           <div class="flex gap-5 justify-between">
             <AppButton type="line-light" class="w-full">Запропонувати торг</AppButton>
+
             <AppButton type="secondary" class="w-full" icon="icon-question-answer">Написати в чат</AppButton>
           </div>
         </div>
       </div>
-      <CarAside :car="car" :priceUAH="priceUAH" :location="location" />
+      <CarPageAsideSection :car="car" :priceUAH="priceUAH" :location="location" />
     </div>
     <div class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
       <h3 class="h3 mb-10 text-gray-dark">Рекомендації для вас</h3>

@@ -10,7 +10,7 @@ declare global {
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const authServiceService: typeof import('../src/views/auth/auth.service.service')['default']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
-  const carService: typeof import('../src/views/car-page/car.service')['default']
+  const carService: typeof import('../src/views/car-page/car-page.service')['carService']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
   const computedEager: typeof import('@vueuse/core')['computedEager']
