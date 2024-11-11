@@ -1,3 +1,0 @@
-<template>
-  Top Rated
-</template>

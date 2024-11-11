@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/top-rated',
     name: routeNames.top,
-    component: () => import('@/views/TopRated.vue')
+    component: () => import('@/views/top-rated/TopRated.vue')
   },
   {
     path: '/auction',

@@ -62,7 +62,7 @@
 
     <CarAsideItem class="bg-green-dark text-creamy-light">
       <h4 class="h4">Вважаєте це авто унікальним?</h4>
-      <p class="mt-5 body-2">Ставте оцінку та беріть участь у формуванні ТОП-100 найцікавіших моделей на сайті</p>
+      <p class="mt-5 body-2">Ставте оцінку та беріть участь у формуванні ТОП-30 найцікавіших моделей на сайті</p>
 
       <div class="w-full flex flex-col gap-5 mt-9">
         <AppButton
