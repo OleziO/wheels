@@ -87,7 +87,7 @@ const authStore = useAuthStore()
 const navLinks = [
   { path: routeNames.search, label: 'Купити' },
   { path: routeNames.create, label: 'Продати' },
-  { path: routeNames.top, label: 'ТОП-100' },
+  { path: routeNames.top, label: 'ТОП-30' },
   { path: routeNames.auction, label: 'Аукціон' }
 ]
 

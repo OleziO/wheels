@@ -24,7 +24,7 @@
       </el-image>
     </div>
 
-    <div class="card-label absolute top-5 z-50 w-full">
+    <div class="card-label absolute top-5 z-40 w-full flex gap-8 justify-between">
       <span>
         <div v-if="car.vin" class="relative h-fit bg-blue-light py-2 px-4">
           <p class="inline-flex text-white body-2 whitespace-nowrap">Перевірений VIN-код</p>
@@ -36,7 +36,8 @@
       </span>
 
       <div
-        class="flex gap-7 mr-5 justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        class="flex gap-2 flex-wrap mr-5 justify-end
+        opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       >
         <AppButton icon="icon-thumb-down" class="!rounded-full" @click.stop="updateRate('-')" />
         <AppButton icon="icon-thumb-up" class="!rounded-full" @click.stop="updateRate('+')" />
@@ -92,8 +93,8 @@ const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(pro
 const carInfo = computed(() => [
   { text: `${props.car.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
   { text: props.car.locations.label || 'Україна', icon: 'icon-map-pin-2' },
-  { text: props.car.fuel_type, icon: 'icon-oil' },
-  { text: props.car.transmission_type, icon: 'icon-steering-fill' }
+  { text: props.car.fuel_types!.label, icon: 'icon-oil' },
+  { text: props.car.transmission_types!.label, icon: 'icon-steering-fill' }
 ])
 
 async function updateRate (operation: '+' | '-') {

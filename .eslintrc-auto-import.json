@@ -339,6 +339,7 @@
     "carService": true,
     "ElNotification": true,
     "authServiceService": true,
-    "useAuthStore": true
+    "useAuthStore": true,
+    "topRatedService": true
   }
 }
