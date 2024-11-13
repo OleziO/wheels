@@ -1,30 +1,55 @@
 class AuctionService {
-  createAuctionChanel (auctionId: string,
-    onSuccess: (newBid: TTables<'auction_bids'>, userProfile: TTables<'user_profiles'>) => void
+  createAuctionChanel (
+    auctionId: string,
+    onSuccess: (newBid: TTables<'auction_bids'>, userProfile: TTables<'user_profiles'>) => void,
+    userProfile: TTables<'user_profiles'>,
+    setConnectedUsers: (key: string, presences: any) => void
   ) {
-    supabase
-      .channel(`auction_channel_${auctionId}`)
+    const channel = supabase.channel(`auction_channel_${auctionId}`)
+
+    channel
+      .on('presence', { event: 'join' }, (status) => {
+        setConnectedUsers('join', status.newPresences)
+      })
+      .on('presence', { event: 'leave' }, (status) => {
+        setConnectedUsers('leave', status.leftPresences)
+      })
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'auction_bids' },
         async (payload) => {
           const newBid = payload.new as TTables<'auction_bids'>
 
-          const { data: user } = await supabase
-            .from('user_profiles')
-            .select('*')
-            .eq('id', newBid.user_id)
-            .single()
+          try {
+            const { data: user, error: userError } = await supabase
+              .from('user_profiles')
+              .select('*')
+              .eq('id', newBid.user_id)
+              .single()
 
-          if (user && newBid.auction_id === auctionId) {
-            onSuccess(newBid, user)
+            if (userError) {
+              console.error('Error fetching user profile:', userError)
+              return
+            }
+
+            if (user && newBid.auction_id === auctionId) {
+              onSuccess(newBid, user)
+            }
+          } catch (err) {
+            console.error('Error processing new bid:', err)
           }
         }
       )
-      .subscribe()
+      .subscribe(async (status) => {
+        if (status !== 'SUBSCRIBED') { return }
+
+        await channel.track(userProfile)
+      })
+
+    return channel
   }
 
-  async getBidsWithUserProfiles (auctionId: string) {
+  async getBidsWithUserProfiles (auctionId: string): Promise<TBidItem[]> {
     const { data, error } = await supabase
       .from('auction_bids')
       .select('*, user_profiles!inner(*)')
@@ -39,32 +64,48 @@ class AuctionService {
     return (data || []) as TBidItem[]
   }
 
-  async getAuctionData (auctionId: string) {
-    const { data } = await supabase
+  async getAuctionData (auctionId: string): Promise<TTables<'active_auctions'>> {
+    const { data, error } = await supabase
       .from('active_auctions')
       .select('*')
       .eq('id', auctionId)
+      .single()
 
-    return (data ? data[0] : {}) as TTables<'active_auctions'>
+    if (error || !data) {
+      console.error('Error fetching auction data:', error)
+      return {} as TTables<'active_auctions'>
+    }
+
+    return data as TTables<'active_auctions'>
   }
 
-  async updateAuctionData (bidData: TTables<'auction_bids'>) {
-    const { data } = await supabase
+  async updateAuctionData (bidData: TTables<'auction_bids'>): Promise<any> {
+    const { data, error } = await supabase
       .from('active_auctions')
       .update({ current_bid: bidData.amount, current_bid_user_id: bidData.user_id })
       .eq('id', bidData.auction_id)
 
+    if (error) {
+      console.error('Error updating auction data:', error)
+      return null
+    }
+
     return data
   }
 
-  async makeBid (amount: number, userId: string, auctionId: string) {
-    const { data } = await supabase
+  async makeBid (amount: number, userId: string, auctionId: string): Promise<any> {
+    const { data, error } = await supabase
       .from('auction_bids')
       .insert({
         auction_id: auctionId,
         user_id: userId,
         amount
       })
+
+    if (error) {
+      console.error('Error making bid:', error)
+      return null
+    }
 
     return data
   }
