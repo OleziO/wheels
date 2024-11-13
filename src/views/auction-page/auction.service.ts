@@ -36,7 +36,7 @@ class AuctionService {
       return []
     }
 
-    return (data || []) as TBidHistory[]
+    return (data || []) as TBidItem[]
   }
 
   async getAuctionData (auctionId: string) {

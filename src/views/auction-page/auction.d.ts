@@ -1,1 +1,1 @@
-type TBidHistory = TTables<'auction_bids'> & { user_profiles: TTables<'user_profiles'> }
+type TBidItem = TTables<'auction_bids'> & { user_profiles: TTables<'user_profiles'> }

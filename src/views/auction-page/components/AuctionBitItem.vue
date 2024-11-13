@@ -25,7 +25,7 @@
 import dayjs from 'dayjs'
 
 const props = defineProps <{
-  bit: TBidHistory
+  bit: TBidItem
 }>()
 
 const bitAmount = computed(() => moneyService.numToMoneyWithFormat(props.bit.amount, '$', 'start'))

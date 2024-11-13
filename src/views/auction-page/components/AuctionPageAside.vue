@@ -38,7 +38,7 @@ const props = defineProps<{
 
 const authStore = useAuthStore()
 
-const bidsHistory = ref<TBidHistory[]>([])
+const bidsHistory = ref<TBidItem[]>([])
 const isSubmittingNewPrice = ref(false)
 
 const bidAmounts = [50, 100, 500, 1000]
