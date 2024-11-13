@@ -55,11 +55,12 @@ async function addBit (amount: number) {
   await auctionService.makeBid(newBid, userId, props.auctionData.id as string)
 }
 
-function updateBidsHistory (newBid: TTables<'auction_bids'>, userProfile: TTables<'user_profiles'>) {
+async function updateBidsHistory (newBid: TTables<'auction_bids'>, userProfile: TTables<'user_profiles'>) {
   bidsHistory.value.unshift({
     ...newBid,
     user_profiles: userProfile
   })
+  await auctionService.updateAuctionData(newBid)
   isSubmittingNewPrice.value = false
 }
 

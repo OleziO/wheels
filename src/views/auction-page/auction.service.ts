@@ -48,6 +48,15 @@ class AuctionService {
     return (data ? data[0] : {}) as TTables<'active_auctions'>
   }
 
+  async updateAuctionData (bidData: TTables<'auction_bids'>) {
+    const { data } = await supabase
+      .from('active_auctions')
+      .update({ current_bid: bidData.amount, current_bid_user_id: bidData.user_id })
+      .eq('id', bidData.auction_id)
+
+    return data
+  }
+
   async makeBid (amount: number, userId: string, auctionId: string) {
     const { data } = await supabase
       .from('auction_bids')

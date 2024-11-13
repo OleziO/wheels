@@ -9,6 +9,7 @@ declare global {
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const auctionService: typeof import('../src/views/auction-page/auction.service')['auctionService']
+  const auctionsListService: typeof import('../src/views/auctions-list-page/auctions-list.service')['auctionsListService']
   const authServiceService: typeof import('../src/views/auth/auth.service.service')['default']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const carService: typeof import('../src/views/car-page/car-page.service')['carService']

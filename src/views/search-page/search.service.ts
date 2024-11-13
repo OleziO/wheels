@@ -284,7 +284,7 @@ class SearchService {
     if (car?.length && car[0]) {
       await supabase
         .from('cars')
-        .update({ car_rate: car[0]?.car_rate + operation })
+        .update({ car_rate: (car[0]?.car_rate || 0) + operation })
         .eq('id', car[0].id)
     }
   }

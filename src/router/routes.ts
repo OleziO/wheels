@@ -42,6 +42,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { isAuthProtected: true }
   },
   {
+    path: '/auctions-list',
+    name: routeNames.auctionsList,
+    component: () => import('@/views/auctions-list-page/AuctionListPage.vue'),
+    meta: { isAuthProtected: true }
+  },
+  {
     path: '/favorites',
     name: routeNames.favorites,
     component: () => import('@/views/Favorites.vue'),

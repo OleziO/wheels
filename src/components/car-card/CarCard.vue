@@ -2,7 +2,7 @@
   <div
     class="w-full rounded-lg cursor-pointer
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
-    @click="replaceRouterQuery($routeNames.car, {id: car.id})"
+    @click="handleRedirectClick"
   >
     <div class="w-full h-[320px] overflow-hidden">
       <el-image
@@ -46,12 +46,13 @@
 
     <div class="rounded-tr-12.5 p-5 relative -mt-12.5 bg-creamy-light flex flex-col gap-4">
       <h4 class="h4 text-gray-dark">{{ `${car.models.brand} ${car.models.model} ${car.manufacture_year}` }}</h4>
-      <div class="flex gap-4">
+      <div v-if="!auction" class="flex gap-4">
         <h3 class="h3 text-blue-light">{{ moneyService.numToMoneyWithFormat(car.price, '$') }}</h3>
         <p class="body-2 text-gray-light">
           ~{{ priceUAH }}
         </p>
       </div>
+
       <div class="grid grid-cols-2 gap-4">
         <CarInfo
           v-for="info in carInfo"
@@ -61,10 +62,10 @@
         />
       </div>
 
-      <div class="flex justify-between items-end mt-2">
+      <div v-if="!auction" class="flex justify-between items-end mt-2">
         <CarInfo
           textColor="!text-blue-light"
-          :text="timeService.timeAgo(new Date(car.created_at))"
+          :text="timeService.timeAgo(new Date(car.created_at as string))"
           icon="icon-time"
         />
 
@@ -73,6 +74,18 @@
           <AppButton type="icon" icon="icon-heart" class="!text-8" />
         </div>
       </div>
+
+      <h3 v-if="auction?.id" class="h3 text-blue-light mb-2">
+        Остання ставка: {{ moneyService.numToMoneyWithFormat(auction?.current_bid || 0, '$') }}
+      </h3>
+
+      <AppButton
+        v-if="auction?.id"
+        class="mt-2"
+        @click="replaceRouterQuery($routeNames.auction, { id: auction.id })"
+      >
+        Приєднатися до аукціону
+      </AppButton>
     </div>
   </div>
 </template>
@@ -81,11 +94,15 @@
 import { moneyService, searchService, timeService } from '@/services/index.service'
 
 import CarInfo from '@/components/car-card/components/CarCardInfoWithIcon.vue'
-import { replaceRouterQuery } from '@/router'
+import { replaceRouterQuery, routeNames } from '@/router'
 
 const props = defineProps<{
   car: TCar
   rate: number
+  auction?: TTables<'active_auctions'> & {
+    cars: TCar
+    user_profiles: TTables<'user_profiles'>
+  }
 }>()
 
 const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(props.rate * props.car.price), 'грн.', 'end'))
@@ -99,6 +116,11 @@ const carInfo = computed(() => [
 
 async function updateRate (operation: '+' | '-') {
   searchService.updateCarRating(props.car.id, operation === '+' ? 1 : -1)
+}
+
+function handleRedirectClick () {
+  if (!props.auction) return replaceRouterQuery(routeNames.car, { id: props.car.id })
+  return null
 }
 
 </script>

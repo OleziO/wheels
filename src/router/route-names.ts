@@ -5,6 +5,7 @@ export const routeNames = {
   top: 'top-rated',
   finances: 'finances',
   auction: 'auction',
+  auctionsList: 'auctions-list',
   create: 'createCar',
   profile: 'profile',
   favorites: 'favorites',

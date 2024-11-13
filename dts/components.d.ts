@@ -16,6 +16,8 @@ declare module 'vue' {
     AppSelect: typeof import('./../src/components/shared/AppSelect.vue')['default']
     AppSlider: typeof import('./../src/components/shared/AppSlider.vue')['default']
     AuctionBitItem: typeof import('./../src/views/auction-page/components/AuctionBitItem.vue')['default']
+    AuctionList: typeof import('./../src/views/auction-page/components/AuctionList.vue')['default']
+    AuctionListPage: typeof import('./../src/views/auction-page/components/AuctionListPage.vue')['default']
     AuctionPageAside: typeof import('./../src/views/auction-page/components/AuctionPageAside.vue')['default']
     CarCard: typeof import('./../src/components/car-card/CarCard.vue')['default']
     CarCardInfoWithIcon: typeof import('./../src/components/car-card/components/CarCardInfoWithIcon.vue')['default']
