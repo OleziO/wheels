@@ -93,8 +93,8 @@ const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(pro
 const carInfo = computed(() => [
   { text: `${props.car.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
   { text: props.car.locations.label || 'Україна', icon: 'icon-map-pin-2' },
-  { text: props.car.fuel_types!.label, icon: 'icon-oil' },
-  { text: props.car.transmission_types!.label, icon: 'icon-steering-fill' }
+  { text: props.car.fuel_types?.label || props.car.fuel_type, icon: 'icon-oil' },
+  { text: props.car.transmission_types?.label || props.car.transmission_type, icon: 'icon-steering-fill' }
 ])
 
 async function updateRate (operation: '+' | '-') {

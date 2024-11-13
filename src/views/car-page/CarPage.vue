@@ -80,10 +80,14 @@
           </div>
         </div>
       </div>
-      <CarPageAsideSection :car="car" :priceUAH="priceUAH" :location="location" />
+
+      <AuctionPageAside v-if="auction" :auction-data="auction" />
+
+      <CarPageAside v-else :car="car" :priceUAH="priceUAH" :location="location" />
     </div>
     <div class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
       <h3 class="h3 mb-10 text-gray-dark">Рекомендації для вас</h3>
+
       <CarsCarousel :rate="rate" :cars="recomendedCars" />
     </div>
   </div>
@@ -93,8 +97,10 @@
 import locationApi from '@/api/location'
 import { moneyService } from '@/services/index.service'
 import RegistrationPlateIcon from '@/assets/images/RegistrationPlateIcon.vue'
+import AuctionPageAside from '@/views/auction-page/components/AuctionPageAside.vue'
 
 const props = defineProps<{
+  auction?: TTables<'active_auctions'>
   query: {
     id: string
   }
@@ -104,9 +110,10 @@ const loading = ref(false)
 const car = ref<TCar | null>(null)
 const location = ref('')
 const rate = ref(0)
-const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(rate.value * car.value!.price), 'грн.', 'end'))
 const recomendedCars = ref<TCar[]>([])
 const mainCarInfo = ref<IFilterOption[]>([])
+
+const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(rate.value * car.value!.price), 'грн.', 'end'))
 
 const headerCarInfo = computed(() => [
   { text: `${car.value!.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
@@ -129,6 +136,7 @@ async function init () {
 }
 
 onBeforeMount(init)
+
 </script>
 
 <style scopped lang="scss">

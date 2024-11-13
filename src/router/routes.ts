@@ -37,7 +37,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/auction',
     name: routeNames.auction,
-    component: () => import('@/views/Auction.vue'),
+    component: () => import('@/views/auction-page/AuctionPage.vue'),
+    props: (route) => ({ query: route.query }),
     meta: { isAuthProtected: true }
   },
   {

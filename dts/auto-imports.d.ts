@@ -8,6 +8,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
+  const auctionService: typeof import('../src/views/auction-page/auction.service')['auctionService']
   const authServiceService: typeof import('../src/views/auth/auth.service.service')['default']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const carService: typeof import('../src/views/car-page/car-page.service')['carService']

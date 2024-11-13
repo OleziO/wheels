@@ -1,17 +1,17 @@
 import authService from './auth.service.service'
 
 export const useAuthStore = defineStore('authStore', () => {
-  const user = ref<IUser | null>(null)
+  const user = ref<any>(null)
   const showAuthModal = ref(false)
   const redirectLink = ref<string | null>(null)
 
   async function signIn (loginData: ISignIn) {
-    user.value = (await authService.signIn(loginData)).user.user_metadata as IUser
+    user.value = (await authService.signIn(loginData)).user.user_metadata
     localStorage.setItem('userData', JSON.stringify(user.value))
   }
 
   async function signUp (registerData: ISignUp) {
-    user.value = (await authService.signUp(registerData)).user?.user_metadata as IUser
+    user.value = (await authService.signUp(registerData)).user?.user_metadata
     localStorage.setItem('userData', JSON.stringify(user.value))
   }
 

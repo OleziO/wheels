@@ -340,6 +340,7 @@
     "ElNotification": true,
     "authServiceService": true,
     "useAuthStore": true,
-    "topRatedService": true
+    "topRatedService": true,
+    "auctionService": true
   }
 }
