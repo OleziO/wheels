@@ -88,7 +88,7 @@ const navLinks = [
   { path: routeNames.search, label: 'Купити' },
   { path: routeNames.create, label: 'Продати' },
   { path: routeNames.top, label: 'ТОП-30' },
-  { path: routeNames.auctionsList, label: 'Аукціон' }
+  { path: routeNames.auctionsList, label: 'Аукціони' }
 ]
 
 const iconLinks = [
