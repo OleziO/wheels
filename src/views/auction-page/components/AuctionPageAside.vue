@@ -3,7 +3,7 @@
     <h2 class="h3">{{ timer }}</h2>
 
     <div class="w-[400px] h-[590px] bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col">
-      <div class="h-full overflow-y-auto flex flex-col gap-8 pr-3">
+      <div class="h-full overflow-y-scroll flex flex-col gap-8 pr-5 scroll-gutter-stable">
         <AuctionBitItem
           v-for="bit in bidsHistory"
           :key="bit.id"
@@ -69,3 +69,10 @@ onMounted(async () => {
 })
 
 </script>
+
+<style lang="scss" scoped>
+.scroll-gutter-stable {
+  @apply box-border;
+  scroll-gutter: stable;
+}
+</style>
