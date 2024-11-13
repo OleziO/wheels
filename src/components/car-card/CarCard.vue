@@ -76,7 +76,7 @@
       </div>
 
       <h3 v-if="auction?.id" class="h3 text-blue-light mb-2">
-        Остання ставка: {{ moneyService.numToMoneyWithFormat(auction?.current_bid || 0, '$') }}
+        Остання ставка: {{ moneyService.numToMoneyWithFormat(auction?.current_bid || auction.default_bid || 0, '$') }}
       </h3>
 
       <AppButton

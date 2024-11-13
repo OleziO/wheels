@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col gap-4">
-    <h2 class="h3">{{ timer }}</h2>
+    <h2 class="h3">{{ timer }} </h2>
+    <p v-if="!lastBidTime && auctionData.default_bid" class="body-1">
+      (початкова ставка ${{ auctionData.default_bid }})
+    </p>
 
     <div class="w-[400px] h-[590px] bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col">
       <div class="h-full overflow-y-scroll flex flex-col gap-8 pr-5 scroll-gutter-stable">
@@ -48,7 +51,7 @@ const lastBidTime = computed(() => bidsHistory.value[0]?.created_at || '')
 const timer = useAuctionTimer(lastBidTime, props.auctionData.bid_time)
 
 async function addBit (amount: number) {
-  const newBid = +(bidsHistory.value.at(0)?.amount || 0) + amount
+  const newBid = +(bidsHistory.value.at(0)?.amount || props.auctionData.default_bid || 0) + amount
   const userId = authStore.user.sub
 
   isSubmittingNewPrice.value = true

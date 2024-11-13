@@ -5,7 +5,7 @@ export function useAuctionTimer (lastBidTime: globalThis.ComputedRef<string>, au
 
   const updateRemainingTime = () => {
     if (!lastBidTime.value) {
-      remainingTime.value = 'Зробіть початкову ставку'
+      remainingTime.value = 'Зробіть свою ставку'
       return
     }
 
