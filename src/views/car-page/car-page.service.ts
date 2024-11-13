@@ -142,6 +142,7 @@ class CarService {
     const { data } = await supabase
       .from('cars')
       .select('*, models!inner(*), locations!inner(*), fuel_types!inner(*), transmission_types!inner(*)')
+      .eq('is_in_auction', false)
       .lte('price', price + 1500)
       .gte('price', price - 1500)
       .neq('id', id)
@@ -150,6 +151,7 @@ class CarService {
     const { data: altData } = await supabase
       .from('cars')
       .select('*, models!inner(*), locations!inner(*), fuel_types!inner(*), transmission_types!inner(*)')
+      .eq('is_in_auction', false)
       .order('car_rate', { ascending: false })
       .limit(9)
 

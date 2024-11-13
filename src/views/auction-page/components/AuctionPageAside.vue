@@ -7,7 +7,7 @@
 
     <el-tabs v-model="activeTab">
       <el-tab-pane label="Ставки" name="first">
-        <div class="w-[400px] h-[400px] bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col">
+        <div class="w-[400px] h-[475px] bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col">
           <div class="h-full overflow-y-scroll flex flex-col gap-8 pr-5 scroll-gutter-stable">
             <AuctionBitItem
               v-for="bit in bidsHistory"
@@ -32,7 +32,7 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="Учасники" name="second">
-        <div class="w-[400px] h-[400px] overflow-y-scroll bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col gap-6">
+        <div class="w-[400px] h-[475px] overflow-y-scroll bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col gap-6">
           <div
             v-for="user in activeUsers"
             :key="user.id"
