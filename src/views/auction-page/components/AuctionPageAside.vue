@@ -146,6 +146,12 @@ function setUserStatus (method: string, newUser: any) {
   }
 }
 
+watch(() => timer.value.status, () => {
+  if (timer.value.status) {
+    auctionService.endAuction(props.auctionData.id)
+  }
+})
+
 onMounted(async () => {
   realTimeChannel.value = auctionService
     .createAuctionChanel(

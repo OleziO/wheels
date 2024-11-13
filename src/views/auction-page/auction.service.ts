@@ -79,6 +79,13 @@ class AuctionService {
     return data as TTables<'active_auctions'>
   }
 
+  async endAuction (auctionId: string) {
+    await supabase
+      .from('active_auctions')
+      .update({ is_ended: true })
+      .eq('id', auctionId)
+  }
+
   async updateAuctionData (bidData: TTables<'auction_bids'>): Promise<any> {
     const { data, error } = await supabase
       .from('active_auctions')
