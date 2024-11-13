@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="authStore.showAuthModal"
-    class="authModal max-w-[600px] rounded-lg bg-creamy-light"
+    class="custom-modal max-w-[600px] rounded-lg bg-creamy-light"
     @close="handleClose"
   >
     <AuthSignIn v-if="isLoginMode" @login="handleSubmit" />

@@ -2,7 +2,7 @@
   @apply px-10;
 
   .el-input__inner {
-    @apply font-semibold;
+    @apply text-base text-gravel h-14;
 
     &::placeholder {
       @apply body-2;

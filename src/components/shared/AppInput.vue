@@ -12,5 +12,5 @@ defineProps<{
   withButton?: boolean
 }>()
 
-const model = defineModel<string>()
+const model = defineModel<string | number>()
 </script>
