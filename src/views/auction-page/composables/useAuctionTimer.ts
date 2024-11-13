@@ -17,7 +17,7 @@ export function useAuctionTimer (lastBidTime: globalThis.ComputedRef<string>, au
       const minutesLeft = Math.floor(timeLeft / 60)
       const secondsLeft = timeLeft % 60
 
-      remainingTime.value = `Залишилось: ${minutesLeft}:${secondsLeft < 10 ? '0' : ''}${secondsLeft}`
+      remainingTime.value = `До кінця аукціону: ${minutesLeft ? `${minutesLeft} хв` : ''} ${secondsLeft < 10 ? '0' : ''}${secondsLeft} с`
     } else {
       remainingTime.value = 'Аукціон завершено'
     }
