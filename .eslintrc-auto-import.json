@@ -342,6 +342,7 @@
     "useAuthStore": true,
     "topRatedService": true,
     "auctionService": true,
-    "auctionsListService": true
+    "auctionsListService": true,
+    "emailService": true
   }
 }

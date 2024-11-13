@@ -81,7 +81,7 @@
         </div>
       </div>
 
-      <AuctionPageAside v-if="auction" :auction-data="auction" />
+      <AuctionPageAside v-if="auction" :auction-data="auction" :car="car" />
 
       <CarPageAside v-else :car="car" :priceUAH="priceUAH" :location="location" />
     </div>

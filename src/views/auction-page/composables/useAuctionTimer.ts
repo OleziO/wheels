@@ -1,11 +1,22 @@
 import dayjs from 'dayjs'
 
+export type TAuctionStatus = 'not-started' | 'pending' | 'ended'
+
+export interface IRemainingTime {
+  remainingTime: string
+  status: TAuctionStatus
+}
+
 export function useAuctionTimer (lastBidTime: globalThis.ComputedRef<string>, auctionDurationMinutes: number) {
-  const remainingTime = ref('')
+  const remainingTime = ref<IRemainingTime>({
+    remainingTime: '',
+    status: 'not-started'
+  })
 
   const updateRemainingTime = () => {
     if (!lastBidTime.value) {
-      remainingTime.value = 'Зробіть свою ставку'
+      remainingTime.value.remainingTime = 'Зробіть свою ставку'
+      remainingTime.value.status = 'not-started'
       return
     }
 
@@ -17,9 +28,11 @@ export function useAuctionTimer (lastBidTime: globalThis.ComputedRef<string>, au
       const minutesLeft = Math.floor(timeLeft / 60)
       const secondsLeft = timeLeft % 60
 
-      remainingTime.value = `До кінця аукціону: ${minutesLeft ? `${minutesLeft} хв` : ''} ${secondsLeft < 10 ? '0' : ''}${secondsLeft} с`
+      remainingTime.value.remainingTime = `До кінця аукціону: ${minutesLeft ? `${minutesLeft} хв` : ''} ${secondsLeft < 10 ? '0' : ''}${secondsLeft} с`
+      remainingTime.value.status = 'pending'
     } else {
-      remainingTime.value = 'Аукціон завершено'
+      remainingTime.value.remainingTime = 'Аукціон завершено'
+      remainingTime.value.status = 'ended'
     }
   }
 
