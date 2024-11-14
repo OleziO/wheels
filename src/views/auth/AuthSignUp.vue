@@ -5,7 +5,7 @@
     <el-form
       :model="registerData"
       class="flex flex-col gap-4"
-      :rules="authService.validationRules"
+      :rules="validationRules as FormRules"
     >
       <el-form-item prop="firstName">
         <AppInput v-model:="registerData.firstName" placeholder="Введіть ваше ім'я" />
@@ -51,10 +51,11 @@
 </template>
 
 <script setup lang="ts">
+import type { FormRules } from 'element-plus'
 import { vMaska } from 'maska/vue'
-import authService from './auth.service.service'
 
 const registerData = ref<ISignUp>(authService.defaultRegisterData)
+const validationRules = authService.validationRules
 
 defineEmits(['register'])
 

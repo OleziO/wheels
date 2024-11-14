@@ -9,6 +9,7 @@
           key-value="brand"
           :options="computedSortedBrands"
           multiple
+          collapse-tags-tooltip
           collapse-tags
         />
         <AppSelect
@@ -20,6 +21,7 @@
           key-label="model"
           :options="searchStore.mappedModels(searchStore.searchData.brands)"
           multiple
+          collapse-tags-tooltip
           collapse-tags
         />
         <AppSelect
@@ -29,6 +31,7 @@
           key-value="value"
           key-label="label"
           multiple
+          collapse-tags-tooltip
           collapse-tags
         />
       </div>

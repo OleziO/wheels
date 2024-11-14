@@ -285,9 +285,13 @@ class SearchService {
   getYears (start = 1940): IFilterOption[] {
     const end = new Date().getFullYear()
 
+    return this.generateNumberList(start, end)
+  }
+
+  generateNumberList (start: number, end: number): IFilterOption[] {
     return Array.from({ length: end - start + 1 }, (_, i) => {
-      const year = end - i
-      return { value: `${year}`, label: `${year}` }
+      const num = end - i
+      return { value: `${num}`, label: `${num}` }
     })
   }
 
@@ -346,14 +350,15 @@ class SearchService {
   async updateCarRating (carId: string, operation: 1 | -1) {
     const { data: car } = await supabase
       .from('cars')
-      .select()
+      .select('*')
       .eq('id', carId)
+      .single()
 
-    if (car?.length && car[0]) {
+    if (car) {
       await supabase
         .from('cars')
-        .update({ car_rate: car[0]?.car_rate + operation })
-        .eq('id', car[0].id)
+        .update({ car_rate: (car.car_rate || 0) + operation })
+        .eq('id', car.id)
     }
   }
 

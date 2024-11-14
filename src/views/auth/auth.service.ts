@@ -1,5 +1,3 @@
-import type { FormRules } from 'element-plus'
-
 class AuthService {
   defaultLoginData: ISignIn = {
     email: '',
@@ -14,7 +12,7 @@ class AuthService {
     password: ''
   }
 
-  validationRules: FormRules = {
+  validationRules = {
     email: [
       { type: 'email', message: 'Введіть валідний Email', trigger: 'blur' },
       { required: true, message: 'Введіть Email', trigger: 'blur' }
@@ -76,5 +74,4 @@ class AuthService {
   }
 }
 
-const authService = new AuthService()
-export default authService
+export const authService = new AuthService()

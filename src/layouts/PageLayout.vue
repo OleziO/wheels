@@ -6,12 +6,13 @@
         <slot />
       </main>
       <AppFooter />
+      <AppScrollTopButton v-if="route.meta.needScrollToTop" :template-wrapper-ref="mainContainerRef" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const generalStore = useGeneralStore()
-const mainContainerRef = ref<HTMLElement | null>(null)
-generalStore.mainContainerRef = mainContainerRef
+const route = useRoute()
+
+const mainContainerRef = templateRef('mainContainerRef')
 </script>

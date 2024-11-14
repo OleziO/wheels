@@ -3,11 +3,9 @@ export const routeNames = {
   home: 'home',
   search: 'search',
   top: 'top-rated',
-  finances: 'finances',
   auction: 'auction',
-  create: 'createCar',
+  create: 'create-car',
   profile: 'profile',
-  favorites: 'favorites',
   chats: 'chats',
   uikit: 'uikit',
   car: 'car'

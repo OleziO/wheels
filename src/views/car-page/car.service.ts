@@ -113,7 +113,7 @@ class CarService {
       'Подушка безпеки',
       'Мультимедіа',
       'Оптика',
-      'Система допомоги при паркуванні'
+      'Паркування'
     ]
 
     const featureData = await Promise.all(

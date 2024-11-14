@@ -20,6 +20,7 @@
         key-value="value"
         key-label="label"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
     </SearchSectionWrapper>
@@ -32,6 +33,7 @@
         key-value="value"
         key-label="label"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
     </SearchSectionWrapper>
@@ -44,6 +46,7 @@
         key-value="value"
         key-label="label"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
     </SearchSectionWrapper>
@@ -74,6 +77,7 @@
         key-value="brand"
         :options="computedSortedBrands"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
     </SearchSectionWrapper>
@@ -88,6 +92,7 @@
         key-label="model"
         :options="searchStore.mappedModels(searchStore.searchData.brands)"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
     </SearchSectionWrapper>
@@ -120,6 +125,7 @@
         key-value="value"
         :options="searchStore.searchFilterOptions.involvedAccident"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
       <AppSelect
@@ -129,6 +135,7 @@
         key-value="value"
         :options="searchStore.searchFilterOptions.techCondition"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
       <AppSelect
@@ -138,6 +145,7 @@
         key-value="value"
         :options="searchStore.searchFilterOptions.paintType"
         multiple
+        collapse-tags-tooltip
         collapse-tags
       />
     </SearchSectionWrapper>

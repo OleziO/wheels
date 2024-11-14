@@ -5,7 +5,7 @@
     <el-form
       :model="loginData"
       class="flex flex-col gap-4"
-      :rules="authService.validationRules"
+      :rules="validationRules as FormRules"
     >
       <el-form-item prop="email">
         <AppInput v-model:="loginData.email" placeholder="Введіть ваш e-mail" />
@@ -19,9 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import authService from './auth.service.service'
+import type { FormRules } from 'element-plus'
 
 const loginData = ref<ISignIn>(authService.defaultLoginData)
+const validationRules = authService.validationRules
 
 defineEmits(['login'])
 

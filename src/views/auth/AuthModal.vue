@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import { ElNotification } from 'element-plus'
 import { useAuthStore } from './auth.store'
-import authService from './auth.service.service'
 import AuthSignIn from './AuthSignIn.vue'
 import AuthSignUp from './AuthSignUp.vue'
 

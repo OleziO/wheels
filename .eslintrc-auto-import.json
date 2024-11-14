@@ -343,6 +343,7 @@
     "ElNotification": true,
     "authServiceService": true,
     "useAuthStore": true,
-    "useCreate": true
+    "useCreate": true,
+    "authService": true
   }
 }

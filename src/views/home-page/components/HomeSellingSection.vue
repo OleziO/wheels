@@ -6,13 +6,20 @@
         <p class="body-1 mt-4 w-[97%] leading-6 tracking-wider">
           Введіть трохи деталей, розмістіть оголошення у нас, знайдіть ідеального покупця
         </p>
-        <AppButton disabled type="secondary" class="mt-12.5 w-[65%]">Продати автомобіль</AppButton>
+        <AppButton
+          type="secondary"
+          class="mt-12.5 w-[65%]"
+          @click="router.replace({ name: $routeNames.create})"
+        >
+          Продати автомобіль
+        </AppButton>
       </div>
-      <el-image fit="cover" class="h-full !max-w-[590px]" :src="path" />
+      <el-image fit="cover" class="h-full !max-w-[590px]" src="src/assets/images/orange-car.png" />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-const path = 'src/assets/images/orange-car.png'
+const router = useRouter()
+
 </script>

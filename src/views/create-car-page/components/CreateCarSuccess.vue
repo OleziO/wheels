@@ -31,12 +31,11 @@ function startProgress () {
   progressWidth.value = 0
 
   const interval = setInterval(() => {
-    if (progressWidth.value + 0.2 < 100) {
-      progressWidth.value += 0.2
+    if (progressWidth.value + 0.1 <= 100) {
+      progressWidth.value += 0.1
     } else {
-      progressWidth.value = 100
       clearInterval(interval)
     }
-  }, 4)
+  }, 5)
 }
 </script>

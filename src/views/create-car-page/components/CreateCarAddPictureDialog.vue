@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-const create = useCreateStore()
 const visible = defineModel<boolean>()
+const createCarData = defineModel<ICarData>('createCarData', { required: true })
 const imageValue = ref<string>('')
 
 function handleCancel () {
@@ -29,7 +29,7 @@ function handleCancel () {
 }
 
 function handleSubmit () {
-  create.createData.car_pictures.push(imageValue.value)
+  createCarData.value.car_pictures.push(imageValue.value)
   imageValue.value = ''
   visible.value = false
 }

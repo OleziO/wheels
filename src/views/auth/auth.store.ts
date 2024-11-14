@@ -1,5 +1,3 @@
-import authService from './auth.service.service'
-
 export const useAuthStore = defineStore('authStore', () => {
   const user = ref<any | null>(null)
   const showAuthModal = ref(false)
@@ -7,17 +5,15 @@ export const useAuthStore = defineStore('authStore', () => {
 
   async function signIn (loginData: ISignIn) {
     user.value = (await authService.signIn(loginData)).user.user_metadata
-    localStorage.setItem('userData', JSON.stringify(user.value))
   }
 
   async function signUp (registerData: ISignUp) {
     user.value = (await authService.signUp(registerData)).user?.user_metadata
-    localStorage.setItem('userData', JSON.stringify(user.value))
   }
 
   async function logout () {
     await authService.logout()
-    localStorage.removeItem('userData')
+    user.value = null
   }
 
   return {

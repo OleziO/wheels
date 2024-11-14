@@ -1,8 +1,7 @@
 import type { Database } from '@/api/types/database.types'
-import type { FormRules } from 'element-plus'
 
 class CreateService {
-  defaultCreateData = {
+  defaultCreateData: ICarData = {
     location: '',
     manufacture_year: '',
     transmission_type: '',
@@ -34,75 +33,7 @@ class CreateService {
     air_conditioning: '',
     power_steering: '',
     steering_wheel_adjustment: '',
-    car_pictures: [] as string[]
-  }
-
-  infoCards = [
-    {
-      icon: 'icon-camera',
-      title: 'Робіть якісні фотографії',
-      text: 'Це може здатися очевидним, але якісні фотографії можуть значно вплинути на час, необхідний для продажу вашого автомобіля. Оголошення з хорошими фотографіями продаються втричі швидше'
-    },
-    {
-      icon: 'icon-filter',
-      title: 'Дотримуйтесь простоти',
-      text: 'Опис транспортного засобу повинен бути коротким і простим. Викликайте додаткові опції, яких можуть не мати інші подібні автомобілі. І не забудьте згадати повну історію обслуговування, якщо вона у вас є.'
-    },
-    {
-      icon: 'icon-guard',
-      title: 'Будьте чесними',
-      text: 'Важливо, щоб опис автомобіля був точним. Якщо на вашому автомобілі є невелика подряпина - будьте чесними. Це заощадить час на непотрібних переглядах, якщо покупці знають про будь-які недоліки з самого початку.'
-    }
-  ]
-
-  createCarValidationRules: FormRules = {
-    location: [
-      { required: true, message: 'Вкажіть місцезнаходження', trigger: 'blur' }
-    ],
-    manufacture_year: [
-      { required: true, message: 'Вкажіть рік виробництва', trigger: 'blur' }
-    ],
-    transmission_type: [
-      { required: true, message: 'Оберіть тип коробки передач', trigger: 'blur' }
-    ],
-    fuel_type: [
-      { required: true, message: 'Оберіть тип пального', trigger: 'blur' }
-    ],
-    price: [
-      { required: true, message: 'Вкажіть ціну', trigger: 'blur' },
-      { min: 4, max: 7, message: 'Вкажіть ціну у проміжку $100-$999k', trigger: 'blur' }
-    ],
-    mileage: [
-      { required: true, message: 'Вкажіть пробіг', trigger: 'blur' },
-      { min: 0, max: 2000, message: 'Вкажіть пробіг у проміжку 0-2000 (тис.км)', trigger: 'blur' }
-    ],
-    vin: [
-      { required: false, pattern: /^[A-HJ-NPR-Z0-9]{17}$/, message: 'Введіть коректний VIN-код (17 символів, букви або цифри, окрім "I", "O", "Q")', trigger: 'blur' }
-    ],
-    model_id: [
-      { required: true, message: 'Оберіть модель', trigger: 'blur' }
-    ],
-    brand: [
-      { required: true, message: 'Оберіть бренд', trigger: 'blur' }
-    ],
-    drive_type: [
-      { required: true, message: 'Оберіть тип приводу', trigger: 'blur' }
-    ],
-    vehicle_type: [
-      { required: true, message: 'Оберіть тип транспорту', trigger: 'blur' }
-    ],
-    body_type: [
-      { required: true, message: 'Вкажіть тип кузова', trigger: 'blur' }
-    ],
-    engine_volume: [
-      { required: true, message: 'Вкажіть об’єм двигуна', trigger: 'blur' }
-    ],
-    registration_plate: [
-      { required: true, message: 'Вкажіть номерний знак', trigger: 'blur' }
-    ],
-    color: [
-      { required: true, message: 'Вкажіть колір', trigger: 'blur' }
-    ]
+    car_pictures: []
   }
 
   async addFeature (tableName: keyof Database['public']['Tables'], features: TTables<typeof tableName>[]) {
