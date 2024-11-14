@@ -1,5 +1,5 @@
 <template>
-  <div v-if="auctionData?.car_id">
+  <div v-if="auctionData?.car_id && authStore.user">
     <CarPage :query="carId" :auction="auctionData" />
   </div>
 </template>
@@ -12,6 +12,8 @@ const props = defineProps<{
     id: string
   }
 }>()
+
+const authStore = useAuthStore()
 
 const auctionData = ref<TTables<'active_auctions'>>()
 

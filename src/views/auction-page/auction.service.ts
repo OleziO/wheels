@@ -21,15 +21,10 @@ class AuctionService {
           const newBid = payload.new as TTables<'auction_bids'>
 
           try {
-            const { data: user, error: userError } = await supabase
-              .from('user_profiles')
-              .select('*')
-              .eq('id', newBid.user_id)
-              .single()
+            const { user, userError } = await this.getUserProfileInfo(newBid.user_id)
 
             if (userError) {
-              console.error('Error fetching user profile:', userError)
-              return
+              throw userError
             }
 
             if (user && newBid.auction_id === auctionId) {
@@ -37,6 +32,7 @@ class AuctionService {
             }
           } catch (err) {
             console.error('Error processing new bid:', err)
+            throw err
           }
         }
       )
@@ -47,6 +43,16 @@ class AuctionService {
       })
 
     return channel
+  }
+
+  async getUserProfileInfo (userId: string) {
+    const { data: user, error: userError } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
+
+    return { user, userError }
   }
 
   async getBidsWithUserProfiles (auctionId: string): Promise<TBidItem[]> {

@@ -1,11 +1,9 @@
 <template>
   <div class="flex flex-col gap-4 h-[575px]">
-    <div v-if="authStore.user.sub !== auctionData.auction_owner_id || timer.status === 'ended'">
-      <h2 class="h3">{{ timer.remainingTime }} </h2>
-      <p v-if="timer.status === 'not-started'" class="body-1">
-        (початкова ставка ${{ auctionData.default_bid }})
-      </p>
-    </div>
+    <h2 class="h3">{{ timer.remainingTime }} </h2>
+    <p v-if="timer.status === 'not-started'" class="body-1">
+      (початкова ставка ${{ auctionData.default_bid }})
+    </p>
 
     <el-tabs v-model="activeTab" class="h-full flex-1 flex-grow">
       <el-tab-pane label="Ставки" name="first" class="h-full">
@@ -43,6 +41,7 @@
           </AppButton>
         </div>
       </el-tab-pane>
+
       <el-tab-pane label="Учасники" name="second" class="h-full">
         <div class="w-[400px] h-full overflow-y-scroll bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col gap-6">
           <div
@@ -68,10 +67,9 @@
 
 <script setup lang="ts">
 import type { RealtimeChannel } from '@supabase/supabase-js'
+import { replaceRouterQuery, routeNames } from '@/router'
 import { useAuctionTimer } from '@/views/auction-page/composables/useAuctionTimer'
 import AuctionBitItem from '@/views/auction-page/components/AuctionBitItem.vue'
-import { replaceRouterQuery, routeNames } from '@/router'
-import { emailService } from '@/services/email.service'
 
 const props = defineProps<{
   auctionData: TTables<'active_auctions'>
@@ -82,13 +80,16 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const realTimeChannel = ref<RealtimeChannel>()
+
 const isSubmittingNewPrice = ref(false)
+
 const activeTab = ref('first')
 
-const activeUsers = ref([] as any[])
-const bidsHistory = ref<TBidItem[]>([])
+const ownerData = ref<TTables<'user_profiles'> | null>(null)
 
-const bidAmounts = [50, 100, 500, 1000]
+const activeUsers = ref([] as any[])
+
+const bidsHistory = ref<TBidItem[]>([])
 
 const endButtonData = computed(() => {
   if (authStore.user.sub === props.auctionData.auction_owner_id) {
@@ -103,7 +104,7 @@ const endButtonData = computed(() => {
         replaceRouterQuery(routeNames.chats, { id: props.auctionData.auction_owner_id })
 
         emailService.send({
-          reply_to: bidsHistory.value[0]?.user_profiles.email || '',
+          reply_to: ownerData.value?.email || '',
           name: `${props.car.models.brand} ${props.car.models.model} ${props.car.manufacture_year}`,
           id: props.auctionData.id
         })
@@ -120,6 +121,8 @@ const endButtonData = computed(() => {
 const lastBidTime = computed(() => bidsHistory.value[0]?.created_at || '')
 
 const timer = useAuctionTimer(lastBidTime, props.auctionData.bid_time)
+
+const bidAmounts = [50, 100, 500, 1000]
 
 async function addBit (amount: number) {
   const newBid = +(bidsHistory.value.at(0)?.amount || props.auctionData.default_bid || 0) + amount
@@ -138,9 +141,9 @@ async function updateBidsHistory (newBid: TTables<'auction_bids'>, userProfile: 
   isSubmittingNewPrice.value = false
 }
 
-function setUserStatus (method: string, newUser: any) {
+async function setUserStatus (method: string, newUser: any) {
   if (method === 'join') {
-    activeUsers.value.push(newUser[0])
+    activeUsers.value.push((await auctionService.getUserProfileInfo(newUser[0].sub)).user)
   } else if (method === 'leave') {
     activeUsers.value = activeUsers.value.filter(user => user.sub !== newUser[0].sub)
   }
@@ -156,11 +159,13 @@ onMounted(async () => {
   realTimeChannel.value = auctionService
     .createAuctionChanel(
       props.auctionData.id,
-      updateBidsHistory, authStore.user,
+      updateBidsHistory,
+      authStore.user,
       setUserStatus
     )
 
   bidsHistory.value = await auctionService.getBidsWithUserProfiles(props.auctionData.id as string)
+  ownerData.value = (await auctionService.getUserProfileInfo(props.auctionData.auction_owner_id)).user
 })
 
 </script>

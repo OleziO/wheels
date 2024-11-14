@@ -17,7 +17,7 @@
 
     <p>{{ bitAmount }}</p>
 
-    <p class="absolute -bottom-[21px] right-0 secondary text-gray-light">{{ time }}</p>
+    <p class="absolute -bottom-[21px] right-0 secondary text-gray-light">{{ bidTime }}</p>
   </div>
 </template>
 
@@ -28,7 +28,8 @@ const props = defineProps <{
   bit: TBidItem
 }>()
 
+const bidTime = computed(() => dayjs(props.bit.created_at).format('HH:mm'))
+
 const bitAmount = computed(() => moneyService.numToMoneyWithFormat(props.bit.amount, '$', 'start'))
-const time = computed(() => dayjs(props.bit.created_at).format('HH:mm'))
 
 </script>
