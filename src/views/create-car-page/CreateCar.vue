@@ -21,10 +21,8 @@
 
       <CreateCarForm
         v-if="!loading"
-        v-model:car-data="createCarData"
-        v-model:car-features="carFeatures"
         v-model:loading="loading"
-        v-model:is-published="isPublished"
+        v-model:isPublished="isPublished"
       />
 
       <CreateCarSuccess v-else :create-loading="loading" :published="isPublished" />
@@ -33,23 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import { cloneDeep } from 'lodash-es'
 
 const searchStore = useSearchStore()
 
 const loading = ref(false)
 const isPublished = ref(false)
-
-const createCarData = ref<ICarData>(cloneDeep(createService.defaultCreateData))
-
-const carFeatures = ref<ICarFeatures>({
-  safety_features: [],
-  comfort_features: [],
-  multimedia_features: [],
-  optic_features: [],
-  parking_features: [],
-  airbag_features: []
-})
 
 const carInfoCards = [
   {

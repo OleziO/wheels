@@ -15,5 +15,4 @@ class HomeService {
   }
 }
 
-const homeService = new HomeService()
-export default homeService
+export const homeService = new HomeService()

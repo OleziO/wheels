@@ -13,5 +13,4 @@ class TimeService {
   }
 }
 
-const timeService = new TimeService()
-export default timeService
+export const timeService = new TimeService()

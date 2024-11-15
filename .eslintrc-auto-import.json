@@ -344,6 +344,7 @@
     "authServiceService": true,
     "useAuthStore": true,
     "useCreate": true,
-    "authService": true
+    "authService": true,
+    "createCarService": true
   }
 }

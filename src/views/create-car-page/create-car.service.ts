@@ -1,6 +1,6 @@
 import type { Database } from '@/api/types/database.types'
 
-class CreateService {
+class CreateCarService {
   defaultCreateData: ICarData = {
     location: '',
     manufacture_year: '',
@@ -125,5 +125,4 @@ class CreateService {
   }
 }
 
-const createService = new CreateService()
-export default createService
+export const createCarService = new CreateCarService()

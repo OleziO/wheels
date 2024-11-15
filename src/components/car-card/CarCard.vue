@@ -63,7 +63,7 @@
       <div class="flex justify-between items-end mt-2">
         <CarInfo
           textColor="!text-blue-light"
-          :text="timeService.timeAgo(new Date(car.created_at))"
+          :text="timeService.timeAgo(new Date(car.created_at || ''))"
           icon="icon-time"
         />
 

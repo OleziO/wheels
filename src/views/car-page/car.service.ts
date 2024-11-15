@@ -149,5 +149,4 @@ class CarService {
   }
 }
 
-const carService = new CarService()
-export default carService
+export const carService = new CarService()

@@ -14,9 +14,8 @@
 
 <script setup lang="ts">
 import { ElNotification } from 'element-plus'
-import { useAuthStore } from './auth.store'
-import AuthSignIn from './AuthSignIn.vue'
-import AuthSignUp from './AuthSignUp.vue'
+import AuthSignIn from '@/views/auth/components/AuthSignIn.vue'
+import AuthSignUp from '@/views/auth/components/AuthSignUp.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()

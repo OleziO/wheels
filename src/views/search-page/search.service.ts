@@ -384,5 +384,4 @@ class SearchService {
   }
 }
 
-const searchService = new SearchService()
-export default searchService
+export const searchService = new SearchService()

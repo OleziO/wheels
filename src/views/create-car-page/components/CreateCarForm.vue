@@ -314,16 +314,24 @@
 <script setup lang="ts">
 import { vMaska } from 'maska/vue'
 import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
-import createService from '@/views/create-car-page/create.service'
 import { cloneDeep } from 'lodash-es'
 
 const loading = defineModel<boolean>('loading', { required: true })
 const isPublished = defineModel<boolean>('isPublished', { required: true })
-const createCarData = defineModel<ICarData>('carData', { required: true })
-const carFeatures = defineModel<ICarFeatures>('carFeatures', { required: true })
 
 const searchStore = useSearchStore()
 const authStore = useAuthStore()
+
+const createCarData = ref<ICarData>(cloneDeep(createCarService.defaultCreateData))
+
+const carFeatures = ref<ICarFeatures>({
+  safety_features: [],
+  comfort_features: [],
+  multimedia_features: [],
+  optic_features: [],
+  parking_features: [],
+  airbag_features: []
+})
 
 const formRef = ref<FormInstance>()
 const acceptedPolicy = ref(false)
@@ -383,7 +391,7 @@ const createCarValidationRules: FormRules = {
     { min: 0, max: 2000, message: 'Вкажіть пробіг у проміжку 0-2000 (тис.км)', trigger: 'blur' }
   ],
   vin: [
-    { required: false, pattern: /^[A-HJ-NPR-Z0-9]{17}$/, message: 'Введіть коректний VIN-код (17 символів, букви або цифри, окрім "I", "O", "Q")', trigger: 'blur' }
+    { required: true, pattern: /^[A-HJ-NPR-Z0-9]{17}$/, message: 'Введіть коректний VIN-код (17 символів, букви або цифри, окрім "I", "O", "Q")', trigger: 'blur' }
   ],
   model_id: [
     { required: true, message: 'Оберіть модель', trigger: 'blur' }
@@ -413,24 +421,22 @@ const createCarValidationRules: FormRules = {
 
 async function publishCar () {
   try {
-    const isFormValid = formRef.value && await formRef.value.validate()
+    formRef.value && await formRef.value.validate()
 
-    if (isFormValid) {
-      loading.value = true
-      const { brand, ...payload } = createCarData.value
+    loading.value = true
+    const { brand, ...payload } = createCarData.value
 
-      const carId = await createService.createCar({
-        ...payload,
-        user_id: authStore.user.sup
-      })
+    const carId = await createCarService.createCar({
+      ...payload,
+      user_id: authStore.user.sup
+    })
 
-      if (carId) {
-        await createService.addAllFeatures(carFeatures.value, carId)
-      }
-
-      isPublished.value = true
-      Object.assign(createCarData.value, cloneDeep(createService.defaultCreateData))
+    if (carId) {
+      await createCarService.addAllFeatures(carFeatures.value, carId)
     }
+
+    isPublished.value = true
+    Object.assign(createCarData.value, cloneDeep(createCarService.defaultCreateData))
   } catch {
     ElNotification({
       title: 'Помилка',

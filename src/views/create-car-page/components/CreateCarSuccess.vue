@@ -10,9 +10,11 @@
     <RouterLink v-if="published && progressWidth === 100" :to="$routeNames.home" class="mx-auto mt-12.5">
       <AppButton>На головну</AppButton>
     </RouterLink>
+
     <p v-else class="mt-12.5 mx-auto body-2">Зачекайте, ваше оголошення публікується...</p>
   </div>
 </template>
+
 <script setup lang="ts">
 const props = defineProps<{
   createLoading: boolean
@@ -34,8 +36,9 @@ function startProgress () {
     if (progressWidth.value + 0.1 <= 100) {
       progressWidth.value += 0.1
     } else {
+      progressWidth.value = 100
       clearInterval(interval)
     }
-  }, 5)
+  }, 4)
 }
 </script>

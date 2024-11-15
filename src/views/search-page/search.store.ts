@@ -1,4 +1,3 @@
-import searchService from '@/views/search-page/search.service'
 import { cloneDeep } from 'lodash-es'
 
 export const useSearchStore = defineStore('searchStore', () => {

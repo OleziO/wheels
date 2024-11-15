@@ -17,11 +17,8 @@ export const routeGuard = async (
     return next(routeNames.home)
   }
 
-  if (session.session && !authStore.user) {
-    authStore.user = session.session.user.user_metadata
-  } else if (!session.session) {
-    authStore.logout()
-  }
+  if (!session.session) authStore.logout()
+  else if (!authStore.user) authStore.user = session.session.user.user_metadata
 
   next()
 }

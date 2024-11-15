@@ -38,5 +38,4 @@ class MoneyService {
   }
 }
 
-const moneyService = new MoneyService()
-export default moneyService
+export const moneyService = new MoneyService()
