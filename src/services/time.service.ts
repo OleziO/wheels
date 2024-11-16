@@ -1,13 +1,17 @@
-import { formatDistanceToNow } from 'date-fns'
-import { uk, enUS } from 'date-fns/locale'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/en'
+import 'dayjs/locale/uk'
+
+dayjs.extend(relativeTime)
 
 class TimeService {
-  timeAgo (date: Date): string {
+  timeAgo (date: Date) {
     const { locale } = useI18n()
-    const distance = formatDistanceToNow(date, {
-      addSuffix: true,
-      locale: locale.value === 'uk' ? uk : enUS
-    })
+    const lang = locale.value === 'uk' ? 'uk' : 'en'
+
+    dayjs.locale(lang)
+    const distance = dayjs(date).fromNow()
 
     return distance.charAt(0).toUpperCase() + distance.slice(1)
   }

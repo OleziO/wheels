@@ -2,7 +2,7 @@
   <div
     class="w-full rounded-lg cursor-pointer
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
-    @click="handleRedirectClick"
+    @click="!props.auction && replaceRouterQuery(routeNames.car, { id: props.car.id })"
   >
     <div class="w-full h-[320px] overflow-hidden">
       <el-image
@@ -39,35 +39,48 @@
         class="flex gap-2 flex-wrap mr-5 justify-end
         opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       >
-        <AppButton icon="icon-thumb-down" class="!rounded-full" @click.stop="updateRate('-')" />
-        <AppButton icon="icon-thumb-up" class="!rounded-full" @click.stop="updateRate('+')" />
+        <AppButton
+          icon="icon-thumb-down"
+          class="!rounded-full"
+          @click.stop="searchService.updateCarRating(props.car.id, 1)"
+        />
+        <AppButton
+          icon="icon-thumb-up"
+          class="!rounded-full"
+          @click.stop="searchService.updateCarRating(props.car.id, -1)"
+        />
       </div>
     </div>
 
     <div class="rounded-tr-12.5 p-5 relative -mt-12.5 bg-creamy-light flex flex-col gap-4">
       <h4 class="h4 text-gray-dark">{{ `${car.models.brand} ${car.models.model} ${car.manufacture_year}` }}</h4>
       <div v-if="!auction" class="flex gap-4">
-        <h3 class="h3 text-blue-light">{{ moneyService.numToMoneyWithFormat(car.price, '$') }}</h3>
+        <h3 class="h3 text-blue-light">{{ formattedMoney }}</h3>
         <p class="body-2 text-gray-light">
           ~{{ priceUAH }}
         </p>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        <CarInfo
+        <span
           v-for="info in carInfo"
           :key="info.icon"
-          :text="info.text"
-          :icon="(info.icon as TIcons)"
-        />
+          class="flex gap-2.5"
+        >
+          <i :class="`secondary ${info.icon as TIcons} !text-blue-light`" />
+          <p class="secondar !text-blue-light">
+            {{ info.text }}
+          </p>
+        </span>
       </div>
 
       <div v-if="!auction" class="flex justify-between items-end mt-2">
-        <CarInfo
-          textColor="!text-blue-light"
-          :text="timeService.timeAgo(new Date(car.created_at as string))"
-          icon="icon-time"
-        />
+        <span class="flex gap-2.5">
+          <i class="secondary icon-time !text-blue-light" />
+          <p class="secondar !text-blue-light">
+            {{ timeService.timeAgo(new Date(car.created_at as string)) }}
+          </p>
+        </span>
 
         <div class="flex gap-5">
           <AppButton type="icon" icon="icon-scales" class="!text-8" />
@@ -76,35 +89,39 @@
       </div>
 
       <h3 v-if="auction?.id" class="h3 text-blue-light mb-2">
-        Остання ставка: {{ moneyService.numToMoneyWithFormat(auction?.current_bid || auction.default_bid || 0, '$') }}
+        Остання ставка: {{ lastBid }}
       </h3>
 
       <AppButton
         v-if="auction?.id"
         class="mt-2"
-        @click="replaceRouterQuery($routeNames.auction, { id: auction.id })"
+        @click.stop="router.push({name: $routeNames.auction, query: { id: auction.id }})"
       >
-        Приєднатися до аукціону
+        Переглянути аукціон
       </AppButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { moneyService, searchService, timeService } from '@/services/index.service'
-
-import CarInfo from '@/components/car-card/components/CarCardInfoWithIcon.vue'
 import { replaceRouterQuery, routeNames } from '@/router'
+import { searchService, timeService } from '@/services/index.service'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   car: TCar
   rate: number
   auction?: TTables<'active_auctions'> & {
     cars: TCar
     user_profiles: TTables<'user_profiles'>
   }
-}>()
+}>(), {
+  rate: 0
+})
 
+const router = useRouter()
+
+const lastBid = computed(() => moneyService.numToMoneyWithFormat(props.auction?.current_bid || props.auction?.default_bid || 0, '$'))
+const formattedMoney = computed(() => moneyService.numToMoneyWithFormat(props.car.price, '$'))
 const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(props.rate * props.car.price), 'грн.', 'end'))
 
 const carInfo = computed(() => [
@@ -113,15 +130,6 @@ const carInfo = computed(() => [
   { text: props.car.fuel_types?.label || props.car.fuel_type, icon: 'icon-oil' },
   { text: props.car.transmission_types?.label || props.car.transmission_type, icon: 'icon-steering-fill' }
 ])
-
-async function updateRate (operation: '+' | '-') {
-  searchService.updateCarRating(props.car.id, operation === '+' ? 1 : -1)
-}
-
-function handleRedirectClick () {
-  if (!props.auction) return replaceRouterQuery(routeNames.car, { id: props.car.id })
-  return null
-}
 
 </script>
 

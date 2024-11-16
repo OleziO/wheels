@@ -24,9 +24,11 @@ import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.
 
 const router = useRouter()
 
-defineProps<{
+withDefaults(defineProps<{
   carsData: TCar[]
   rate: number
-}>()
+}>(), {
+  rate: 0
+})
 
 </script>

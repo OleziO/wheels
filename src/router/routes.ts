@@ -35,17 +35,22 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/top-rated/TopRated.vue')
   },
   {
-    path: '/auction',
-    name: routeNames.auction,
-    component: () => import('@/views/auction-page/AuctionPage.vue'),
-    props: (route) => ({ query: route.query }),
-    meta: { isAuthProtected: true }
-  },
-  {
-    path: '/auctions-list',
-    name: routeNames.auctionsList,
-    component: () => import('@/views/auctions-list-page/AuctionListPage.vue'),
-    meta: { isAuthProtected: true }
+    path: '/auctions',
+    meta: { isAuthProtected: true },
+    children: [
+      {
+        path: '',
+        name: routeNames.auctionsList,
+        component: () => import('@/views/auctions-page/AuctionsPage.vue')
+      },
+      {
+        path: 'auction',
+        name: routeNames.auction,
+        component: () => import('@/views/auctions-page/AuctionDetailsPage.vue'),
+        props: (route) => ({ query: route.query })
+
+      }
+    ]
   },
   {
     path: '/favorites',

@@ -1,7 +1,7 @@
 <template>
   <div v-loading.fullscreen="loading">
     <div
-      v-if="car && rate"
+      v-if="car"
       class="w-full max-w-[1440px] flex justify-between gap-10  mx-auto px-25 py-12.5"
     >
       <div class="w-full">
@@ -67,11 +67,9 @@
         </div>
 
         <div class="mt-12.5">
-          <div class="flex items-center gap-14 mb-10 text-gray-dark">
-            <h4 class="h4">Зв’язатись з продавцем:</h4>
-
-            <h3 class="h3">{{ car.user_profiles?.first_name || 'Продавець' }}</h3>
-          </div>
+          <h4 class="h4 mb-10 text-gray-dark">
+            Зв’язатись з продавцем: {{ car.user_profiles?.first_name || 'Продавець' }}
+          </h4>
 
           <div class="flex gap-5 justify-between">
             <AppButton type="line-light" class="w-full">Запропонувати торг</AppButton>
@@ -95,9 +93,8 @@
 
 <script setup lang="ts">
 import locationApi from '@/api/location'
-import { moneyService } from '@/services/index.service'
 import RegistrationPlateIcon from '@/assets/images/RegistrationPlateIcon.vue'
-import AuctionPageAside from '@/views/auction-page/components/AuctionPageAside.vue'
+import AuctionPageAside from '@/views/auctions-page/components/AuctionDetailsPageAside.vue'
 
 const props = defineProps<{
   auction?: TTables<'active_auctions'>
@@ -138,9 +135,3 @@ async function init () {
 onBeforeMount(init)
 
 </script>
-
-<style scopped lang="scss">
-.likeBtn {
-  @apply w-full text-creamy-light border-creamy-light hover:text-green-dark hover:bg-creamy-light #{!important};
-}
-</style>

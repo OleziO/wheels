@@ -20,7 +20,7 @@ const auctionData = ref<TTables<'active_auctions'>>()
 const carId = computed(() => ({ id: auctionData.value?.car_id || '' }))
 
 async function init () {
-  auctionData.value = await auctionService.getAuctionData(props.query.id)
+  auctionData.value = await auctionsService.getAuctionData(props.query.id)
 }
 
 onMounted(init)

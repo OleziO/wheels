@@ -1,7 +1,12 @@
+import type { UserMetadata } from '@supabase/supabase-js'
 import authService from './auth.service.service'
 
+export interface IUser extends UserMetadata{
+  avatar?: string
+}
+
 export const useAuthStore = defineStore('authStore', () => {
-  const user = ref<any>(null)
+  const user = ref<IUser | undefined>()
   const showAuthModal = ref(false)
   const redirectLink = ref<string | null>(null)
 

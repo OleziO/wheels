@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { moneyService } from '@/services/index.service'
 import { cloneDeep } from 'lodash-es'
 
 const searchStore = useSearchStore()
@@ -39,8 +38,8 @@ async function fetchData () {
     homeService.getPopularCars()
   ])
 
-  rate.value = rateData || 0
-  cars.value = (carsData as TCar[]) || []
+  rate.value = rateData
+  cars.value = carsData as TCar[]
 }
 
 async function init () {

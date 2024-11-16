@@ -3,6 +3,7 @@
     <h3 class="h3 text-gray-dark mb-10">Реєстрація на сайт Wheels.com</h3>
 
     <el-form
+      v-loading.fullscreen="loading"
       :model="registerData"
       class="flex flex-col gap-4"
       :rules="authService.validationRules"
@@ -42,7 +43,7 @@
 
       <AppButton
         class="w-full mt-4"
-        @click="$emit('register', registerData)"
+        @click="handleRegister"
       >
         Зареєструватися
       </AppButton>
@@ -53,9 +54,17 @@
 <script setup lang="ts">
 import { vMaska } from 'maska/vue'
 import authService from './auth.service.service'
+import { ref } from 'vue'
+
+const loading = ref<boolean>(false)
+
+const emit = defineEmits(['register'])
 
 const registerData = ref<ISignUp>(authService.defaultRegisterData)
 
-defineEmits(['register'])
+async function handleRegister () {
+  loading.value = true
 
+  emit('register', registerData.value)
+}
 </script>

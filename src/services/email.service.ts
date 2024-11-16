@@ -8,8 +8,8 @@ interface IAuctionMessage {
 }
 
 class EmailService {
-  async send (message: IAuctionMessage) {
-    await emailjs
+  async sendEmail (message: IAuctionMessage) {
+    return emailjs
       .send(
         import.meta.env.VITE_EMAIL_SERVICE,
         import.meta.env.VITE_EMAIL_TEMPLATE_ID,

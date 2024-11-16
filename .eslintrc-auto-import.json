@@ -343,6 +343,9 @@
     "topRatedService": true,
     "auctionService": true,
     "auctionsListService": true,
-    "emailService": true
+    "emailService": true,
+    "auctionsService": true,
+    "ElMessage": true,
+    "ElMessageBox": true
   }
 }

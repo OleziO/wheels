@@ -1,8 +1,11 @@
-class AuctionService {
+import type { IUser } from '@/views/auth/auth.store'
+
+class AuctionsService {
   createAuctionChanel (
     auctionId: string,
-    onSuccess: (newBid: TTables<'auction_bids'>, userProfile: TTables<'user_profiles'>) => void,
-    userProfile: TTables<'user_profiles'>,
+    onAdd: (newBid: TTables<'auction_bids'>, userProfile: TTables<'user_profiles'>) => void,
+    onRemove: () => void,
+    userProfile: IUser,
     setConnectedUsers: (key: string, presences: any) => void
   ) {
     const channel = supabase.channel(`auction_channel_${auctionId}`)
@@ -28,12 +31,19 @@ class AuctionService {
             }
 
             if (user && newBid.auction_id === auctionId) {
-              onSuccess(newBid, user)
+              onAdd(newBid, user)
             }
           } catch (err) {
             console.error('Error processing new bid:', err)
             throw err
           }
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'auction_bids' },
+        async () => {
+          onRemove()
         }
       )
       .subscribe(async (status) => {
@@ -53,6 +63,16 @@ class AuctionService {
       .single()
 
     return { user, userError }
+  }
+
+  async leaveAuction (auctionId: string, userId: string) {
+    const { error } = await supabase
+      .from('auction_bids')
+      .delete()
+      .eq('auction_id', auctionId)
+      .eq('user_id', userId)
+
+    if (error) throw error
   }
 
   async getBidsWithUserProfiles (auctionId: string): Promise<TBidItem[]> {
@@ -92,11 +112,11 @@ class AuctionService {
       .eq('id', auctionId)
   }
 
-  async updateAuctionData (bidData: TTables<'auction_bids'>): Promise<any> {
+  async updateAuctionData (auctionId: string, amount: number, bidUser: string): Promise<any> {
     const { data, error } = await supabase
       .from('active_auctions')
-      .update({ current_bid: bidData.amount, current_bid_user_id: bidData.user_id })
-      .eq('id', bidData.auction_id)
+      .update({ current_bid: amount, current_bid_user_id: bidUser })
+      .eq('id', auctionId)
 
     if (error) {
       console.error('Error updating auction data:', error)
@@ -122,6 +142,60 @@ class AuctionService {
 
     return data
   }
+
+  async getAuctionsList () {
+    const { data, error } = await supabase
+      .from('active_auctions')
+      .select(`
+        *, 
+        user_profiles!inner(*),
+        cars!inner(
+          *,  
+          models!inner(*),
+          locations!inner(*),
+          fuel_types!inner(*),
+          transmission_types!inner(*))
+      `)
+      .eq('is_ended', false)
+      .order('started_at', { ascending: false })
+
+    if (error) throw error
+
+    return (data || []) as IAuctionExtended[]
+  }
+
+  async getUserCars (userId: string) {
+    const { data, error } = await supabase
+      .from('cars')
+      .select('*, models!inner(*), locations!inner(*), car_colors!inner(*)')
+      .eq('user_id', userId)
+      .eq('is_in_auction', false)
+
+    if (error) throw error
+
+    return (data || []) as TCar[]
+  }
+
+  async createNewAuction (auctionData: INewAuction) {
+    const { data: auctionResData, error: auctionError } = await supabase
+      .from('active_auctions')
+      .insert({
+        ...auctionData,
+        bid_time: +auctionData.bid_time,
+        default_bid: +auctionData.default_bid
+      })
+      .select('*')
+
+    const { error: carError } = await supabase
+      .from('cars')
+      .update({ is_in_auction: true })
+      .eq('id', auctionData.car_id)
+      .select('*')
+
+    if (auctionError || carError) throw auctionError
+
+    return auctionResData || []
+  }
 }
 
-export const auctionService = new AuctionService()
+export const auctionsService = new AuctionsService()

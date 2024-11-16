@@ -18,7 +18,7 @@
         <el-form-item prop="car_id">
           <AppSelect
             v-model="newAuctionData.car_id"
-            :options="cars"
+            :options="myCars"
             key-label="label"
             key-value="id"
             placeholder=" Оберіть автомобіль"
@@ -53,6 +53,10 @@
 import { vMaska } from 'maska/vue'
 import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
 
+defineProps<{
+  myCars: (TCar & {label: string})[]
+}>()
+
 const showCreateModal = defineModel<boolean>()
 
 const emit = defineEmits(['update-list'])
@@ -65,14 +69,12 @@ const loading = ref(false)
 
 const newAuctionData = ref<INewAuction>(
   {
-    auction_owner_id: authStore.user.sub,
+    auction_owner_id: authStore.user?.sub,
     car_id: '',
     bid_time: '',
     default_bid: ''
   }
 )
-
-const cars = ref<(TCar & {label: string})[]>([])
 
 const validationRules: FormRules = {
   car_id: [
@@ -122,7 +124,7 @@ async function handleCreateAuction () {
     loading.value = true
 
     if (await createAuctionFormRef.value.validate()) {
-      await auctionsListService.createNewAuction({
+      await auctionsService.createNewAuction({
         ...newAuctionData.value,
         default_bid: newAuctionData.value.default_bid.slice(1)
       })
@@ -144,24 +146,8 @@ async function handleCreateAuction () {
   }
 }
 
-async function getUserCars () {
-  cars.value = (await auctionsListService.getUserCars(authStore.user.sub))
-    .map(car => (
-      {
-        ...car,
-        label: `${car.car_colors?.label} 
-        ${car.models.brand} 
-        ${car.models.model} 
-        ${car.manufacture_year} | 
-        ${car.mileage} тис км`
-      })
-    )
-}
-
 function handleClose () {
   showCreateModal.value = false
 }
-
-onMounted(getUserCars)
 
 </script>

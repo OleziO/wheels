@@ -5,7 +5,7 @@
     </h2>
 
     <div class="flex gap-4 mt-6">
-      <h3 class="h1 text-blue-light">{{ moneyService.numToMoneyWithFormat(car.price, '$') }}</h3>
+      <h3 class="h1 text-blue-light">{{ formattedMoney }}</h3>
 
       <p class="body-1 text-gray-light">
         ~{{ priceUAH }}
@@ -86,11 +86,12 @@
 </template>
 
 <script setup lang="ts">
-import { moneyService } from '@/services/index.service'
 
-defineProps<{
+const props = defineProps<{
   car: TCar
   location: string
   priceUAH: string
 }>()
+
+const formattedMoney = computed(() => moneyService.numToMoneyWithFormat(props.car.price, '$'))
 </script>
