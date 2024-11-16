@@ -3,6 +3,7 @@ class TopRatedService {
     const { data } = await supabase
       .from('cars')
       .select('*, models!inner(*), locations!inner(*), fuel_types(*), transmission_types(*)')
+      .eq('is_in_auction', false)
       .order('car_rate', { ascending: false })
       .limit(30)
 

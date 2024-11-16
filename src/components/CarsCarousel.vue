@@ -33,8 +33,10 @@
 import { VueperSlides, VueperSlide } from 'vueperslides'
 import CarCard from '@/components/car-card/CarCard.vue'
 
-defineProps<{
+withDefaults(defineProps<{
   cars: TCar[]
   rate: number
-}>()
+}>(), {
+  rate: 0
+})
 </script>

@@ -9,7 +9,7 @@
 
         <div v-else class="flex flex-col gap-19 items-center mb-25">
           <div class="grid grid-cols-3 w-fit gap-5">
-            <CarCard v-for="car in cars" :key="car.id" :car="car" :rate="rate" />
+            <CarCard v-for="car in cars" :key="car.id" :car="car" :rate="generalStore.rate" />
           </div>
         </div>
       </div>
@@ -18,13 +18,14 @@
 </template>
 
 <script setup lang="ts">
+
+const generalStore = useGeneralStore()
+
 const loading = ref(true)
-const rate = ref(0)
 const cars = ref<TCar[]>([])
 
 onMounted(async () => {
   loading.value = true
-  rate.value = await moneyService.getUSDtoUAH()
   cars.value = await topRatedService.getTopRatedCars()
   loading.value = false
 })

@@ -245,6 +245,7 @@ class SearchService {
     let queryReq = supabase
       .from('cars')
       .select('*, models!inner(*), locations!inner(*), fuel_types(*), transmission_types(*)', selectOptions)
+      .eq('is_in_auction', false)
       .order('created_at', { ascending: false })
 
     for (const field in filters) {
@@ -284,7 +285,7 @@ class SearchService {
     if (car?.length && car[0]) {
       await supabase
         .from('cars')
-        .update({ car_rate: car[0]?.car_rate + operation })
+        .update({ car_rate: (car[0]?.car_rate || 0) + operation })
         .eq('id', car[0].id)
     }
   }

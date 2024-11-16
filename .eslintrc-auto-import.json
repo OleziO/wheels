@@ -340,6 +340,12 @@
     "ElNotification": true,
     "authServiceService": true,
     "useAuthStore": true,
-    "topRatedService": true
+    "topRatedService": true,
+    "auctionService": true,
+    "auctionsListService": true,
+    "emailService": true,
+    "auctionsService": true,
+    "ElMessage": true,
+    "ElMessageBox": true
   }
 }

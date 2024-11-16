@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/car',
     name: routeNames.car,
-    component: () => import('@/views/car-page/Car.vue'),
+    component: () => import('@/views/car-page/CarPage.vue'),
     props: (route) => ({ query: route.query })
   },
   {
@@ -35,10 +35,22 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/top-rated/TopRated.vue')
   },
   {
-    path: '/auction',
-    name: routeNames.auction,
-    component: () => import('@/views/Auction.vue'),
-    meta: { isAuthProtected: true }
+    path: '/auctions',
+    meta: { isAuthProtected: true },
+    children: [
+      {
+        path: '',
+        name: routeNames.auctionsList,
+        component: () => import('@/views/auctions-page/AuctionsPage.vue')
+      },
+      {
+        path: 'auction-details',
+        name: routeNames.auction,
+        component: () => import('@/views/auctions-page/AuctionDetailsPage.vue'),
+        props: (route) => ({ query: route.query })
+
+      }
+    ]
   },
   {
     path: '/favorites',

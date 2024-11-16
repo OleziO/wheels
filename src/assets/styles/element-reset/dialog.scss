@@ -1,7 +1,7 @@
 .el-overlay-dialog {
-  @apply flex justify-center items-center bg-blue-dark bg-opacity-70;
+  @apply flex justify-center items-center bg-blue-dark bg-opacity-70 z-50;
 
-  .authModal {
+  .custom-modal {
     &.el-dialog {
       @apply m-0
     }

@@ -36,7 +36,7 @@
 
       <SearchCarList
         v-model="searchStore.searchData"
-        :rate="rate"
+        :rate="generalStore.rate"
         :cars="cars"
         :per-page="searchStore.searchData.perPage"
         :total-cars-count="totalCarsCount"
@@ -55,13 +55,14 @@ const props = defineProps<{
 }>()
 
 const searchStore = useSearchStore()
+const generalStore = useGeneralStore()
+
 const sortElement = ref(searchStore.searchFilterOptions.sortingTypes[0])
 
 const loading = ref(false)
 
 const cars = ref<TCar[]>([])
 const totalCarsCount = ref(0)
-const rate = ref(0)
 
 const paginationIndexes = computed(() => {
   const start = (+searchStore.searchData.page - 1) * +searchStore.searchData.perPage
@@ -109,7 +110,6 @@ async function setCarsWithPagination (start: number, end: number) {
 async function init () {
   loading.value = true
   try {
-    rate.value = await moneyService.getUSDtoUAH()
     searchStore.searchData = cloneDeep(searchStore.defaultSearchData)
     searchStore.setSearchDataFromQuery(props.query)
     await searchStore.getSearchFilterOptions()

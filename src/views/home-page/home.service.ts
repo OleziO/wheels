@@ -8,7 +8,8 @@ class HomeService {
   async getPopularCars () {
     const { data } = await supabase
       .from('cars')
-      .select('*, models!inner(*), locations!inner(*)')
+      .select('*, models!inner(*), locations!inner(*), fuel_types!inner(*), transmission_types!inner(*)')
+      .eq('is_in_auction', false)
       .limit(9)
 
     return data
