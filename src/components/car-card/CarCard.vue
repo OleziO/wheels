@@ -2,7 +2,6 @@
   <div
     class="w-full rounded-lg cursor-pointer
     overflow-hidden custom-shadow relative group flex flex-col justify-end"
-    @click="!props.auction && replaceRouterQuery(routeNames.car, { id: props.car.id })"
   >
     <div class="w-full h-[320px] overflow-hidden">
       <el-image
@@ -24,7 +23,7 @@
       </el-image>
     </div>
 
-    <div class="card-label absolute top-5 z-40 w-full flex gap-8 justify-between">
+    <div class="absolute top-6 z-40 w-full flex gap-8 justify-between items-center">
       <span>
         <div v-if="car.vin" class="relative h-fit bg-blue-light py-2 px-4">
           <p class="inline-flex text-white body-2 whitespace-nowrap">Перевірений VIN-код</p>
@@ -35,21 +34,11 @@
         </div>
       </span>
 
-      <div
-        class="flex gap-2 flex-wrap mr-5 justify-end
-        opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      >
-        <AppButton
-          icon="icon-thumb-down"
-          class="!rounded-full"
-          @click.stop="searchService.updateCarRating(props.car.id, 1)"
-        />
-        <AppButton
-          icon="icon-thumb-up"
-          class="!rounded-full"
-          @click.stop="searchService.updateCarRating(props.car.id, -1)"
-        />
-      </div>
+      <AppButton
+        icon="icon-thumb-up"
+        class="!rounded-full w-14 h-14 mr-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        @click.stop="searchService.updateCarRating(props.car.id, -1)"
+      />
     </div>
 
     <div class="rounded-tr-12.5 p-5 relative -mt-12.5 bg-creamy-light flex flex-col gap-4">
@@ -65,47 +54,43 @@
         <span
           v-for="info in carInfo"
           :key="info.icon"
-          class="flex gap-2.5"
+          class="flex gap-2.5 items-center secondary !text-blue-light"
         >
-          <i :class="`secondary ${info.icon as TIcons} !text-blue-light`" />
-          <p class="secondar !text-blue-light">
+          <i :class="info.icon as TIcons" />
+          <p>
             {{ info.text }}
           </p>
         </span>
       </div>
 
       <div v-if="!auction" class="flex justify-between items-end mt-2">
-        <span class="flex gap-2.5">
-          <i class="secondary icon-time !text-blue-light" />
-          <p class="secondar !text-blue-light">
-            {{ timeService.timeAgo(new Date(car.created_at as string)) }}
+        <span class="flex gap-2.5 items-center text-orange">
+          <i class="icon-time" />
+          <p>
+            {{ timeAgo(new Date(car.created_at as string)) }}
           </p>
         </span>
-
-        <div class="flex gap-5">
-          <AppButton type="icon" icon="icon-scales" class="!text-8" />
-          <AppButton type="icon" icon="icon-heart" class="!text-8" />
-        </div>
       </div>
 
-      <h3 v-if="auction?.id" class="h3 text-blue-light mb-2">
-        Остання ставка: {{ lastBid }}
-      </h3>
+      <div v-if="auction">
+        <h3 class="h3 text-blue-light mb-2">
+          Остання ставка: {{ lastBid }}
+        </h3>
 
-      <AppButton
-        v-if="auction?.id"
-        class="mt-2"
-        @click.stop="router.push({name: $routeNames.auction, query: { id: auction.id }})"
-      >
-        Переглянути аукціон
-      </AppButton>
+        <AppButton
+          class="mt-2"
+          @click.stop="router.push({name: $routeNames.auction, query: { id: auction.id }})"
+        >
+          Переглянути аукціон
+        </AppButton>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { replaceRouterQuery, routeNames } from '@/router'
-import { searchService, timeService } from '@/services/index.service'
+import { timeAgo } from '@/core/helpers'
+import { searchService } from '@/services/index.service'
 
 const props = withDefaults(defineProps<{
   car: TCar
@@ -132,10 +117,3 @@ const carInfo = computed(() => [
 ])
 
 </script>
-
-<style scoped lang="scss">
-.card-label {
-  @apply grid items-start justify-between;
-  grid-template-columns: repeat(2, 1fr);
-}
-</style>

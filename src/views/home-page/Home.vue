@@ -4,7 +4,7 @@
     <HomeSearchSection />
     <HomeSellingSection />
     <HomePopularSearchesSection />
-    <HomeOffersSection :cars-data="cars" :rate="rate" />
+    <HomeOffersSection :cars-data="cars" :rate="generalStore.rate" />
     <HomeFavoriteBrandsSection :brands="popularBrands" />
     <HomeUsefulInfoSection />
     <HomeFAQSection />
@@ -25,20 +25,16 @@
 import { cloneDeep } from 'lodash-es'
 
 const searchStore = useSearchStore()
+const generalStore = useGeneralStore()
 
 const popularBrands = ref<IPopularBrand[]>([])
 const cars = ref<TCar[]>([])
-const rate = ref(0)
 
 const loading = ref(false)
 
 async function fetchData () {
-  const [rateData, carsData] = await Promise.all([
-    moneyService.getUSDtoUAH(),
-    homeService.getPopularCars()
-  ])
+  const carsData = await homeService.getPopularCars()
 
-  rate.value = rateData
   cars.value = carsData as TCar[]
 }
 

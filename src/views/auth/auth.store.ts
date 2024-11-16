@@ -6,7 +6,7 @@ export interface IUser extends UserMetadata{
 }
 
 export const useAuthStore = defineStore('authStore', () => {
-  const user = ref<IUser | undefined>()
+  const user = ref<IUser>()
   const showAuthModal = ref(false)
   const redirectLink = ref<string | null>(null)
 

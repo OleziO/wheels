@@ -24,4 +24,10 @@ const userData = localStorage.getItem('userData')
 
 if (userData) authStore.user = JSON.parse(userData)
 
+const generalStore = useGeneralStore()
+
+onMounted(() => {
+  generalStore.rate = moneyService.getUSDtoUAH()
+})
+
 </script>

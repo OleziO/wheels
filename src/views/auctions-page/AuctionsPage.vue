@@ -22,7 +22,11 @@
     </div>
 
     <div v-if="auctionsList.length" class="grid grid-cols-3 max-w-[1440px] gap-5">
-      <CarCard v-for="car in auctionsList" :key="car.cars.id" :rate="rate" :car="car.cars" :auction="car" />
+      <CarCard
+        v-for="car in auctionsList"
+        :key="car.cars.id"
+        :rate="generalStore.rate" :car="car.cars" :auction="car"
+      />
     </div>
 
     <div v-else class="flex-1 w-full flex justify-center items-center">
@@ -36,10 +40,10 @@
 <script setup lang="ts">
 
 const authStore = useAuthStore()
+const generalStore = useGeneralStore()
 
 const showCreateAuctionModal = ref(false)
 const loading = ref(false)
-const rate = ref(0)
 
 const auctionsList = ref<IAuctionExtended[]>([])
 const myCars = ref<(TCar & {label: string})[]>([])
@@ -77,8 +81,6 @@ async function init () {
 
   await getAuctionsList()
   await getUserCars()
-
-  rate.value = await moneyService.getUSDtoUAH()
 
   loading.value = false
 }

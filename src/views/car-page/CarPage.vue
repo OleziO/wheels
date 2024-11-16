@@ -86,7 +86,7 @@
     <div class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
       <h3 class="h3 mb-10 text-gray-dark">Рекомендації для вас</h3>
 
-      <CarsCarousel :rate="rate" :cars="recomendedCars" />
+      <CarsCarousel :rate="generalStore.rate" :cars="recomendedCars" />
     </div>
   </div>
 </template>
@@ -103,14 +103,15 @@ const props = defineProps<{
   }
 }>()
 
+const generalStore = useGeneralStore()
+
 const loading = ref(false)
 const car = ref<TCar | null>(null)
 const location = ref('')
-const rate = ref(0)
 const recomendedCars = ref<TCar[]>([])
 const mainCarInfo = ref<IFilterOption[]>([])
 
-const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(rate.value * car.value!.price), 'грн.', 'end'))
+const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate.value * car.value!.price), 'грн.', 'end'))
 
 const headerCarInfo = computed(() => [
   { text: `${car.value!.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
@@ -125,7 +126,6 @@ async function init () {
     car.value = await carService.getCarData(props.query.id)
     recomendedCars.value = await carService.getRecomendedCars(car.value!.price || 0, car.value!.id)
     mainCarInfo.value = carService.getMainInfo(car.value)
-    rate.value = await moneyService.getUSDtoUAH()
     location.value = await locationApi.getLocationUrl(car.value!.location)
   } finally {
     loading.value = false

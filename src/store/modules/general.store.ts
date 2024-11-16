@@ -1,6 +1,8 @@
 export const useGeneralStore = defineStore('generalStore', () => {
-  return {
+  const rate = ref()
 
+  return {
+    rate
   }
 })
 

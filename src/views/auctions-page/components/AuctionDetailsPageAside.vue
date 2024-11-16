@@ -6,7 +6,7 @@
     </p>
 
     <el-tabs v-model="activeTab" class="flex-1 h-[280px]">
-      <el-tab-pane v-loading="asideLoading" label="Ставки" name="bids" class="h-full">
+      <el-tab-pane label="Ставки" name="bids" class="h-full">
         <div class="w-[400px] h-full bg-creamy py-8 pl-6 pr-0 rounded-lg flex flex-col">
           <div class="h-full overflow-y-scroll flex flex-col gap-8 pr-5 scroll-gutter-stable">
             <AuctionDetailsBitItem
@@ -87,8 +87,6 @@ const authStore = useAuthStore()
 
 const realTimeChannel = ref<RealtimeChannel>()
 
-const asideLoading = ref(false)
-
 const isSubmittingNewPrice = ref(false)
 
 const activeTab = ref('bids')
@@ -160,29 +158,21 @@ const timer = useAuctionTimer(lastBidTime, props.auctionData.bid_time)
 const bidAmounts = [50, 100, 500, 1000]
 
 async function addBit (amount: number) {
-  asideLoading.value = true
-
   const newBid = +(bidsHistory.value.at(0)?.amount || props.auctionData.default_bid || 0) + amount
   const userId = authStore.user?.sub
 
   isSubmittingNewPrice.value = true
 
   await auctionsService.makeBid(newBid, userId, props.auctionData.id as string)
-
-  asideLoading.value = false
 }
 
 async function updateBidsHistory (newBid: TTables<'auction_bids'>, userProfile: TTables<'user_profiles'>) {
-  asideLoading.value = true
-
   bidsHistory.value.unshift({
     ...newBid,
     user_profiles: userProfile
   })
   await auctionsService.updateAuctionData(props.auctionData.id, newBid.amount, newBid.user_id)
   isSubmittingNewPrice.value = false
-
-  asideLoading.value = false
 }
 
 async function setUserStatus (method: string, newUser: any) {
@@ -194,15 +184,11 @@ async function setUserStatus (method: string, newUser: any) {
 }
 
 async function updateAfterRemoveBids () {
-  asideLoading.value = true
-
   bidsHistory.value = await auctionsService.getBidsWithUserProfiles(props.auctionData.id)
 
   const lastBid = bidsHistory.value[0]
 
   lastBid && await auctionsService.updateAuctionData(props.auctionData.id, lastBid?.amount, lastBid?.user_id)
-
-  asideLoading.value = false
 }
 
 async function leaveFromAuction () {
