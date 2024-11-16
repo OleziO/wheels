@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/auctions-page/AuctionsPage.vue')
       },
       {
-        path: 'auction',
+        path: 'auction-details',
         name: routeNames.auction,
         component: () => import('@/views/auctions-page/AuctionDetailsPage.vue'),
         props: (route) => ({ query: route.query })
