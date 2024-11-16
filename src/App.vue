@@ -18,4 +18,10 @@ import PageLayout from '@/layouts/PageLayout.vue'
 
 const { messages, locale } = useI18n()
 
+const generalStore = useGeneralStore()
+
+onMounted(async () => {
+  generalStore.rate = await moneyService.getUSDtoUAH()
+})
+
 </script>

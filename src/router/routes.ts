@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/car',
     name: routeNames.car,
-    component: () => import('@/views/car-page/Car.vue'),
+    component: () => import('@/views/car-page/CarPage.vue'),
     props: (route) => ({ query: route.query }),
     meta: { needScrollToTop: true }
   },
@@ -35,14 +35,26 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/top-rated',
     name: routeNames.top,
-    component: () => import('@/views/TopRated.vue'),
+    component: () => import('@/views/top-rated/TopRated.vue'),
     meta: { needScrollToTop: true }
   },
   {
-    path: '/auction',
-    name: routeNames.auction,
-    component: () => import('@/views/Auction.vue'),
-    meta: { isAuthProtected: true, needScrollToTop: true }
+    path: '/auctions',
+    meta: { isAuthProtected: true },
+    children: [
+      {
+        path: '',
+        name: routeNames.auctionsList,
+        component: () => import('@/views/auctions-page/AuctionsPage.vue')
+      },
+      {
+        path: 'auction-details',
+        name: routeNames.auction,
+        component: () => import('@/views/auctions-page/AuctionDetailsPage.vue'),
+        props: (route) => ({ query: route.query })
+
+      }
+    ]
   },
   {
     path: '/profile',

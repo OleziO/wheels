@@ -1,5 +1,11 @@
+import type { UserMetadata } from '@supabase/supabase-js'
+
+export interface IUser extends UserMetadata{
+  avatar?: string
+}
+
 export const useAuthStore = defineStore('authStore', () => {
-  const user = ref<any | null>(null)
+  const user = ref<IUser>()
   const showAuthModal = ref(false)
   const redirectLink = ref<string | null>(null)
 
@@ -13,7 +19,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
   async function logout () {
     await authService.logout()
-    user.value = null
+    user.value = undefined
   }
 
   return {

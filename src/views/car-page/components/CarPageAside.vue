@@ -5,14 +5,14 @@
     </h2>
 
     <div class="flex gap-4 mt-6">
-      <h3 class="h1 text-blue-light">{{ moneyService.numToMoneyWithFormat(car.price, '$') }}</h3>
+      <h3 class="h1 text-blue-light">{{ formattedMoney }}</h3>
 
       <p class="body-1 text-gray-light">
         ~{{ priceUAH }}
       </p>
     </div>
 
-    <CarAsideItem class="bg-creamy">
+    <CarPageAsideSectionItem class="bg-creamy">
       <div class="flex gap-7">
         <el-avatar class="w-25 h-25 rounded-full overflow-hidden" :src="car.user_profiles?.avatar || ''">
           <div class="w-25 h-25 rounded-full flex justify-center items-center bg-gray-light text-creamy-light">
@@ -36,9 +36,9 @@
           <AppButton type="line-light" class="w-full" icon="icon-phone">Зателефонувати</AppButton>
         </a>
       </div>
-    </CarAsideItem>
+    </CarPageAsideSectionItem>
 
-    <CarAsideItem class="text-black bg-creamy !p-0">
+    <CarPageAsideSectionItem class="text-black bg-creamy !p-0">
       <a :href="location || ''" target="_blank" class="flex flex-nowrap justify-between items-center gap-8 p-8">
         <div>
           <h4 class="h4">Місцезнаходження</h4>
@@ -53,16 +53,16 @@
           <el-image src="./src/assets/images/location-placeholder.svg" class="w-full !object-cover" />
         </div>
       </a>
-    </CarAsideItem>
+    </CarPageAsideSectionItem>
 
     <div class="w-full flex justify-between mt-10 gap-5">
       <AppButton class="w-full" icon="icon-heart">Зберегти</AppButton>
       <AppButton class="w-full" icon="icon-scales">Порівняти</AppButton>
     </div>
 
-    <CarAsideItem class="bg-green-dark text-creamy-light">
+    <CarPageAsideSectionItem class="bg-green-dark text-creamy-light">
       <h4 class="h4">Вважаєте це авто унікальним?</h4>
-      <p class="mt-5 body-2">Ставте оцінку та беріть участь у формуванні ТОП-100 найцікавіших моделей на сайті</p>
+      <p class="mt-5 body-2">Ставте оцінку та беріть участь у формуванні ТОП-30 найцікавіших моделей на сайті</p>
 
       <div class="w-full flex flex-col gap-5 mt-9">
         <AppButton
@@ -81,16 +81,17 @@
           Не подобається
         </AppButton>
       </div>
-    </CarAsideItem>
+    </CarPageAsideSectionItem>
   </aside>
 </template>
 
 <script setup lang="ts">
-import { moneyService } from '@/services/index.service'
 
-defineProps<{
+const props = defineProps<{
   car: TCar
   location: string
   priceUAH: string
 }>()
+
+const formattedMoney = computed(() => moneyService.numToMoneyWithFormat(props.car.price, '$'))
 </script>

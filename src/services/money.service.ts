@@ -2,19 +2,8 @@ import currencyApi from '@/api/currency'
 import { useI18n } from 'vue-i18n'
 
 class MoneyService {
-  rate: number
-
-  constructor () {
-    this.rate = 0
-  }
-
   async getUSDtoUAH () {
-    if (!this.rate) {
-      const response = await currencyApi.rateUSD()
-      this.rate = response.data[0].rate as number
-    }
-
-    return this.rate
+    return (await currencyApi.rateUSD()).data[0].rate as number
   }
 
   numToMoneyWithFormat (amount: number, moneyText: string, moneyPosition: 'start' | 'end' = 'start') {

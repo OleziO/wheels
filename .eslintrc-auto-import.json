@@ -345,6 +345,12 @@
     "useAuthStore": true,
     "useCreate": true,
     "authService": true,
-    "createCarService": true
+    "createCarService": true,
+    "topRatedService": true,
+    "auctionService": true,
+    "auctionsListService": true,
+    "emailService": true,
+    "auctionsService": true,
+    "ElMessage": true
   }
 }

@@ -3,6 +3,7 @@
     <h3 class="h3 text-gray-dark mb-10">Вхід на сайт Wheels.com</h3>
 
     <el-form
+      v-loading.fullscreen="loading"
       :model="loginData"
       class="flex flex-col gap-4"
       :rules="validationRules"
@@ -13,7 +14,12 @@
 
       <AppInput type="password" show-password v-model:="loginData.password" placeholder="Введіть пароль" />
 
-      <AppButton class="w-full mt-4" @click="$emit('login', loginData)">Увійти</AppButton>
+      <AppButton
+        class="w-full mt-4"
+        @click="handleLogin"
+      >
+        Увійти
+      </AppButton>
     </el-form>
   </div>
 </template>
@@ -21,7 +27,9 @@
 <script setup lang="ts">
 import type { FormRules } from 'element-plus'
 
-defineEmits(['login'])
+const loading = defineModel<boolean>()
+
+const emit = defineEmits(['login'])
 
 const loginData = ref<ISignIn>(authService.defaultLoginData)
 
@@ -30,6 +38,12 @@ const validationRules: FormRules = {
     { type: 'email', message: 'Введіть валідний Email', trigger: 'blur' },
     { required: true, message: 'Введіть Email', trigger: 'blur' }
   ]
+}
+
+async function handleLogin () {
+  loading.value = true
+
+  emit('login', loginData.value)
 }
 
 </script>

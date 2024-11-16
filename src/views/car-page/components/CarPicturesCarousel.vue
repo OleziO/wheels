@@ -10,7 +10,7 @@
       :bullets="false"
       disable-arrows-on-edges
       fixed-height="575px"
-      @slide="secondarySlidesRef.goToSlide($event.currentSlide.index, { emit: false })"
+      @slide="handleMainSlideChange"
     >
       <VueperSlide
         v-for="(image, i) in computedImages"
@@ -30,11 +30,12 @@
                 </template>
               </el-skeleton>
             </template>
+
             <template #error>
               <div class="w-full h-full flex justify-center items-center h1 text-gray-light">
                 <el-image
                   lazy
-                  src="./src/assets/images/car-placeholder.jpg"
+                  :src="carPlaceholder"
                   alt="Car Picture"
                   class="w-full h-full flex justify-center"
                   fit="cover"
@@ -57,7 +58,7 @@
       fixed-height="130px"
       lazy
       :arrows="false"
-      @slide="mainSlideRef.goToSlide($event.currentSlide.index, { emit: false })"
+      @slide="handleSecondarySlideChange"
     >
       <VueperSlide
         v-for="(image, i) in computedImages"
@@ -79,6 +80,7 @@
 
 <script setup lang="ts">
 import { VueperSlides, VueperSlide } from 'vueperslides'
+import carPlaceholder from '@/assets/images/car-placeholder.jpg'
 
 const props = defineProps<{
   images: string[]
@@ -88,14 +90,30 @@ const mainSlideRef = ref()
 const secondarySlidesRef = ref()
 
 const computedImages = computed(() => {
-  return !props.images.length ? ['./src/assets/images/car-placeholder.jpg'] : props.images
+  return !props.images.length ? [carPlaceholder] : props.images
 })
+
+const handleMainSlideChange = (event: any) => {
+  if (secondarySlidesRef?.value) {
+    secondarySlidesRef.value.goToSlide(event.currentSlide.index, { emit: false })
+  } else {
+    console.warn('secondarySlidesRef is not initialized yet')
+  }
+}
+
+const handleSecondarySlideChange = (event: any) => {
+  if (mainSlideRef?.value) {
+    mainSlideRef.value.goToSlide(event.currentSlide.index, { emit: false })
+  } else {
+    console.warn('mainSlideRef is not initialized yet')
+  }
+}
 
 </script>
 
 <style scoped>
 .mainPicture {
-  box-shadow: 5px 4px 20px 0px #0000001A;;
+  box-shadow: 5px 4px 20px 0px #0000001A;
 }
 
 .thumbnails {
@@ -108,6 +126,6 @@ const computedImages = computed(() => {
 }
 
 .thumbnails .vueperslide--active {
-  @apply opacity-100
+  @apply opacity-100;
 }
 </style>

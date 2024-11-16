@@ -14,9 +14,10 @@
     "postinstall": "run-p generate-supabase-type"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@supabase/supabase-js": "^2.45.6",
     "axios": "^1.7.7",
-    "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "element-plus": "^2.7.6",
     "lodash-es": "^4.17.21",
     "maska": "^3.0.3",

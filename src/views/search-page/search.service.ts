@@ -316,7 +316,8 @@ class SearchService {
   ) {
     let queryReq = supabase
       .from('cars')
-      .select('*, models!inner(*), locations!inner(*)', selectOptions)
+      .select('*, models!inner(*), locations!inner(*), fuel_types(*), transmission_types(*)', selectOptions)
+      .eq('is_in_auction', false)
       .order('created_at', { ascending: false })
 
     for (const field in filters) {

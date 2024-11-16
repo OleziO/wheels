@@ -45,7 +45,7 @@
           class="!rounded-[50px] h-10 body-1"
           icon="icon-user-3"
         >
-          {{ authStore.user.first_name }} {{ authStore.user.last_name }}
+          {{ authStore.user?.first_name }} {{ authStore.user?.last_name }}
         </AppButton>
         <template #dropdown>
           <el-dropdown-menu>
@@ -92,8 +92,8 @@ const authStore = useAuthStore()
 const navLinks = [
   { path: routeNames.search, label: 'Купити' },
   { path: routeNames.create, label: 'Продати' },
-  { path: routeNames.top, label: 'ТОП-100' },
-  { path: routeNames.auction, label: 'Аукціон' }
+  { path: routeNames.top, label: 'ТОП-30' },
+  { path: routeNames.auctionsList, label: 'Аукціони' }
 ]
 
 const iconLinks = [

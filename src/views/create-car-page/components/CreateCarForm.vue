@@ -282,7 +282,7 @@
 
     <div class="body-2 text-gray-dark">
       <el-checkbox v-model="acceptedPolicy">
-        <span>Я згоден(на) з умовами</span>
+        <span>Я згоден(на) з умовами </span>
 
         <a class="font-bold">Угоди про надання послуг</a>
       </el-checkbox>
@@ -292,21 +292,13 @@
         <a class="font-bold">Політикою приватності</a>
       </p>
 
-      <div class="flex gap-5 items-center mt-7">
-        <AppButton
-          :disabled="!acceptedPolicy"
-          class="w-[400px]"
-          @click="publishCar"
-        >
-          Розмістити оголошення
-        </AppButton>
-        <p
-          class="max-w-[305px] secondary text-gray-light"
-        >
-          При кліці на кнопку “Розмістити оголошення”
-          Ви перейдете до публікації свого оголошення
-        </p>
-      </div>
+      <AppButton
+        :disabled="!acceptedPolicy"
+        class="w-[400px] mt-7"
+        @click="publishCar"
+      >
+        Розмістити оголошення
+      </AppButton>
     </div>
   </el-form>
 </template>
@@ -428,7 +420,7 @@ async function publishCar () {
 
     const carId = await createCarService.createCar({
       ...payload,
-      user_id: authStore.user.sup
+      user_id: authStore.user?.sup
     })
 
     if (carId) {
