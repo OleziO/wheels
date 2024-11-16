@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 
 class MoneyService {
   async getUSDtoUAH () {
-    return (await currencyApi.rateUSD()).data[0].rate as number
+    return (await currencyApi.rateUSD()).data[0].rate as number || 0
   }
 
   numToMoneyWithFormat (amount: number, moneyText: string, moneyPosition: 'start' | 'end' = 'start') {
@@ -27,5 +27,4 @@ class MoneyService {
   }
 }
 
-const moneyService = new MoneyService()
-export default moneyService
+export const moneyService = new MoneyService()

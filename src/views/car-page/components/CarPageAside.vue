@@ -22,7 +22,7 @@
 
         <div class="flex flex-col gap-2.5">
           <p class="secondary text-gravel">Продавець</p>
-          <h4 class="h4 text-gray-dark">{{ car.user_profiles?.first_name || 'Продавець' }}</h4>
+          <h4 class="h4 text-gray-dark">{{ car.user_profiles?.first_name || "Безіменний" }}</h4>
           <p class="secondary text-gravel">На сайті був <b>22 хв тому</b></p>
         </div>
       </div>
@@ -55,30 +55,17 @@
       </a>
     </CarPageAsideSectionItem>
 
-    <div class="w-full flex justify-between mt-10 gap-5">
-      <AppButton class="w-full" icon="icon-heart">Зберегти</AppButton>
-      <AppButton class="w-full" icon="icon-scales">Порівняти</AppButton>
-    </div>
-
     <CarPageAsideSectionItem class="bg-green-dark text-creamy-light">
       <h4 class="h4">Вважаєте це авто унікальним?</h4>
       <p class="mt-5 body-2">Ставте оцінку та беріть участь у формуванні ТОП-30 найцікавіших моделей на сайті</p>
 
       <div class="w-full flex flex-col gap-5 mt-9">
         <AppButton
-          class="likeBtn"
+          class="!text-creamy !border-creamy-light hover:!bg-creamy-light hover:!text-green-dark"
           type="line-light"
           icon="icon-thumb-up"
         >
           Подобається
-        </AppButton>
-
-        <AppButton
-          class="likeBtn"
-          type="line-light"
-          icon="icon-thumb-down"
-        >
-          Не подобається
         </AppButton>
       </div>
     </CarPageAsideSectionItem>

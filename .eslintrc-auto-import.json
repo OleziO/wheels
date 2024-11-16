@@ -337,15 +337,20 @@
     "homeService": true,
     "indexService": true,
     "carService": true,
+    "createService": true,
+    "ElMessageBox": true,
+    "useCreateStore": true,
     "ElNotification": true,
     "authServiceService": true,
     "useAuthStore": true,
+    "useCreate": true,
+    "authService": true,
+    "createCarService": true,
     "topRatedService": true,
     "auctionService": true,
     "auctionsListService": true,
     "emailService": true,
     "auctionsService": true,
-    "ElMessage": true,
-    "ElMessageBox": true
+    "ElMessage": true
   }
 }

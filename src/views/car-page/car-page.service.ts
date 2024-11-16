@@ -1,5 +1,9 @@
+import type { Database } from '@/api/types/database.types'
+
 class CarService {
   getMainInfo (car: TCar) {
+    if (!car) return []
+
     const {
       models,
       mileage,
@@ -22,90 +26,34 @@ class CarService {
       power_steering: powerSteering,
       steering_wheel_adjustments: steeringWheelAdjustment,
       spare_wheels: spareWheel
-    } = car ?? {}
+    } = car
+
+    const createInfo = (label: string, value: any) => value ? { label, value } : null
 
     return [
-      {
-        label: 'Марка, модель, рік випуску',
-        value: `${models?.brand} ${models?.model} ${manufactureYear} `
-      },
-      {
-        label: 'Пробіг',
-        value: mileage && `${mileage?.toString()} тис.км`
-      },
-      {
-        label: 'Двигун',
-        value: engineVolume && `${engineVolume} л ${enginePower ? `(${enginePower} к.с.)` : ''}`
-      },
-      {
-        label: 'Пальне',
-        value: fuelType?.label
-      },
-      {
-        label: 'Коробка передач',
-        value: transmissionType?.label
-      },
-      {
-        label: 'Привід',
-        value: driveType?.label
-      },
-      {
-        label: 'Колір',
-        value: color?.label
-      },
-      {
-        label: 'Лакофарбове покриття',
-        value: paintCondition?.label
-      },
-      {
-        label: 'Технічний стан',
-        value: technicalCondition?.label
-      },
-      {
-        label: 'Фари',
-        value: headlights?.label
-      },
-      {
-        label: 'Матеріали салону',
-        value: interiorMaterial?.label
-      },
-      {
-        label: 'Колір салону',
-        value: interiorColor?.label
-      },
-      {
-        label: 'Регулювання сидінь салону',
-        value: interiorSeatsAdjustments?.label
-      },
-      {
-        label: 'Підігрів сидінь',
-        value: heatedSeats?.label
-      },
-      {
-        label: 'Електросклопідйомники',
-        value: electricWindows?.label
-      },
-      {
-        label: 'Кондиціонер',
-        value: airConditioning?.label
-      },
-      {
-        label: 'Підсилювач керма',
-        value: powerSteering?.label
-      },
-      {
-        label: 'Регулювання керма',
-        value: steeringWheelAdjustment?.label
-      },
-      {
-        label: 'Запасне колесо',
-        value: spareWheel?.label
-      }
-
-    ].filter(item => item.value && item.value !== 'null')
+      createInfo('Марка, модель, рік випуску', `${models?.brand} ${models?.model} ${manufactureYear}`),
+      createInfo('Пробіг', mileage ? `${mileage.toString()} тис.км` : null),
+      createInfo('Двигун', engineVolume ? `${engineVolume} л ${enginePower ? `(${enginePower} к.с.)` : ''}` : null),
+      createInfo('Пальне', fuelType?.label),
+      createInfo('Коробка передач', transmissionType?.label),
+      createInfo('Привід', driveType?.label),
+      createInfo('Колір', color?.label),
+      createInfo('Лакофарбове покриття', paintCondition?.label),
+      createInfo('Технічний стан', technicalCondition?.label),
+      createInfo('Фари', headlights?.label),
+      createInfo('Матеріали салону', interiorMaterial?.label),
+      createInfo('Колір салону', interiorColor?.label),
+      createInfo('Регулювання сидінь салону', interiorSeatsAdjustments?.label),
+      createInfo('Підігрів сидінь', heatedSeats?.label),
+      createInfo('Електросклопідйомники', electricWindows?.label),
+      createInfo('Кондиціонер', airConditioning?.label),
+      createInfo('Підсилювач керма', powerSteering?.label),
+      createInfo('Регулювання керма', steeringWheelAdjustment?.label),
+      createInfo('Запасне колесо', spareWheel?.label)
+    ].filter(item => item?.value) as IFilterOption[]
   }
 
-  async getCarData (id: string) {
+  async getCarData (id: string, userId?: string) {
     const { data } = await supabase
       .from('cars')
       .select(`
@@ -134,11 +82,61 @@ class CarService {
         power_steering(*)
       `)
       .eq('id', id)
+      .single()
 
-    return (data ? data[0] : {}) as TCar
+    if (userId && data) {
+      await supabase
+        .from('cars_with_views')
+        .insert({
+          car_id: data.id,
+          user_id: userId
+        })
+    }
+
+    return (data || {}) as TCar
   }
 
-  async getRecomendedCars (price: number, id: string) {
+  async getCarFeatureData<T extends keyof Database['public']['Tables']> (
+    tableName: T, carId: string
+  ) {
+    const { data } = await supabase
+      .from(`cars_with_${tableName}` as T)
+      .select(`*, ${tableName}!inner(*)`)
+      .eq('car_id', carId)
+
+    return (data || []) as any[]
+  }
+
+  async getCarFeatures (carId: string) {
+    const featureTables = [
+      'safety_features',
+      'comfort_features',
+      'airbag_features',
+      'multimedia_features',
+      'optic_features',
+      'parking_assistance'
+    ] as const
+
+    const featureLabels = [
+      'Безпека',
+      'Салон та комфорт',
+      'Подушка безпеки',
+      'Мультимедіа',
+      'Оптика',
+      'Паркування'
+    ]
+
+    const featureData = await Promise.all(
+      featureTables.map((table) => this.getCarFeatureData(table, carId))
+    )
+
+    return featureLabels.map((label, index) => ({
+      label,
+      value: (featureData[index] || []).map((feature) => feature[featureTables[index] || ''].label).join(' • ')
+    })).filter(item => item?.value) as IFilterOption[]
+  }
+
+  async getRecommendedCars (price: number, id: string) {
     const { data } = await supabase
       .from('cars')
       .select('*, models!inner(*), locations!inner(*), fuel_types!inner(*), transmission_types!inner(*)')
@@ -148,6 +146,10 @@ class CarService {
       .neq('id', id)
       .limit(9)
 
+    if (data && data.length) {
+      return data as TCar[]
+    }
+
     const { data: altData } = await supabase
       .from('cars')
       .select('*, models!inner(*), locations!inner(*), fuel_types!inner(*), transmission_types!inner(*)')
@@ -155,9 +157,7 @@ class CarService {
       .order('car_rate', { ascending: false })
       .limit(9)
 
-    const result = data && data.length ? data : altData
-
-    return (result || []) as TCar[]
+    return (altData || []) as TCar[]
   }
 }
 

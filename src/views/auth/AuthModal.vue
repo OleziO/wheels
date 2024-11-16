@@ -14,10 +14,8 @@
 
 <script setup lang="ts">
 import { ElNotification } from 'element-plus'
-import { useAuthStore } from './auth.store'
-import authService from './auth.service.service'
-import AuthSignIn from './AuthSignIn.vue'
-import AuthSignUp from './AuthSignUp.vue'
+import AuthSignIn from '@/views/auth/components/AuthSignIn.vue'
+import AuthSignUp from '@/views/auth/components/AuthSignUp.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -44,7 +42,7 @@ async function handleSubmit (data: ISignIn | ISignUp) {
 
     loading.value = false
     authStore.showAuthModal = false
-  } catch (error) {
+  } catch {
     ElNotification({
       title: 'Помилка',
       message: isLoginMode.value ? 'Невірні дані для входу' : 'Невірні дані для реєстрації',

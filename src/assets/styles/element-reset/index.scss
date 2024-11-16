@@ -96,6 +96,7 @@
 @use "element-plus/theme-chalk/src/notification";
 @use "element-plus/theme-chalk/src/dropdown";
 @use "element-plus/theme-chalk/src/dropdown-item";
+@use "element-plus/theme-chalk/src/tooltip";
 @use "element-plus/theme-chalk/src/message-box";
 
 
@@ -110,6 +111,7 @@
 @import "./checkbox-button.scss";
 @import "./radio.scss";
 @import "./radio-button.scss";
-@import "./dialog.scss"
+@import "./dialog.scss";
+@import "./form-item.scss"
 
 

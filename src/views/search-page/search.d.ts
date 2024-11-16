@@ -69,6 +69,23 @@ interface ISearchFiltersOptions {
   paintType: IFilterOption[]
   perPage: IFilterOption[]
   sortingTypes: IFilterOption[]
+  colors: IFilterOption[]
+  airConditioning: IFilterOption[]
+  electricWindows: IFilterOption[]
+  interiorMaterials: IFilterOption[]
+  interiorColors: IFilterOption[]
+  powerSteering: IFilterOption[]
+  steeringWheelAdjustments: IFilterOption[]
+  spareWheels: IFilterOption[]
+  headlights: IFilterOption[]
+  interiorSeatsAdjustments: IFilterOption[]
+  heatedSeats: IFilterOption[]
+  safetyFeature: IFilterOption[]
+  comfortFeatures: IFilterOption[]
+  multimediaFeatures: IFilterOption[]
+  opticFeatures: IFilterOption[]
+  parkingFeatures: IFilterOption[]
+  airbagFeatures: IFilterOption[]
 
   price: IRangeOption
   mileage: IRangeOption

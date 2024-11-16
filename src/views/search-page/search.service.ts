@@ -150,10 +150,10 @@ class SearchService {
     ]
   }
 
-  private async fetchFromTable<T> (tableName: keyof Database['public']['Tables']): Promise<T[]> {
+  private async fetchFromTable<T> (tableName: keyof Database['public']['Tables'], options?: any): Promise<T[]> {
     const { data } = await supabase
       .from(tableName)
-      .select('*')
+      .select('*', options)
 
     return (data || []) as T[]
   }
@@ -170,8 +170,76 @@ class SearchService {
     return this.fetchFromTable<TTables<'transmission_types'>>('transmission_types')
   }
 
+  async getAirConditioning (): Promise<TTables<'air_conditioning'>[]> {
+    return this.fetchFromTable<TTables<'air_conditioning'>>('air_conditioning')
+  }
+
+  async getElectricWindows (): Promise<TTables<'electric_windows'>[]> {
+    return this.fetchFromTable<TTables<'electric_windows'>>('electric_windows')
+  }
+
+  async getInteriorMaterials (): Promise<TTables<'interior_materials'>[]> {
+    return this.fetchFromTable<TTables<'interior_materials'>>('interior_materials')
+  }
+
+  async getInteriorColors (): Promise<TTables<'interior_colors'>[]> {
+    return this.fetchFromTable<TTables<'interior_colors'>>('interior_colors')
+  }
+
+  async getPowerSteering (): Promise<TTables<'power_steering'>[]> {
+    return this.fetchFromTable<TTables<'power_steering'>>('power_steering')
+  }
+
+  async getSteeringWheelAdjustments (): Promise<TTables<'steering_wheel_adjustments'>[]> {
+    return this.fetchFromTable<TTables<'steering_wheel_adjustments'>>('steering_wheel_adjustments')
+  }
+
+  async getSpareWheels (): Promise<TTables<'spare_wheels'>[]> {
+    return this.fetchFromTable<TTables<'spare_wheels'>>('spare_wheels')
+  }
+
+  async getHeadlights (): Promise<TTables<'headlights'>[]> {
+    return this.fetchFromTable<TTables<'headlights'>>('headlights')
+  }
+
+  async getInteriorSeatsAdjustments (): Promise<TTables<'interior_seats_adjustments'>[]> {
+    return this.fetchFromTable<TTables<'interior_seats_adjustments'>>('interior_seats_adjustments')
+  }
+
+  async getHeatedSeats (): Promise<TTables<'heated_seats'>[]> {
+    return this.fetchFromTable<TTables<'heated_seats'>>('heated_seats')
+  }
+
+  async getSafetyFeatures (): Promise<TTables<'safety_features'>[]> {
+    return this.fetchFromTable<TTables<'safety_features'>>('safety_features')
+  }
+
+  async getComfortFeatures (): Promise<TTables<'comfort_features'>[]> {
+    return this.fetchFromTable<TTables<'comfort_features'>>('comfort_features')
+  }
+
+  async getMultimediaFeatures (): Promise<TTables<'multimedia_features'>[]> {
+    return this.fetchFromTable<TTables<'multimedia_features'>>('multimedia_features')
+  }
+
+  async getOpticFeatures (): Promise<TTables<'optic_features'>[]> {
+    return this.fetchFromTable<TTables<'optic_features'>>('optic_features')
+  }
+
+  async getAirbagFeatures (): Promise<TTables<'airbag_features'>[]> {
+    return this.fetchFromTable<TTables<'airbag_features'>>('airbag_features')
+  }
+
+  async getParkingFeatures (): Promise<TTables<'parking_assistance'>[]> {
+    return this.fetchFromTable<TTables<'parking_assistance'>>('parking_assistance')
+  }
+
   async getBrands (): Promise<TTables<'brands'>[]> {
     return this.fetchFromTable<TTables<'brands'>>('brands')
+  }
+
+  async getColors (): Promise<TTables<'car_colors'>[]> {
+    return this.fetchFromTable<TTables<'car_colors'>>('car_colors')
   }
 
   async getFuelTypes (): Promise<TTables<'fuel_types'>[]> {
@@ -217,9 +285,13 @@ class SearchService {
   getYears (start = 1940): IFilterOption[] {
     const end = new Date().getFullYear()
 
+    return this.generateNumberList(start, end)
+  }
+
+  generateNumberList (start: number, end: number): IFilterOption[] {
     return Array.from({ length: end - start + 1 }, (_, i) => {
-      const year = end - i
-      return { value: `${year}`, label: `${year}` }
+      const num = end - i
+      return { value: `${num}`, label: `${num}` }
     })
   }
 
@@ -279,14 +351,15 @@ class SearchService {
   async updateCarRating (carId: string, operation: 1 | -1) {
     const { data: car } = await supabase
       .from('cars')
-      .select()
+      .select('*')
       .eq('id', carId)
+      .single()
 
-    if (car?.length && car[0]) {
+    if (car) {
       await supabase
         .from('cars')
-        .update({ car_rate: (car[0]?.car_rate || 0) + operation })
-        .eq('id', car[0].id)
+        .update({ car_rate: (car.car_rate || 0) + operation })
+        .eq('id', car.id)
     }
   }
 
@@ -312,5 +385,4 @@ class SearchService {
   }
 }
 
-const searchService = new SearchService()
-export default searchService
+export const searchService = new SearchService()

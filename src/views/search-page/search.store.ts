@@ -1,8 +1,7 @@
-import searchService from '@/views/search-page/search.service'
 import { cloneDeep } from 'lodash-es'
 
 export const useSearchStore = defineStore('searchStore', () => {
-  const isFetchedSearcFilters = ref(false)
+  const isFetchedSearchFilters = ref(false)
   const defaultSearchData: ICarsSearchData = {
     involvedAccident: null,
     fromManufactureYear: null,
@@ -43,6 +42,23 @@ export const useSearchStore = defineStore('searchStore', () => {
     brands: [],
     models: [],
     paintType: [],
+    colors: [],
+    airConditioning: [],
+    electricWindows: [],
+    interiorMaterials: [],
+    interiorColors: [],
+    powerSteering: [],
+    steeringWheelAdjustments: [],
+    interiorSeatsAdjustments: [],
+    spareWheels: [],
+    headlights: [],
+    heatedSeats: [],
+    safetyFeature: [],
+    comfortFeatures: [],
+    multimediaFeatures: [],
+    opticFeatures: [],
+    parkingFeatures: [],
+    airbagFeatures: [],
     price: { min: 0, max: 1000000 },
     mileage: { min: 0, max: 2000 },
     manufactureYear: searchService.getYears(),
@@ -53,7 +69,7 @@ export const useSearchStore = defineStore('searchStore', () => {
   })
 
   async function getSearchFilterOptions () {
-    if (isFetchedSearcFilters.value) return searchFilterOptions.value
+    if (isFetchedSearchFilters.value) return searchFilterOptions.value
 
     const [
       brands,
@@ -66,7 +82,24 @@ export const useSearchStore = defineStore('searchStore', () => {
       fuelTypes,
       driveTypes,
       techCondition,
-      paintType
+      paintType,
+      colors,
+      airConditioning,
+      electricWindows,
+      interiorMaterials,
+      interiorColors,
+      powerSteering,
+      steeringWheelAdjustments,
+      spareWheels,
+      headlights,
+      interiorSeatsAdjustments,
+      heatedSeats,
+      safetyFeature,
+      comfortFeatures,
+      multimediaFeatures,
+      opticFeatures,
+      parkingFeatures,
+      airbagFeatures
     ] = await Promise.all([
       searchService.getBrands(),
       searchService.getModels(),
@@ -78,7 +111,24 @@ export const useSearchStore = defineStore('searchStore', () => {
       searchService.getFuelTypes(),
       searchService.getDriveTypes(),
       searchService.getCarTechConditions(),
-      searchService.getCarPaintConditions()
+      searchService.getCarPaintConditions(),
+      searchService.getColors(),
+      searchService.getAirConditioning(),
+      searchService.getElectricWindows(),
+      searchService.getInteriorMaterials(),
+      searchService.getInteriorColors(),
+      searchService.getPowerSteering(),
+      searchService.getSteeringWheelAdjustments(),
+      searchService.getSpareWheels(),
+      searchService.getHeadlights(),
+      searchService.getInteriorSeatsAdjustments(),
+      searchService.getHeatedSeats(),
+      searchService.getSafetyFeatures(),
+      searchService.getComfortFeatures(),
+      searchService.getMultimediaFeatures(),
+      searchService.getOpticFeatures(),
+      searchService.getParkingFeatures(),
+      searchService.getAirbagFeatures()
     ])
 
     searchFilterOptions.value = {
@@ -93,10 +143,27 @@ export const useSearchStore = defineStore('searchStore', () => {
       bodyType,
       paintType,
       brands,
-      models
+      models,
+      colors,
+      airConditioning,
+      electricWindows,
+      interiorMaterials,
+      interiorColors,
+      powerSteering,
+      steeringWheelAdjustments,
+      spareWheels,
+      headlights,
+      interiorSeatsAdjustments,
+      heatedSeats,
+      safetyFeature,
+      comfortFeatures,
+      multimediaFeatures,
+      opticFeatures,
+      parkingFeatures,
+      airbagFeatures
     }
 
-    isFetchedSearcFilters.value = true
+    isFetchedSearchFilters.value = true
   }
 
   function setSearchDataFromQuery (query: ICarsSearchData) {

@@ -55,8 +55,7 @@
             </template>
           </CarPageInfoBadge>
         </div>
-
-        <CarPageMainInfoSection :car="mainCarInfo" />
+        <CarPageMainInfoSection :car="[...mainCarInfo, ...carFeatures]" />
 
         <div v-if="car.description" class="mt-12.5 text-gray">
           <h3 class="h3 mb-8">Опис від власника</h3>
@@ -83,10 +82,10 @@
 
       <CarPageAside v-else :car="car" :priceUAH="priceUAH" :location="location" />
     </div>
-    <div class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
+    <div v-if="!loading" class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
       <h3 class="h3 mb-10 text-gray-dark">Рекомендації для вас</h3>
 
-      <CarsCarousel :rate="generalStore.rate" :cars="recomendedCars" />
+      <CarsCarousel :rate="generalStore.rate" :cars="recommendedCars" />
     </div>
   </div>
 </template>
@@ -104,14 +103,16 @@ const props = defineProps<{
 }>()
 
 const generalStore = useGeneralStore()
+const authStore = useAuthStore()
 
 const loading = ref(false)
 const car = ref<TCar | null>(null)
 const location = ref('')
-const recomendedCars = ref<TCar[]>([])
+const recommendedCars = ref<TCar[]>([])
 const mainCarInfo = ref<IFilterOption[]>([])
+const carFeatures = ref<IFilterOption[]>([])
 
-const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate.value * car.value!.price), 'грн.', 'end'))
+const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate * car.value!.price), 'грн.', 'end'))
 
 const headerCarInfo = computed(() => [
   { text: `${car.value!.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
@@ -123,10 +124,11 @@ const headerCarInfo = computed(() => [
 async function init () {
   loading.value = true
   try {
-    car.value = await carService.getCarData(props.query.id)
-    recomendedCars.value = await carService.getRecomendedCars(car.value!.price || 0, car.value!.id)
+    car.value = await carService.getCarData(props.query.id, authStore.user?.sub)
+    recommendedCars.value = await carService.getRecommendedCars(car.value!.price || 0, car.value!.id)
     mainCarInfo.value = carService.getMainInfo(car.value)
     location.value = await locationApi.getLocationUrl(car.value!.location)
+    carFeatures.value = await carService.getCarFeatures(props.query.id)
   } finally {
     loading.value = false
   }

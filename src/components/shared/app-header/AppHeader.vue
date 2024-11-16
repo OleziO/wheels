@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full h-16 flex justify-between items-center gap-2 px-25 fixed bg-creamy-light z-50">
+  <header class="w-full h-16 flex justify-between items-center gap-2 px-25 bg-creamy-light z-50">
     <nav class="flex items-center h-full gap-12">
       <AppRouterLink :to="routeNames.home" :underlined="false">
         <Logo />
@@ -18,7 +18,12 @@
         <li v-for="(link, index) in iconLinks" :key="index">
           <AppRouterLink :to="link.path" :underlined="false">
             <el-badge :value="link.count" :max="99">
-              <IconButton :icon="(link.icon as TIcons)" :hover-icon="(link.hoverIcon as TIcons)" />
+              <el-tooltip
+                content="Чати"
+                placement="bottom"
+              >
+                <IconButton :icon="(link.icon as TIcons)" :hover-icon="(link.hoverIcon as TIcons)" />
+              </el-tooltip>
             </el-badge>
           </AppRouterLink>
         </li>
@@ -40,7 +45,7 @@
           class="!rounded-[50px] h-10 body-1"
           icon="icon-user-3"
         >
-          {{ authStore.user.first_name }} {{ authStore.user.last_name }}
+          {{ authStore.user?.first_name }} {{ authStore.user?.last_name }}
         </AppButton>
         <template #dropdown>
           <el-dropdown-menu>

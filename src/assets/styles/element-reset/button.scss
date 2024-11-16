@@ -1,6 +1,14 @@
 .el-button {
   @apply button-text;
 
+  &:focus-visible {
+    @apply outline-none;
+  }
+
+  &:disabled {
+    @apply opacity-65;
+  }
+
   & + & {
     margin-left: 0;
   }

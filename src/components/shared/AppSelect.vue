@@ -1,6 +1,7 @@
 <template>
   <el-select
     v-model="model"
+    filterable
     class="app-select"
   >
     <div v-if="groupKeyLabel && groupKeyValue">

@@ -9,30 +9,34 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: routeNames.home,
-    component: () => import('@/views/home-page/Home.vue')
+    component: () => import('@/views/home-page/Home.vue'),
+    meta: { needScrollToTop: true }
   },
   {
     path: '/car',
     name: routeNames.car,
     component: () => import('@/views/car-page/CarPage.vue'),
-    props: (route) => ({ query: route.query })
+    props: (route) => ({ query: route.query }),
+    meta: { needScrollToTop: true }
   },
   {
-    path: '/create',
+    path: '/create-car',
     name: routeNames.create,
-    component: () => import('@/views/Create.vue'),
-    meta: { isAuthProtected: true }
+    component: () => import('@/views/create-car-page/CreateCar.vue'),
+    meta: { isAuthProtected: true, needScrollToTop: true }
   },
   {
     path: '/search',
     name: routeNames.search,
     component: () => import('@/views/search-page/Search.vue'),
-    props: (route) => ({ query: route.query })
+    props: (route) => ({ query: route.query }),
+    meta: { needScrollToTop: true }
   },
   {
     path: '/top-rated',
     name: routeNames.top,
-    component: () => import('@/views/top-rated/TopRated.vue')
+    component: () => import('@/views/top-rated/TopRated.vue'),
+    meta: { needScrollToTop: true }
   },
   {
     path: '/auctions',
@@ -51,12 +55,6 @@ const routes: Array<RouteRecordRaw> = [
 
       }
     ]
-  },
-  {
-    path: '/favorites',
-    name: routeNames.favorites,
-    component: () => import('@/views/Favorites.vue'),
-    meta: { isAuthProtected: true }
   },
   {
     path: '/profile',

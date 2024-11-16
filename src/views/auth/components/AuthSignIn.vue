@@ -6,7 +6,7 @@
       v-loading.fullscreen="loading"
       :model="loginData"
       class="flex flex-col gap-4"
-      :rules="authService.validationRules"
+      :rules="validationRules"
     >
       <el-form-item prop="email">
         <AppInput v-model:="loginData.email" placeholder="Введіть ваш e-mail" />
@@ -25,13 +25,20 @@
 </template>
 
 <script setup lang="ts">
-import authService from './auth.service.service'
+import type { FormRules } from 'element-plus'
 
 const loading = defineModel<boolean>()
 
 const emit = defineEmits(['login'])
 
 const loginData = ref<ISignIn>(authService.defaultLoginData)
+
+const validationRules: FormRules = {
+  email: [
+    { type: 'email', message: 'Введіть валідний Email', trigger: 'blur' },
+    { required: true, message: 'Введіть Email', trigger: 'blur' }
+  ]
+}
 
 async function handleLogin () {
   loading.value = true
