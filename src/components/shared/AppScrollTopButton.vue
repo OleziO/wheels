@@ -2,7 +2,7 @@
   <AppButton
     ref="scrollButtonRef"
     icon="icon-arrow-up"
-    class="fixed z-50 bottom-10 right-10 w-14 h-14"
+    class="fixed z-40 bottom-10 right-10 w-14 h-14"
     @click="scrollParent"
   />
 </template>

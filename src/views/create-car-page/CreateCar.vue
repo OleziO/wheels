@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div v-loading.fullscreen="formLoading" class="w-full">
     <div v-if="!loading" class="w-full max-w-[1440px] mx-auto px-25">
       <h2 class="h2 mt-12.5 mb-10">Як швидко продати свій автомобіль</h2>
 
@@ -16,26 +16,43 @@
 
     <div class="mt-12.5">
       <div class="w-fit bg-creamy ml-25 rounded-tl-25 rounded-tr-25 py-8 px-32">
-        <h2 class="h2">{{ isPublished ? 'Успішна публікація' : 'Створити оголошення' }}</h2>
+        <h2 class="h2">Створити оголошення</h2>
       </div>
 
       <CreateCarForm
-        v-if="!loading"
         v-model:loading="loading"
-        v-model:isPublished="isPublished"
+        v-model:is-published="isPublished"
+        v-model:car-id="carId"
       />
 
-      <CreateCarSuccess v-else :create-loading="loading" :published="isPublished" />
+      <el-dialog
+        v-model="loading"
+        align-center
+        :show-close="false"
+        :before-close="() => loading"
+        lock-scroll class="w-[80%] h-[80%] p-0 z-50 bg-creamy rounded-lg overflow-hidden"
+      >
+        <CreateCarSuccess v-model="isPublished" :create-loading="loading" />
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { replaceRouterQuery, routeNames } from '@/router'
 
 const searchStore = useSearchStore()
 
 const loading = ref(false)
-const isPublished = ref(false)
+
+const formLoading = ref(false)
+
+const isPublished = ref<IPublishStatus>({
+  isReqEnd: false,
+  isProgressEnd: false
+})
+
+const carId = ref('')
 
 const carInfoCards = [
   {
@@ -55,8 +72,29 @@ const carInfoCards = [
   }
 ]
 
+watch(() => isPublished.value, () => {
+  if (
+    isPublished.value.isProgressEnd &&
+    isPublished.value.isReqEnd &&
+    carId.value
+  ) {
+    replaceRouterQuery(routeNames.car, { id: carId.value })
+  } else if (
+    isPublished.value.isProgressEnd &&
+    !isPublished.value.isReqEnd
+  ) {
+    loading.value = false
+  }
+}, {
+  deep: true
+})
+
 onMounted(async () => {
+  formLoading.value = true
+
   await searchStore.getSearchFilterOptions()
+
+  formLoading.value = false
 })
 
 </script>

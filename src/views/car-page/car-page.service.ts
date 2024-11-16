@@ -53,7 +53,7 @@ class CarService {
     ].filter(item => item?.value) as IFilterOption[]
   }
 
-  async getCarData (id: string) {
+  async getCarData (id: string, userId?: string) {
     const { data } = await supabase
       .from('cars')
       .select(`
@@ -82,8 +82,18 @@ class CarService {
         power_steering(*)
       `)
       .eq('id', id)
+      .single()
 
-    return (data ? data[0] : {}) as TCar
+    if (userId && data) {
+      await supabase
+        .from('cars_with_views')
+        .insert({
+          car_id: data.id,
+          user_id: userId
+        })
+    }
+
+    return (data || {}) as TCar
   }
 
   async getCarFeatureData<T extends keyof Database['public']['Tables']> (

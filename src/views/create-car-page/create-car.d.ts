@@ -31,3 +31,8 @@ interface ICarData {
   car_pictures: string[]
   [key: string]: string | string[]
 }
+
+interface IPublishStatus {
+  isReqEnd: boolean
+  isProgressEnd: boolean
+}

@@ -23,7 +23,7 @@
       </el-image>
     </div>
 
-    <div class="absolute top-6 z-40 w-full flex gap-8 justify-between items-center">
+    <div class="absolute top-6 z-30 w-full flex gap-8 justify-between items-center">
       <span>
         <div v-if="car.vin" class="relative h-fit bg-blue-light py-2 px-4">
           <p class="inline-flex text-white body-2 whitespace-nowrap">Перевірений VIN-код</p>

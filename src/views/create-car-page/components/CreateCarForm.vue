@@ -309,7 +309,8 @@ import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
 import { cloneDeep } from 'lodash-es'
 
 const loading = defineModel<boolean>('loading', { required: true })
-const isPublished = defineModel<boolean>('isPublished', { required: true })
+const isPublished = defineModel<IPublishStatus>('isPublished', { required: true })
+const carId = defineModel<string>('carId', { required: true })
 
 const searchStore = useSearchStore()
 const authStore = useAuthStore()
@@ -363,16 +364,16 @@ const carAdditionalOptionsFields = [
 
 const createCarValidationRules: FormRules = {
   location: [
-    { required: true, message: 'Вкажіть місцезнаходження', trigger: 'blur' }
+    { required: true, message: 'Вкажіть місцезнаходження', trigger: ['change', 'blur'] }
   ],
   manufacture_year: [
-    { required: true, message: 'Вкажіть рік виробництва', trigger: 'blur' }
+    { required: true, message: 'Вкажіть рік виробництва', trigger: ['change', 'blur'] }
   ],
   transmission_type: [
-    { required: true, message: 'Оберіть тип коробки передач', trigger: 'blur' }
+    { required: true, message: 'Оберіть тип коробки передач', trigger: ['change', 'blur'] }
   ],
   fuel_type: [
-    { required: true, message: 'Оберіть тип пального', trigger: 'blur' }
+    { required: true, message: 'Оберіть тип пального', trigger: ['change', 'blur'] }
   ],
   price: [
     { required: true, message: 'Вкажіть ціну', trigger: 'blur' },
@@ -386,28 +387,28 @@ const createCarValidationRules: FormRules = {
     { required: true, pattern: /^[A-HJ-NPR-Z0-9]{17}$/, message: 'Введіть коректний VIN-код (17 символів, букви або цифри, окрім "I", "O", "Q")', trigger: 'blur' }
   ],
   model_id: [
-    { required: true, message: 'Оберіть модель', trigger: 'blur' }
+    { required: true, message: 'Оберіть модель', trigger: ['change', 'blur'] }
   ],
   brand: [
-    { required: true, message: 'Оберіть бренд', trigger: 'blur' }
+    { required: true, message: 'Оберіть бренд', trigger: ['change', 'blur'] }
   ],
   drive_type: [
-    { required: true, message: 'Оберіть тип приводу', trigger: 'blur' }
+    { required: true, message: 'Оберіть тип приводу', trigger: ['change', 'blur'] }
   ],
   vehicle_type: [
-    { required: true, message: 'Оберіть тип транспорту', trigger: 'blur' }
+    { required: true, message: 'Оберіть тип транспорту', trigger: ['change', 'blur'] }
   ],
   body_type: [
-    { required: true, message: 'Вкажіть тип кузова', trigger: 'blur' }
+    { required: true, message: 'Вкажіть тип кузова', trigger: ['change', 'blur'] }
   ],
   engine_volume: [
-    { required: true, message: 'Вкажіть дані про двигун', trigger: 'blur' }
+    { required: true, message: 'Вкажіть дані про двигун', trigger: ['change', 'blur'] }
   ],
   registration_plate: [
     { required: true, message: 'Вкажіть номерний знак', trigger: 'blur' }
   ],
   color: [
-    { required: true, message: 'Вкажіть колір', trigger: 'blur' }
+    { required: true, message: 'Вкажіть колір', trigger: ['change', 'blur'] }
   ]
 }
 
@@ -418,16 +419,16 @@ async function publishCar () {
     loading.value = true
     const { brand, ...payload } = createCarData.value
 
-    const carId = await createCarService.createCar({
+    carId.value = await createCarService.createCar({
       ...payload,
       user_id: authStore.user?.sup
-    })
+    }) || ''
 
-    if (carId) {
-      await createCarService.addAllFeatures(carFeatures.value, carId)
+    if (carId.value) {
+      await createCarService.addAllFeatures(carFeatures.value, carId.value)
     }
 
-    isPublished.value = true
+    isPublished.value.isReqEnd = true
     Object.assign(createCarData.value, cloneDeep(createCarService.defaultCreateData))
   } catch {
     ElNotification({

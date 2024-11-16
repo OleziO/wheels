@@ -103,6 +103,7 @@ const props = defineProps<{
 }>()
 
 const generalStore = useGeneralStore()
+const authStore = useAuthStore()
 
 const loading = ref(false)
 const car = ref<TCar | null>(null)
@@ -111,7 +112,7 @@ const recommendedCars = ref<TCar[]>([])
 const mainCarInfo = ref<IFilterOption[]>([])
 const carFeatures = ref<IFilterOption[]>([])
 
-const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate.value * car.value!.price), 'грн.', 'end'))
+const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate * car.value!.price), 'грн.', 'end'))
 
 const headerCarInfo = computed(() => [
   { text: `${car.value!.mileage.toString()} тис.км`, icon: 'icon-dashboard-3' },
@@ -123,13 +124,11 @@ const headerCarInfo = computed(() => [
 async function init () {
   loading.value = true
   try {
-    car.value = await carService.getCarData(props.query.id)
-    recommendedCars.value = await carService.getRecomendedCars(car.value!.price || 0, car.value!.id)
+    car.value = await carService.getCarData(props.query.id, authStore.user?.sub)
+    recommendedCars.value = await carService.getRecommendedCars(car.value!.price || 0, car.value!.id)
     mainCarInfo.value = carService.getMainInfo(car.value)
     location.value = await locationApi.getLocationUrl(car.value!.location)
-    mainCarInfo.value = carService.getMainInfo(car.value)
     carFeatures.value = await carService.getCarFeatures(props.query.id)
-    recommendedCars.value = await carService.getRecommendedCars(car.value!.price || 0, car.value!.id)
   } finally {
     loading.value = false
   }
