@@ -352,6 +352,7 @@
     "emailService": true,
     "auctionsService": true,
     "ElMessage": true,
-    "profileService": true
+    "profileService": true,
+    "updateCarService": true
   }
 }

@@ -6,7 +6,8 @@ class ProfileService {
     const carsIdList: string[] = (await supabase
       .from('cars_with_views')
       .select('*')
-      .eq('user_id', userId)).data?.map(item => item.car_id) as string[]
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })).data?.map(item => item.car_id) as string[]
 
     const { data: cars } = await supabase
       .from('cars')

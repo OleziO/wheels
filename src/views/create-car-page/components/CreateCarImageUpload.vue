@@ -15,7 +15,7 @@
         <div
           class="absolute top-0 w-full h-full bg-opacity-70 rounded-lg
                  hidden group-hover:flex justify-center items-center bg-creamy"
-          @click="createCarData.car_pictures.splice(index, 1)"
+          @click="createCarData.car_pictures?.splice(index, 1)"
         >
           <i
             class="icon-delete-bin-2 text-red-error"
@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-const createCarData = defineModel<ICarData>({ required: true })
+const createCarData = defineModel<ICarData | TCar>({ required: true })
 
 const linkDialogVisible = ref(false)
 </script>

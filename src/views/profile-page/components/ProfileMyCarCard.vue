@@ -10,7 +10,7 @@
         <template #error>
           <div class="w-full h-full flex justify-center items-center h1 text-gray-light">
             <el-image
-              src="./src/assets/images/car-placeholder.jpg"
+              :src="CarPlaceholder"
               alt="Car Picture"
               class="w-full h-full flex justify-center"
               fit="cover"
@@ -47,13 +47,20 @@
       </div>
 
       <div class="flex justify-end">
-        <AppButton type="secondary" icon="icon-edit">Редагувати</AppButton>
+        <AppButton
+          type="secondary"
+          icon="icon-edit"
+          @click="router.push({name: routeNames.carEdit, params: {id: car.id}})"
+        >
+          Редагувати
+        </AppButton>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import CarPlaceholder from '@/assets/images/car-placeholder.jpg'
 import { routeNames } from '@/router'
 
 const props = defineProps<{

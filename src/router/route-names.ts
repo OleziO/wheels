@@ -14,6 +14,6 @@ export const routeNames = {
   myCars: 'myCars',
   profileInfo: 'profileInfo',
   viewsHistory: 'viewsHistory',
-  carStatistic: 'carStatistic'
-
+  carStatistic: 'carStatistic',
+  carEdit: 'carEdit'
 }

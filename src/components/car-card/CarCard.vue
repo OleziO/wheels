@@ -13,7 +13,7 @@
         <template #error>
           <div class="w-full h-full flex justify-center items-center h1 text-gray-light">
             <el-image
-              src="./src/assets/images/car-placeholder.jpg"
+              :src="CarPlaceholder"
               alt="Car Picture"
               class="w-full h-full flex justify-center"
               fit="cover"
@@ -89,6 +89,7 @@
 </template>
 
 <script setup lang="ts">
+import CarPlaceholder from '@/assets/images/car-placeholder.jpg'
 import { timeAgo } from '@/core/helpers'
 import { searchService } from '@/services/index.service'
 

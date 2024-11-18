@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 const visible = defineModel<boolean>()
-const createCarData = defineModel<ICarData>('createCarData', { required: true })
+const createCarData = defineModel<ICarData | TCar>('createCarData', { required: true })
 const imageValue = ref<string>('')
 
 function handleCancel () {
@@ -29,7 +29,7 @@ function handleCancel () {
 }
 
 function handleSubmit () {
-  createCarData.value.car_pictures.push(imageValue.value)
+  createCarData.value?.car_pictures?.push(imageValue.value)
   imageValue.value = ''
   visible.value = false
 }

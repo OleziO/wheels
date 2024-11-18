@@ -8,7 +8,7 @@ interface ICarFeatures {
   comfort_features: string[]
   multimedia_features: string[]
   optic_features: string[]
-  parking_features: string[]
+  parking_assistance: string[]
   airbag_features: string[]
 }
 
@@ -17,7 +17,9 @@ interface ICarData {
   manufacture_year: string
   transmission_type: string
   fuel_type: string
-  brand: string
+  models: {
+    brand: string
+  }
   price: string
   mileage: string
   vin: string
@@ -29,7 +31,27 @@ interface ICarData {
   model_id: string
   drive_type: string
   car_pictures: string[]
-  [key: string]: string | string[]
+  paint_condition: string
+  was_in_accident: string
+  technical_condition: string
+  vehicle_type: string
+  body_type: string
+  engine_volume: string
+  registration_plate: string
+  description: string
+  engine_power: string
+  color: string
+  headlights: string
+  interior_material: string
+  interior_color: string
+  interior_seats_adjustment: string
+  spare_wheel: string
+  heated_seats: string
+  electric_windows: string
+  air_conditioning: string
+  power_steering: string
+  steering_wheel_adjustment: string
+  car_pictures: []
 }
 
 interface IPublishStatus {

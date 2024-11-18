@@ -50,7 +50,7 @@
         </div>
 
         <div class="w-full flex items-center">
-          <el-image src="./src/assets/images/location-placeholder.svg" class="w-full !object-cover" />
+          <el-image :src="LocationPlaceholder" class="w-full !object-cover" />
         </div>
       </a>
     </CarPageAsideSectionItem>
@@ -73,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import LocationPlaceholder from '@/assets/images/location-placeholder.svg'
 
 const props = defineProps<{
   car: TCar

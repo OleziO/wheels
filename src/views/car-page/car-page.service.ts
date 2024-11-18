@@ -108,7 +108,7 @@ class CarService {
     return (data || []) as any[]
   }
 
-  async getCarFeatures (carId: string) {
+  async getCarFeatures (carId: string, isTextMode = true) {
     const featureTables = [
       'safety_features',
       'comfort_features',
@@ -130,6 +130,15 @@ class CarService {
     const featureData = await Promise.all(
       featureTables.map((table) => this.getCarFeatureData(table, carId))
     )
+
+    if (!isTextMode) {
+      const featureIdsMap = featureTables.reduce((acc, table, index) => {
+        acc[table] = (featureData[index] || []).map((feature) => feature[table].value)
+        return acc
+      }, {} as { [key: string]: string[] })
+
+      return featureIdsMap
+    }
 
     return featureLabels.map((label, index) => ({
       label,

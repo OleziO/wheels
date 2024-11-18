@@ -1,6 +1,6 @@
 <template>
   <div v-loading.fullscreen="formLoading" class="w-full">
-    <div v-if="!loading" class="w-full max-w-[1440px] mx-auto px-25">
+    <div v-if="!loading && !carData" class="w-full max-w-[1440px] mx-auto px-25">
       <h2 class="h2 mt-12.5 mb-10">Як швидко продати свій автомобіль</h2>
 
       <div class="w-full flex justify-between gap-5">
@@ -16,13 +16,14 @@
 
     <div class="mt-12.5">
       <div class="w-fit bg-creamy ml-25 rounded-tl-25 rounded-tr-25 py-8 px-32">
-        <h2 class="h2">Створити оголошення</h2>
+        <h2 class="h2">{{ carData ? 'Редагувати оголошення' : 'Створити оголошення' }}</h2>
       </div>
 
       <CreateCarForm
         v-model:loading="loading"
         v-model:is-published="isPublished"
         v-model:car-id="carId"
+        :car-data="carData"
       />
 
       <el-dialog
@@ -40,6 +41,8 @@
 
 <script setup lang="ts">
 import { routeNames } from '@/router'
+
+const carData = defineModel<TCar & ICarFeatures>('carData')
 
 const router = useRouter()
 const searchStore = useSearchStore()
@@ -77,9 +80,13 @@ watch(() => isPublished.value, () => {
   if (
     isPublished.value.isProgressEnd &&
     isPublished.value.isReqEnd &&
-    carId.value
+    (carId.value || carData.value?.id)
   ) {
-    router.push({ name: routeNames.cars, params: { id: carId.value } })
+    if (carData.value) {
+      router.replace({ name: routeNames.myCars })
+    } else {
+      router.push({ name: routeNames.cars, params: { id: carId.value } })
+    }
   } else if (
     isPublished.value.isProgressEnd &&
     !isPublished.value.isReqEnd
@@ -94,6 +101,12 @@ onMounted(async () => {
   formLoading.value = true
 
   await searchStore.getSearchFilterOptions()
+
+  if (carData.value) {
+    const carFeatures = await carService.getCarFeatures(carData.value.id, false)
+
+    Object.assign(carData.value, carFeatures)
+  }
 
   formLoading.value = false
 })

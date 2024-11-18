@@ -6,7 +6,7 @@
         class="mt-25 h-2.5 bg-orange rounded-lg flex items-center justify-end min-w-[288px]"
         :style="{ width: progressWidth + '%' }"
       >
-        <el-image src="src/assets/images/orange-car.png" alt="car" class="h-[150px] rotate-180" />
+        <el-image :src="OrangeCar" alt="car" class="h-[150px] rotate-180" />
       </div>
 
       <p class="mt-12.5 mx-auto body-2">Зачекайте, ваше оголошення публікується...</p>
@@ -15,6 +15,8 @@
 </template>
 
 <script setup lang="ts">
+import OrangeCar from '@/assets/images/orange-car.png'
+
 const props = defineProps<{
   createLoading: boolean
 }>()

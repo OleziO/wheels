@@ -1,6 +1,9 @@
 <template>
   <div v-loading.fullscreen="loading" class="flex-1">
-    <div class="h3 text-gray-dark mb-10 flex gap-1.5 items-center" @click="router.push({name: routeNames.myCars})">
+    <div
+      class="h3 text-gray-dark mb-10 flex gap-1.5 items-center cursor-pointer"
+      @click="router.replace({name: routeNames.myCars})"
+    >
       <i class="icon-arrow-left-s" />
 
       <h3>Статистика оголошень</h3>
@@ -17,7 +20,7 @@
           <template #error>
             <div class="w-full h-full flex justify-center items-center h1 text-gray-light">
               <el-image
-                src="./src/assets/images/car-placeholder.jpg"
+                :src="CarPlaceholder"
                 alt="Car Picture"
                 class="w-full h-full flex justify-center"
                 fit="cover"
@@ -88,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+import CarPlaceholder from '@/assets/images/car-placeholder.jpg'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -115,8 +119,17 @@ ChartJS.register(
   Legend
 )
 
+const router = useRouter()
+const route = useRoute()
+const generalStore = useGeneralStore()
+
 const myCarViews = ref<number[]>([])
 const modelViewsValue = ref<number[]>([])
+
+const car = ref<TCar>()
+const loading = ref(false)
+const carViewsCount = ref(0)
+const placeInTopRate = ref(0)
 
 const chartData = computed<ChartData<'line'>>(() => ({
   labels: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
@@ -147,6 +160,11 @@ const chartData = computed<ChartData<'line'>>(() => ({
     }
   ]
 }))
+
+const carTitle = computed(() => `${car.value?.models.brand} ${car.value?.models.model} ${car.value?.manufacture_year}`)
+const formattedMoney = computed(() => moneyService.numToMoneyWithFormat(car.value?.price || 0, '$'))
+const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate * (car.value?.price || 0)), 'грн.', 'end'))
+const carId = computed(() => route.params.id as string)
 
 const chartOptions: ChartOptions<'line'> = {
   responsive: true,
@@ -207,20 +225,6 @@ const chartOptions: ChartOptions<'line'> = {
     }
   }
 }
-
-const router = useRouter()
-const route = useRoute()
-const generalStore = useGeneralStore()
-
-const car = ref<TCar>()
-const loading = ref(false)
-const carViewsCount = ref(0)
-const placeInTopRate = ref(0)
-
-const carTitle = computed(() => `${car.value?.models.brand} ${car.value?.models.model} ${car.value?.manufacture_year}`)
-const formattedMoney = computed(() => moneyService.numToMoneyWithFormat(car.value?.price || 0, '$'))
-const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate * (car.value?.price || 0)), 'грн.', 'end'))
-const carId = computed(() => route.params.id as string)
 
 onMounted(async () => {
   loading.value = true

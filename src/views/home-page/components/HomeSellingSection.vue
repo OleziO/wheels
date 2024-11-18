@@ -14,12 +14,13 @@
           Продати автомобіль
         </AppButton>
       </div>
-      <el-image fit="cover" class="h-full !max-w-[590px]" src="src/assets/images/orange-car.png" />
+      <el-image fit="cover" class="h-full !max-w-[590px]" :src="OrangeCar" />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import OrangeCar from '@/assets/images/orange-car.png'
 const router = useRouter()
 
 </script>

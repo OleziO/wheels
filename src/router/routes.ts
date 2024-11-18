@@ -88,7 +88,12 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-
+  {
+    path: '/edit-car/:id',
+    name: routeNames.carEdit,
+    component: () => import('@/views/profile-page/ProfileEditCar.vue'),
+    meta: { isAuthProtected: true }
+  },
   {
     path: '/uikit',
     name: routeNames.uikit,

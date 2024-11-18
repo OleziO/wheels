@@ -70,11 +70,7 @@
             Зв’язатись з продавцем: {{ car.user_profiles?.first_name || 'Продавець' }}
           </h4>
 
-          <div class="flex gap-5 justify-between">
-            <AppButton type="line-light" class="w-full">Запропонувати торг</AppButton>
-
-            <AppButton type="secondary" class="w-full" icon="icon-question-answer">Написати в чат</AppButton>
-          </div>
+          <AppButton type="secondary" class="w-full" icon="icon-question-answer">Написати в чат</AppButton>
         </div>
       </div>
 
@@ -128,7 +124,7 @@ async function init () {
     recommendedCars.value = await carService.getRecommendedCars(car.value!.price || 0, car.value!.id)
     mainCarInfo.value = carService.getMainInfo(car.value)
     location.value = await locationApi.getLocationUrl(car.value!.location)
-    carFeatures.value = await carService.getCarFeatures(carId.value)
+    carFeatures.value = await carService.getCarFeatures(carId.value) as IFilterOption[]
   } finally {
     loading.value = false
   }
