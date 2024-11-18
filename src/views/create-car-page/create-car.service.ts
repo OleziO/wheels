@@ -175,7 +175,7 @@ class CreateCarService {
       .from('cars')
       .insert(
         {
-          ...this.removeEmptyCarFields(car) as TTables<'cars'>,
+          ...this.removeMappedFields({ ...this.removeEmptyCarFields(car) }) as TTables<'cars'>,
           car_condition: +car.mileage > 2000 ? 'Used' : 'New',
           price: car.price.replace('$', '')
         }
