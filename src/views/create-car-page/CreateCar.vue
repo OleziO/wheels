@@ -39,8 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { replaceRouterQuery, routeNames } from '@/router'
+import { routeNames } from '@/router'
 
+const router = useRouter()
 const searchStore = useSearchStore()
 
 const loading = ref(false)
@@ -78,7 +79,7 @@ watch(() => isPublished.value, () => {
     isPublished.value.isReqEnd &&
     carId.value
   ) {
-    replaceRouterQuery(routeNames.car, { id: carId.value })
+    router.push({ name: routeNames.cars, params: { id: carId.value } })
   } else if (
     isPublished.value.isProgressEnd &&
     !isPublished.value.isReqEnd

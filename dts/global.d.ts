@@ -12,6 +12,7 @@ declare module 'vue-router' {
   }
 }
 
+
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     // todo: Here you define you global vue definitions.

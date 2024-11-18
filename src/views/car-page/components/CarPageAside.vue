@@ -32,7 +32,7 @@
           Написати в чат
         </AppButton>
 
-        <a :href="`tel:+38${car.user_profiles?.phone}`">
+        <a :href="`tel:${car.user_profiles?.phone}`">
           <AppButton type="line-light" class="w-full" icon="icon-phone">Зателефонувати</AppButton>
         </a>
       </div>

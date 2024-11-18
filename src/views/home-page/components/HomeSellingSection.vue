@@ -9,7 +9,7 @@
         <AppButton
           type="secondary"
           class="mt-12.5 w-[65%]"
-          @click="router.replace({ name: $routeNames.create})"
+          @click="router.push({ name: $routeNames.createCar})"
         >
           Продати автомобіль
         </AppButton>

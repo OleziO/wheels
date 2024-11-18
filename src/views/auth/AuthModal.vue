@@ -40,7 +40,6 @@ async function handleSubmit (data: ISignIn | ISignUp) {
       }
     }
 
-    loading.value = false
     authStore.showAuthModal = false
   } catch {
     ElNotification({
@@ -48,6 +47,8 @@ async function handleSubmit (data: ISignIn | ISignUp) {
       message: isLoginMode.value ? 'Невірні дані для входу' : 'Невірні дані для реєстрації',
       type: 'error'
     })
+  } finally {
+    loading.value = false
   }
 }
 

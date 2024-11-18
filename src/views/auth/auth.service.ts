@@ -12,6 +12,16 @@ class AuthService {
     password: ''
   }
 
+  async getUserProfileInfo (userId: string) {
+    const { data: user, error: userError } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
+
+    return { user, userError }
+  }
+
   async signUp (registrationData: ISignUp) {
     const { data, error } = await supabase.auth.signUp({
       email: registrationData.email,
@@ -44,7 +54,13 @@ class AuthService {
   async getSession () {
     const { data } = await supabase.auth.getSession()
 
-    return data
+    const { data: userDetails } = await supabase
+      .from('user_profiles')
+      .select('avatar')
+      .eq('id', data.session?.user.user_metadata.sub)
+      .single()
+
+    return { ...data, avatar: userDetails?.avatar || '' }
   }
 
   async logout () {

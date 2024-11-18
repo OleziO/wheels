@@ -351,6 +351,7 @@
     "auctionsListService": true,
     "emailService": true,
     "auctionsService": true,
-    "ElMessage": true
+    "ElMessage": true,
+    "profileService": true
   }
 }

@@ -1,0 +1,17 @@
+.el-message-box {
+  @apply rounded-lg bg-creamy-light;
+
+  .el-button {
+    @apply text-blue-light border-solid border-blue-light bg-transparent
+    hover:bg-blue-extra-light hover:text-creamy-light
+    focus:bg-blue focus:text-creamy-light;
+
+    &:not(&:first-of-type) {
+      @apply ml-4 border-none text-creamy-light bg-blue-light hover:bg-blue-extra-light focus:bg-blue-dark;
+    }
+  }
+}
+
+.el-overlay-message-box {
+  @apply bg-blue-dark bg-opacity-70;
+}

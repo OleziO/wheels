@@ -89,7 +89,8 @@ class CarService {
         .from('cars_with_views')
         .insert({
           car_id: data.id,
-          user_id: userId
+          user_id: userId,
+          model_id: data.models?.id
         })
     }
 

@@ -6,7 +6,7 @@
     scroll-to-error
     :scroll-into-view-options="{behavior: 'smooth', block: 'start'}"
     :rules="createCarValidationRules"
-    class="create-car-form w-full flex flex-col gap-12.5 py-12.5 px-25 bg-creamy"
+    class="titled-form w-full flex flex-col gap-12.5 py-12.5 px-25 bg-creamy"
   >
     <CreateCarImageUpload v-model="createCarData" />
 

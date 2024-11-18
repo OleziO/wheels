@@ -79,7 +79,7 @@
 
         <AppButton
           class="mt-4 w-full"
-          @click.stop="router.push({name: $routeNames.auction, query: { id: auction.id }})"
+          @click.stop="router.push({name: $routeNames.auction, params: { id: auction.id }})"
         >
           Переглянути аукціон
         </AppButton>
