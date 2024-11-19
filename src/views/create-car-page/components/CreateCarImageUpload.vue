@@ -10,7 +10,16 @@
           fit="cover"
           class="h-28 !w-40 rounded-lg"
           :src="picture"
-        />
+        >
+          <template #error>
+            <div
+              class="h-28 !w-40 rounded-lg flex justify-center text-center
+              items-center bg-creamy-light text-red-error border border-red-error"
+            >
+              <p>Помилка завантаження</p>
+            </div>
+          </template>
+        </el-image>
 
         <div
           class="absolute top-0 w-full h-full bg-opacity-70 rounded-lg
