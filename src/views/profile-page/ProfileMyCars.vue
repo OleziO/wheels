@@ -29,24 +29,20 @@ const authStore = useAuthStore()
 const myCars = ref<TCar[]>([])
 
 async function handleDeleteCar (carId: string, carTitle: string) {
-  try {
-    await showDeleteConfirmation(carTitle)
+  await showDeleteConfirmation(carTitle)
 
-    loading.value = true
+  loading.value = true
 
-    await deleteCarAndUpdateList(carId)
+  await deleteCarAndUpdateList(carId)
 
-    loading.value = false
-    showSuccessMessage()
-  } catch (error) {
-    showCancelMessage()
-  }
+  loading.value = false
+  showSuccessMessage()
 }
 
 async function showDeleteConfirmation (carTitle: string) {
   return ElMessageBox.confirm(
     `Ви дійсно бажаєте видалити оголошення “${carTitle}”`,
-    'Видалення автомобіля',
+    '',
     {
       confirmButtonText: 'Так',
       cancelButtonText: 'Скасувати',
@@ -64,13 +60,6 @@ function showSuccessMessage () {
   ElMessage({
     type: 'success',
     message: 'Успішне видалення'
-  })
-}
-
-function showCancelMessage () {
-  ElMessage({
-    type: 'info',
-    message: 'Видалення скасовано'
   })
 }
 

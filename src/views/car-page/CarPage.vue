@@ -70,13 +70,30 @@
             Зв’язатись з продавцем: {{ car.user_profiles?.first_name || 'Продавець' }}
           </h4>
 
-          <AppButton type="secondary" class="w-full" icon="icon-question-answer">Написати в чат</AppButton>
+          <AppButton
+            type="secondary"
+            class="w-full"
+            icon="icon-question-answer"
+            @click="router.replace({name: routeNames.chatPage, params: { id: ownerChatId}})"
+          >
+            Написати в чат
+          </AppButton>
         </div>
       </div>
 
-      <AuctionPageAside v-if="auction" :auction-data="auction" :car="car" />
+      <AuctionPageAside
+        v-if="auction"
+        :auction-data="auction"
+        :car="car"
+        @handle-user-chat="redirectToUserChat"
+      />
 
-      <CarPageAside v-else :car="car" :priceUAH="priceUAH" :location="location" />
+      <CarPageAside
+        v-else :car="car"
+        :priceUAH="priceUAH"
+        :location="location"
+        @handle-user-chat="redirectToUserChat"
+      />
     </div>
     <div v-if="!loading" class="px-25 mb-40 mt-20 max-w-[1440px] mx-auto">
       <h3 class="h3 mb-10 text-gray-dark">Рекомендації для вас</h3>
@@ -89,6 +106,7 @@
 <script setup lang="ts">
 import locationApi from '@/api/location'
 import RegistrationPlateIcon from '@/assets/images/RegistrationPlateIcon.vue'
+import { routeNames } from '@/router'
 import AuctionPageAside from '@/views/auctions-page/components/AuctionDetailsPageAside.vue'
 
 const props = defineProps<{
@@ -96,6 +114,7 @@ const props = defineProps<{
   auction?: TTables<'active_auctions'>
 }>()
 
+const router = useRouter()
 const route = useRoute()
 const generalStore = useGeneralStore()
 const authStore = useAuthStore()
@@ -106,6 +125,7 @@ const location = ref('')
 const recommendedCars = ref<TCar[]>([])
 const mainCarInfo = ref<IFilterOption[]>([])
 const carFeatures = ref<IFilterOption[]>([])
+const ownerChatId = ref('')
 
 const carId = computed(() => props.id || route.params.id as string)
 const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate * car.value!.price), 'грн.', 'end'))
@@ -116,6 +136,17 @@ const headerCarInfo = computed(() => [
   { text: car.value!.transmission_types?.label, icon: 'icon-steering-fill' },
   { text: car.value!.locations.label || 'Україна', icon: 'icon-map-pin-2' }
 ])
+
+async function redirectToUserChat (userId: string) {
+  const ownerChatId = await getUserChat(userId)
+  router.replace({ name: routeNames.chatPage, params: { id: ownerChatId } })
+}
+
+async function getUserChat (userId: string) {
+  if (userId && authStore.user?.sub && authStore.user.sub !== userId) {
+    return await chatService.getChatId(userId, authStore.user.sub) || ''
+  }
+}
 
 async function init () {
   loading.value = true

@@ -353,6 +353,7 @@
     "auctionsService": true,
     "ElMessage": true,
     "profileService": true,
-    "updateCarService": true
+    "updateCarService": true,
+    "chatService": true
   }
 }

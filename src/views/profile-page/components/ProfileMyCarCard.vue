@@ -46,7 +46,15 @@
         </p>
       </div>
 
-      <div class="flex justify-end">
+      <div class="flex justify-end gap-5">
+        <AppButton
+          type="secondary"
+          icon="icon-eye"
+          @click="router.push({name: routeNames.cars, params: {id: car.id}})"
+        >
+          Переглянути
+        </AppButton>
+
         <AppButton
           type="secondary"
           icon="icon-edit"

@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full h-16 flex justify-between items-center gap-2 px-25 bg-creamy-light z-50">
+  <header class="w-full h-16 flex justify-between items-center gap-2 px-25 bg-creamy-light z-40">
     <nav class="flex items-center h-full gap-12">
       <AppRouterLink :to="routeNames.home" :underlined="false">
         <Logo />
@@ -17,7 +17,7 @@
       <ul v-if="authStore.user" class="flex gap-5 text-5 text-xl">
         <li v-for="(link, index) in iconLinks" :key="index">
           <AppRouterLink :to="link.path" :underlined="false">
-            <el-badge :value="link.count" :max="99">
+            <el-badge :value="link.count" :max="99" :hidden="!link.count">
               <el-tooltip
                 content="Чати"
                 placement="bottom"
@@ -87,6 +87,7 @@ import AuthModal from '@/views/auth/AuthModal.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const generalStore = useGeneralStore()
 
 const navLinks = [
   { path: routeNames.search, label: 'Купити' },
@@ -95,9 +96,9 @@ const navLinks = [
   { path: routeNames.auctionsList, label: 'Аукціони' }
 ]
 
-const iconLinks = [
-  { path: routeNames.chats, icon: 'icon-question-answer', hoverIcon: 'icon-question-answer-fill', count: 5 }
-]
+const iconLinks = computed(() => [
+  { path: routeNames.chats, icon: 'icon-question-answer', hoverIcon: 'icon-question-answer-fill', count: generalStore.unreadMessagesCount }
+])
 
 async function handleLogout () {
   await authStore.logout()

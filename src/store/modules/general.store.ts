@@ -1,8 +1,10 @@
 export const useGeneralStore = defineStore('generalStore', () => {
   const rate = ref()
+  const unreadMessagesCount = ref(0)
 
   return {
-    rate
+    rate,
+    unreadMessagesCount
   }
 })
 

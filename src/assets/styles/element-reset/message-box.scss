@@ -1,17 +1,33 @@
 .el-message-box {
-  @apply rounded-lg bg-creamy-light;
+  @apply rounded-lg bg-creamy-light z-50 px-10 py-6 #{!important};
+
+  &__message {
+    @apply text-gray-dark body-1 whitespace-pre-line;
+  }
+
+  &__btns {
+    @apply mt-8 flex gap-2 flex-col-reverse;
+  }
+
+  &__close {
+    @apply w-5 h-5 mr-1 mt-2;
+
+    svg {
+      @apply w-5 h-5;
+    }
+  }
 
   .el-button {
-    @apply text-blue-light border-solid border-blue-light bg-transparent
+    @apply w-full text-blue-light border-solid border-blue-light bg-transparent
     hover:bg-blue-extra-light hover:text-creamy-light
     focus:bg-blue focus:text-creamy-light;
 
     &:not(&:first-of-type) {
-      @apply ml-4 border-none text-creamy-light bg-blue-light hover:bg-blue-extra-light focus:bg-blue-dark;
+      @apply border-none text-creamy-light bg-blue-light hover:bg-blue-extra-light focus:bg-blue-dark;
     }
   }
 }
 
 .el-overlay-message-box {
-  @apply bg-blue-dark bg-opacity-70;
+  @apply bg-blue-dark bg-opacity-70 z-50;
 }

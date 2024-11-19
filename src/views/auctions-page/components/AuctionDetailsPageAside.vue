@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import type { RealtimeChannel } from '@supabase/supabase-js'
-import { replaceRouterQuery, routeNames } from '@/router'
+import { routeNames } from '@/router'
 import { useAuctionTimer } from '@/views/auctions-page/composables/useAuctionTimer'
 import AuctionDetailsBitItem from '@/views/auctions-page/components/AuctionDetailsBitItem.vue'
 
@@ -81,6 +81,8 @@ const props = defineProps<{
   auctionData: TTables<'active_auctions'>
   car: TCar
 }>()
+
+const emit = defineEmits(['handleUserChat'])
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -128,13 +130,13 @@ const endButtonData = computed(() => {
   if (authStore.user?.sub === props.auctionData.auction_owner_id) {
     return {
       text: "Зв'язатися з переможцем",
-      click: () => replaceRouterQuery(routeNames.chats, { id: bidsHistory.value[0]!.user_id })
+      click: () => emit('handleUserChat', bidsHistory.value[0]!.user_id)
     }
   } else if (authStore.user?.sub === bidsHistory.value[0]!.user_id) {
     return {
       text: "Зв'язатися з власником",
       click: async () => {
-        replaceRouterQuery(routeNames.chats, { id: props.auctionData.auction_owner_id })
+        emit('handleUserChat', props.auctionData.auction_owner_id)
 
         await emailService.sendEmail({
           reply_to: ownerData.value?.email || '',

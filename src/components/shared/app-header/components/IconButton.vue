@@ -1,6 +1,6 @@
 <template>
   <div class="relative" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-    <AppButton type="icon" class="text-xl">
+    <AppButton type="icon" class="text-xl !text-blue-light">
       <i :class="isHovered && hoverIcon ? hoverIcon : icon" />
     </AppButton>
   </div>
