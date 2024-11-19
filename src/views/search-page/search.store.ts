@@ -173,7 +173,7 @@ export const useSearchStore = defineStore('searchStore', () => {
       page: query.page || defaultSearchData.page,
       perPage: query.perPage || defaultSearchData.perPage,
       sortingType: query.sortingType || defaultSearchData.sortingType,
-      sortingOrder: query.sortingType || defaultSearchData.sortingOrder,
+      sortingOrder: query.sortingOrder || defaultSearchData.sortingOrder,
       search: query.search || defaultSearchData.search
     }
   }
