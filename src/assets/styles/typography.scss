@@ -1,0 +1,53 @@
+.h1 {
+  @apply font-unbounded font-bold text-4xl;
+}
+
+.h2 {
+  @apply font-unbounded font-bold text-[32px];
+}
+
+.h3 {
+  @apply font-roboto font-bold text-2xl;
+}
+
+.h4 {
+  @apply font-roboto font-bold text-xl;
+}
+
+.button-text {
+  @apply font-roboto font-semibold text-lg;
+}
+
+.body-1 {
+  @apply font-roboto font-normal text-lg;
+}
+
+.body2-bold {
+  @apply font-roboto font-bold text-base;
+}
+
+.body-2 {
+  @apply font-roboto font-normal text-base;
+}
+
+.secondary-bold {
+  @apply font-roboto font-bold text-sm;
+}
+
+.secondary-medium {
+  @apply font-roboto font-medium text-sm;
+}
+
+.secondary {
+  @apply font-roboto font-normal text-sm;
+}
+
+.secondary-small {
+  @apply font-roboto font-normal text-xs;
+}
+
+.font-full-inherit {
+  @apply text-inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}

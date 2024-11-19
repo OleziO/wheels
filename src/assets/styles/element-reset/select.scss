@@ -1,0 +1,68 @@
+.app-select.el-select {
+  .el-select__wrapper {
+    @apply rounded-lg bg-creamy-light text-base px-10;
+    box-shadow: 0 0 0 1px colors.$creamy-dark;
+  
+
+    .el-select__icon {
+      @apply text-gravel text-xl;
+    }
+  
+    .el-select__placeholder {
+      @apply text-gravel;
+    }
+  
+  
+    &.is-hovering {
+      box-shadow: 0 0 0 2px colors.$creamy-dark;
+    }
+  
+    &.is-focused {
+      box-shadow: 0 0 0 3px colors.$creamy-dark;
+    }
+  }
+}
+
+.el-select-dropdown__wrap {
+  @apply max-h-72;
+
+  .el-select-dropdown__list {
+    @apply rounded-lg bg-creamy-light max-h-72 overflow-y-auto;
+    box-shadow: 0 0 0 1px colors.$creamy-dark;
+
+    .el-select-dropdown__item.is-hovering{
+      @apply bg-creamy;
+    }
+  }
+}
+
+.el-select-group__title {
+  @apply text-orange
+}
+
+.el-popper.is-light {
+  @apply bg-transparent border-none;
+}
+
+.el-tag--info, .el-select__selection .el-tag {
+  @apply flex gap-2.5 items-center bg-blue-light px-2.5 py-2 rounded-lg text-creamy-light secondary
+}
+
+.el-popper {
+  @apply max-w-[80%];
+
+  &__arrow {
+    @apply hidden;
+  }
+}
+
+
+.el-select__popper.el-popper {
+  .el-popper__arrow::before {
+    @apply hidden;
+  }
+}
+
+
+
+  

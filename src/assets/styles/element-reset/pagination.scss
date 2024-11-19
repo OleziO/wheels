@@ -1,0 +1,27 @@
+.el-pagination.is-background {
+  @apply w-full flex items-center justify-between;
+
+  .btn-prev, .btn-next, .el-pager li {
+    @apply text-blue-light bg-transparent border border-blue-light hover:text-orange-dark hover:border-orange-dark rounded-lg;
+
+    &.is-active {
+      @apply bg-blue-light text-creamy-light border-none;
+    }
+
+    &:disabled {
+      @apply bg-transparent text-gray-light border border-gray-light;
+    }
+  }
+
+  .el-pager li, button {
+    border: 1px solid colors.$blue-light;
+  }
+
+  .el-pager li {
+    @apply w-12.5 h-12.5;
+  }
+
+  button {
+    @apply w-40 h-12.5;
+  }
+}

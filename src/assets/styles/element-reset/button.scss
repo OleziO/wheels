@@ -1,0 +1,69 @@
+.el-button {
+  @apply button-text;
+
+  &:focus-visible {
+    @apply outline-none;
+  }
+
+  &:disabled {
+    @apply opacity-65;
+  }
+
+  & + & {
+    margin-left: 0;
+  }
+  
+  & [class*=el-icon] + span {
+    @apply m-0 flex;
+
+    &:empty {
+      @apply hidden;
+    }
+  }
+
+  &.primary {
+    @apply text-creamy-light bg-orange hover:bg-orange-light focus:bg-orange-dark #{!important};
+  }
+
+  &.secondary {
+    @apply text-creamy-light bg-blue-light hover:bg-blue-extra-light focus:bg-blue-dark;
+  }
+
+  &.line-light {
+    @apply text-blue-light border-solid border-blue-light bg-transparent
+    hover:bg-blue-extra-light hover:text-creamy-light
+    focus:bg-blue focus:text-creamy-light body-2 hover:!border-blue-extra-light
+  }
+
+  &.line-dark {
+    @apply text-blue-light border-solid border-blue-light bg-transparent
+    hover:bg-blue-light hover:text-creamy-light
+    focus:bg-blue-dark focus:text-creamy-light body-2;
+  }
+
+  &.text{
+    @apply text-blue-light p-0 rounded-none;
+
+    &:hover {
+      @apply bg-transparent;
+
+      span {
+        @apply underline;
+      }
+    }
+  }
+
+  &.icon {
+    @apply bg-transparent text-blue p-0 h-fit;
+  }
+}
+
+.menuBtutton {
+  &.text {
+    &:hover {
+      span {
+        @apply no-underline;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+.primary {
+  .el-slider__button {
+    @apply bg-orange;
+  }
+}
+
+.secondary {
+  .el-slider__button {
+    @apply bg-blue-light;
+  }
+
+  .el-slider__bar {
+    @apply bg-blue-light;
+  }
+}
+
+.el-slider__button {
+  @apply border-none;
+}
+
+.el-slider__marks-text {
+  @apply text-gray-dark text-sm body-2 mt-6 translate-x-0;
+
+  &:last-of-type {
+    @apply -translate-x-full
+  }
+}
+

@@ -1,0 +1,23 @@
+type TCar = TTables<'cars'>
+& {models: TTables<'models'>}
+& {locations: TTables<'locations'>}
+& {user_profiles?: TTables<'user_profiles'>}
+& {spare_wheels?: TTables<'spare_wheels'>}
+& {steering_wheel_adjustments?: TTables<'steering_wheel_adjustments'>}
+& {power_steering?: TTables<'power_steering'>}
+& {air_conditioning?: TTables<'air_conditioning'>}
+& {electric_windows?: TTables<'electric_windows'>}
+& {heated_seats?: TTables<'heated_seats'>}
+& {interior_seats_adjustments?: TTables<'interior_seats_adjustments'>}
+& {interior_colors?: TTables<'interior_colors'>}
+& {interior_materials?: TTables<'interior_materials'>}
+& {headlights?: TTables<'headlights'>}
+& {car_colors?: TTables<'car_colors'>}
+& {car_conditions?: TTables<'car_conditions'>}
+& {paint_conditions?: TTables<'paint_conditions'>}
+& {tech_conditions?: TTables<'tech_conditions'>}
+& {vehicle_types?: TTables<'vehicle_types'>}
+& {body_types?: TTables<'body_types'>}
+& {drive_types?: TTables<'drive_types'>}
+& {fuel_types?: TTables<'fuel_types'>}
+& {transmission_types?: TTables<'transmission_types'>}

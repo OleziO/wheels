@@ -1,0 +1,48 @@
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
+html,
+body,
+#app {
+  @apply h-full font-roboto bg-creamy-light box-border;
+}
+
+html {
+  font-size: 16px;
+  line-height: normal;
+}
+
+body {
+  @apply text-base w-full;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: initial;
+  height: 100%;
+}
+
+.custom-shadow {
+  box-shadow: 0px 4px 20px 0px #0000000D;
+}
+
+.section-layout {
+  h2 {
+    @apply h2 text-gray-dark mb-12.5;
+  }
+}
+
+
+*::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-gray-light rounded-2xl;
+}
+
+*::-webkit-scrollbar-button {
+  @apply hidden;
+}

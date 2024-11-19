@@ -1,0 +1,9 @@
+.el-overlay-dialog {
+  @apply flex justify-center items-center bg-blue-dark bg-opacity-70 z-50;
+
+  .custom-modal {
+    &.el-dialog {
+      @apply m-0
+    }
+  }
+}

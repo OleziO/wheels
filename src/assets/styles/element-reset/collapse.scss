@@ -1,0 +1,11 @@
+.el-collapse-item__header {
+  @apply bg-creamy-light p-3.5 h4 text-[#000000] border-creamy-dark border-t-0;
+
+  &:last-child {
+    @apply border-none;
+  }
+}
+
+.el-collapse {
+  --el-collapse-content-bg-color: colors.$creamy-light;
+}
