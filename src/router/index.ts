@@ -5,7 +5,7 @@ import { routeNames } from '@/router/route-names'
 import { routes } from './routes'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes,
   scrollBehavior () {
     return { top: 0, behavior: 'smooth' }

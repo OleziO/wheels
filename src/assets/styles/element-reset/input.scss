@@ -1,5 +1,8 @@
 .el-input__wrapper {
-  @apply px-10;
+  @apply px-10 bg-creamy-light;
+
+  --el-disabled-bg-color: colors.$creamy-light;
+  --el-disabled-border-color: #CFC1B3;
 
   .el-input__inner {
     @apply text-base text-gravel h-14;
@@ -42,4 +45,9 @@
 
 .el-textarea .el-input__count {
   @apply text-creamy-dark bg-creamy-light;
+}
+
+.el-input.is-disabled,
+.el-input.is-disabled .el-input__inner {
+  @apply bg-creamy-light rounded-lg w-full;
 }

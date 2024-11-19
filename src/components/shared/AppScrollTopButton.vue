@@ -9,10 +9,16 @@
 
 <script setup lang="ts">
 
+const router = useRouter()
+
 const scrollButtonRef = useTemplateRef('scrollButtonRef')
 
 function scrollParent () {
   scrollButtonRef.value?.$el.parentElement.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+router.afterEach(() => {
+  scrollParent()
+})
 
 </script>
