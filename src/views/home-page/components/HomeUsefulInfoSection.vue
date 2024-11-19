@@ -16,15 +16,14 @@
         </li>
       </ul>
 
-      <el-image :src="handImagePath" class="absolute bottom-0 right-[1vw] h-full" />
+      <el-image :src="HomeHandPicture" class="absolute bottom-0 right-[1vw] h-full" />
     </div>
   </HomeSectionWrapper>
 </template>
 
 <script setup lang="ts">
 import HomeSectionWrapper from '@/views/home-page/components/HomeSectionWrapper.vue'
-
-const handImagePath = 'src/assets/images/home-page/hand.png'
+import HomeHandPicture from '@/assets/images/home-page/hand.png'
 
 const usefulLinks = [
   {

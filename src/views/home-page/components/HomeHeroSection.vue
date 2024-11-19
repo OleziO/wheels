@@ -13,10 +13,10 @@
       <p class="body-2 w-64">Щодня нові актуальні пропозиції від перевірених дилерів.</p>
     </div>
 
-    <el-image fit="cover" class="h-full absolute top-0 right-0" :src="path" />
+    <el-image fit="cover" class="h-full absolute top-0 right-0" :src="HomeHeroPicture" />
   </section>
 </template>
 
 <script setup lang="ts">
-const path = 'src/assets/images/home-page/main-page-hero-section.png'
+import HomeHeroPicture from '@/assets/images/home-page/main-page-hero-section.png'
 </script>
