@@ -1,115 +1,26 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { routeNames } from './route-names'
+import { auctionRoutes } from '@/views/auctions-page/auction.routes'
+import { profileRoutes } from '@/views/profile-page/profile.routes'
+import { topRatedRoutes } from '@/views/top-rated/top-rated.routes'
+import { searchRoutes } from '@/views/search-page/search.routes'
+import { uiKitRoutes } from '@/views/ui-kit-page/ui-kit.routes'
+import { createCarRoutes } from '@/views/create-car-page/create-car.routes'
+import { carRoutes } from '@/views/car-page/car.routes'
+import { homeRoutes } from '@/views/home-page/home.routes'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   },
-  {
-    path: '/',
-    name: routeNames.home,
-    component: () => import('@/views/home-page/Home.vue')
-  },
-  {
-    path: '/cars/:id',
-    name: routeNames.cars,
-    component: () => import('@/views/car-page/CarPage.vue')
-  },
-  {
-    path: '/create-car',
-    name: routeNames.createCar,
-    component: () => import('@/views/create-car-page/CreateCar.vue'),
-    meta: { isAuthProtected: true }
-  },
-  {
-    path: '/search',
-    name: routeNames.search,
-    component: () => import('@/views/search-page/SearchPage.vue'),
-    props: (route) => ({ query: route.query })
-  },
-  {
-    path: '/top-rated',
-    name: routeNames.top,
-    component: () => import('@/views/top-rated/TopRated.vue')
-  },
-  {
-    path: '/auctions',
-    meta: { isAuthProtected: true },
-    children: [
-      {
-        path: '',
-        name: routeNames.auctionsList,
-        component: () => import('@/views/auctions-page/AuctionsPage.vue')
-      },
-      {
-        path: 'auction-details/:id',
-        name: routeNames.auction,
-        component: () => import('@/views/auctions-page/AuctionDetailsPage.vue')
-      }
-    ]
-  },
-  {
-    path: '/profile',
-    name: routeNames.profile,
-    component: () => import('@/views/profile-page/ProfilePage.vue'),
-    meta: { isAuthProtected: true },
-    children: [
-      {
-        path: 'my-cars',
-        children: [
-          {
-            path: '',
-            name: routeNames.myCars,
-            component: () => import('@/views/profile-page/ProfileMyCars.vue')
-          },
-          {
-            path: 'statistic/:id',
-            name: routeNames.carStatistic,
-            component: () => import('@/views/profile-page/ProfileCarStatistic.vue')
-          }
-        ]
-      },
-      {
-        path: 'profile-info',
-        name: routeNames.profileInfo,
-        component: () => import('@/views/profile-page/ProfileUserInfo.vue'),
-        props: (route) => ({ token: route.query.token, email: route.query.email })
-      },
-      {
-        path: 'views-history',
-        name: routeNames.viewsHistory,
-        component: () => import('@/views/profile-page/ProfileViewsHistory.vue')
-      },
-      {
-        path: 'chats',
-        children: [
-          {
-            path: '',
-            name: routeNames.chats,
-            component: () => import('@/views/chat-page/Chats.vue')
-          },
-          {
-            path: ':id',
-            name: routeNames.chatPage,
-            component: () => import('@/views/chat-page/ChatPage.vue')
-          }
-        ]
-      }
-    ]
-  },
-  {
-    path: '/edit-car/:id',
-    name: routeNames.carEdit,
-    component: () => import('@/views/profile-page/ProfileEditCar.vue'),
-    meta: { isAuthProtected: true }
-  },
-  {
-    path: '/uikit',
-    name: routeNames.uikit,
-    component: () => import('@/views/UiKit.vue'),
-    meta: { isAuthProtected: true }
-  }
+  ...homeRoutes,
+  ...carRoutes,
+  ...createCarRoutes,
+  ...searchRoutes,
+  ...topRatedRoutes,
+  ...auctionRoutes,
+  ...profileRoutes,
+  ...uiKitRoutes
 ]
 
 export {
