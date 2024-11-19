@@ -16,7 +16,6 @@ type TCar = TTables<'cars'>
 & {car_conditions?: TTables<'car_conditions'>}
 & {paint_conditions?: TTables<'paint_conditions'>}
 & {tech_conditions?: TTables<'tech_conditions'>}
-& {vehicle_types?: TTables<'vehicle_types'>}
 & {body_types?: TTables<'body_types'>}
 & {drive_types?: TTables<'drive_types'>}
 & {fuel_types?: TTables<'fuel_types'>}

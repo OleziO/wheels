@@ -1,23 +1,6 @@
 
 
 .el-checkbox-group {
-  .vehicle-type {
-    &.el-checkbox-button {
-      .el-checkbox-button__inner {
-        @apply border-none bg-transparent transition-transform;
-      }
-    }
-  
-    &:hover {
-      @apply scale-[1.04] transition-transform;
-    }
-  
-    &.is-checked  {
-      box-shadow: 0 0 0 2px colors.$creamy-dark inset;
-      @apply rounded-lg scale-110 transition-transform;
-    }
-  }
-  
 .search-type {
     &.el-checkbox-button {
       @apply button-text;

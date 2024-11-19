@@ -12,19 +12,6 @@
       </SearchRadioButton>
     </el-radio-group>
 
-    <SearchSectionWrapper title="Тип транспорту">
-      <AppSelect
-        v-model="searchStore.searchData.vehicleTypes"
-        placeholder="Оберіть тип транспорту"
-        :options="searchStore.searchFilterOptions?.vehicleTypes"
-        key-value="value"
-        key-label="label"
-        multiple
-        collapse-tags-tooltip
-        collapse-tags
-      />
-    </SearchSectionWrapper>
-
     <SearchSectionWrapper title="Регіон">
       <AppSelect
         v-model="searchStore.searchData.location"

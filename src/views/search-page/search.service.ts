@@ -7,7 +7,6 @@ class SearchService {
     transmissionTypes: 'transmission_type',
     involvedAccident: 'was_in_accident',
     carsConditions: 'car_condition',
-    vehicleTypes: 'vehicle_types',
     paintType: 'paint_condition',
     driveTypes: 'drive_type',
     type: 'tech_conditions',
@@ -36,7 +35,6 @@ class SearchService {
   searchArrFieldsNames = [
     'transmissionTypes',
     'involvedAccident',
-    'vehicleTypes',
     'mileage',
     'price',
     'driveTypes',
@@ -156,10 +154,6 @@ class SearchService {
       .select('*', options)
 
     return (data || []) as T[]
-  }
-
-  async getVehicleTypes (): Promise<TTables<'vehicle_types'>[]> {
-    return this.fetchFromTable<TTables<'vehicle_types'>>('vehicle_types')
   }
 
   async getBodyTypes (): Promise<TTables<'body_types'>[]> {

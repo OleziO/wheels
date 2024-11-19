@@ -11,16 +11,6 @@
     <CreateCarImageUpload v-model="createCarData" />
 
     <CreateCarFormGroup :section-number="2" title="Основна інформація">
-      <el-form-item label="Тип транспорту" prop="vehicle_type">
-        <AppSelect
-          v-model="createCarData.vehicle_type"
-          placeholder="Оберіть тип"
-          key-label="label"
-          key-value="value"
-          :options="searchStore.searchFilterOptions.vehicleTypes"
-        />
-      </el-form-item>
-
       <el-form-item label="Марка авто" prop="models.brand">
         <AppSelect
           v-model="createCarData.models.brand"
@@ -400,9 +390,6 @@ const createCarValidationRules: FormRules = {
   ],
   drive_type: [
     { required: true, message: 'Оберіть тип приводу', trigger: ['change', 'blur'] }
-  ],
-  vehicle_type: [
-    { required: true, message: 'Оберіть тип транспорту', trigger: ['change', 'blur'] }
   ],
   body_type: [
     { required: true, message: 'Вкажіть тип кузова', trigger: ['change', 'blur'] }

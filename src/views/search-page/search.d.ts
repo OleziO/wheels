@@ -27,7 +27,6 @@ interface IRangeOption {
 }
 
 interface ICarsSearchData {
-  vehicleTypes: string[]
   brands: string[]
   models: string[]
   location: string[]
@@ -55,7 +54,6 @@ interface ICarsSearchData {
 interface ISearchFiltersOptions {
   transmissionTypes: TTables<'transmission_types'>[]
   carsConditions: TTables<'car_conditions'>[]
-  vehicleTypes: TTables<'vehicle_types'>[]
   driveTypes: TTables<'drive_types'>[]
   fuelTypes: TTables<'fuel_types'>[]
   location: TTables<'locations'>[]

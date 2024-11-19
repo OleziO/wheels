@@ -34,7 +34,6 @@ interface ICarData {
   paint_condition: string
   was_in_accident: string
   technical_condition: string
-  vehicle_type: string
   body_type: string
   engine_volume: string
   registration_plate: string

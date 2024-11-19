@@ -72,7 +72,6 @@ class CarService {
         car_conditions(*),
         paint_conditions(*),
         tech_conditions(*),
-        vehicle_types(*),
         body_types(*),
         drive_types(*),
         fuel_types(*),
