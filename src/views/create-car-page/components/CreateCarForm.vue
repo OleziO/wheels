@@ -411,7 +411,12 @@ const createCarValidationRules: FormRules = {
     { required: true, message: 'Вкажіть дані про двигун', trigger: ['change', 'blur'] }
   ],
   registration_plate: [
-    { required: true, message: 'Вкажіть номерний знак', trigger: 'blur' }
+    { required: true, message: 'Вкажіть номерний знак', trigger: 'blur' },
+    {
+      pattern: /^[A-Z]{2}\d{4}[A-Z]{2}$/,
+      message: 'Номерний знак повинен бути у форматі: дві літери, чотири цифри, дві літери (англійською)',
+      trigger: 'blur'
+    }
   ],
   color: [
     { required: true, message: 'Вкажіть колір', trigger: ['change', 'blur'] }
