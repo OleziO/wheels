@@ -112,12 +112,12 @@
         />
       </el-form-item>
 
-      <el-form-item v-else label="О'бєм двигуна (л)" prop="engine_volume">
+      <el-form-item v-else label="Об'єм двигуна (л)" prop="engine_volume">
         <AppSelect
           v-model="createCarData.engine_volume"
           key-label="label"
           key-value="value"
-          placeholder="Оберіть о'бєм"
+          placeholder="Оберіть об'єм"
           :options="searchStore.searchFilterOptions.engineVolume"
         />
       </el-form-item>
