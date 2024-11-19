@@ -20,10 +20,9 @@
           </div>
         </el-avatar>
 
-        <div class="flex flex-col gap-2.5">
+        <div class="flex flex-col gap-2.5 justify-center">
           <p class="secondary text-gravel">Продавець</p>
           <h4 class="h4 text-gray-dark">{{ car.user_profiles?.first_name || "Безіменний" }}</h4>
-          <p class="secondary text-gravel">На сайті був <b>22 хв тому</b></p>
         </div>
       </div>
 
