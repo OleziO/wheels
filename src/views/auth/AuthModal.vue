@@ -4,8 +4,8 @@
     class="custom-modal max-w-[600px] rounded-lg bg-creamy-light"
     @close="handleClose"
   >
-    <AuthSignIn v-if="isLoginMode" v-model="loading" @login="handleSubmit" />
-    <AuthSignUp v-else v-model="loading" @register="handleSubmit" />
+    <AuthSignIn v-if="isLoginMode" v-loading.fullscreen="loading" @login="handleSubmit" />
+    <AuthSignUp v-else v-loading.fullscreen="loading" @register="handleSubmit" />
     <AppButton type="text" text class="hover:!bg-transparent mx-auto mt-2" @click="isLoginMode = !isLoginMode">
       {{ isLoginMode ? 'Зареєструватися на Wheels.com' : 'Вже зареєстровані?' }}
     </AppButton>
@@ -25,6 +25,8 @@ const loading = ref(false)
 
 async function handleSubmit (data: ISignIn | ISignUp) {
   try {
+    loading.value = true
+
     if (isLoginMode.value) {
       await authStore.signIn(data as ISignIn)
     } else {
