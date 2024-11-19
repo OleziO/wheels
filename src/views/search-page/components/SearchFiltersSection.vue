@@ -83,18 +83,26 @@
     </SearchSectionWrapper>
 
     <SearchSectionWrapper title="Модель">
-      <AppSelect
-        v-model="searchStore.searchData.models"
-        placeholder="Оберіть модель"
-        group-key-label="brand"
-        group-key-value="models"
-        key-value="id"
-        key-label="model"
-        :options="searchStore.mappedModels(searchStore.searchData.brands)"
-        multiple
-        collapse-tags-tooltip
-        collapse-tags
-      />
+      <el-tooltip
+        effect="dark"
+        :disabled="!!searchStore.searchData.brands.length"
+        content="Спершу оберіть марку"
+        placement="top"
+      >
+        <AppSelect
+          v-model="searchStore.searchData.models"
+          placeholder="Оберіть модель"
+          group-key-label="brand"
+          group-key-value="models"
+          :disabled="!searchStore.searchData.brands.length"
+          key-value="id"
+          key-label="model"
+          :options="searchStore.mappedModels(searchStore.searchData.brands)"
+          multiple
+          collapse-tags-tooltip
+          collapse-tags
+        />
+      </el-tooltip>
     </SearchSectionWrapper>
 
     <SearchYearFilter v-model="searchStore.searchData" :search-filters-options="searchStore.searchFilterOptions" />
