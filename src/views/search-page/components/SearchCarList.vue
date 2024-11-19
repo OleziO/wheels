@@ -10,7 +10,7 @@
         :key="car.id"
         :car="car"
         :rate="rate"
-        @click="replaceRouterQuery(routeNames.car, { id: car.id })"
+        @click="router.push({name: routeNames.cars, params: { id: car.id }})"
       />
     </div>
     <el-pagination
@@ -36,6 +36,7 @@ defineProps<{
   totalCarsCount: number
 }>()
 
+const router = useRouter()
 const searchStore = useSearchStore()
 
 function handlePageChange (newPage: number) {

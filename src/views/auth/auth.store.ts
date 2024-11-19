@@ -10,7 +10,11 @@ export const useAuthStore = defineStore('authStore', () => {
   const redirectLink = ref<string | null>(null)
 
   async function signIn (loginData: ISignIn) {
-    user.value = (await authService.signIn(loginData)).user.user_metadata
+    await authService.signIn(loginData)
+
+    const userData = await authService.getSession()
+
+    user.value = { avatar: userData.avatar, ...userData.session?.user.user_metadata }
   }
 
   async function signUp (registerData: ISignUp) {

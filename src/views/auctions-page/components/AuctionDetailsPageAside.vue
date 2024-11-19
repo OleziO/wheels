@@ -147,7 +147,7 @@ const endButtonData = computed(() => {
 
   return {
     text: 'На головну',
-    click: () => router.replace({ name: routeNames.home })
+    click: () => router.push({ name: routeNames.home })
   }
 })
 
@@ -177,7 +177,7 @@ async function updateBidsHistory (newBid: TTables<'auction_bids'>, userProfile: 
 
 async function setUserStatus (method: string, newUser: any) {
   if (method === 'join') {
-    activeUsers.value.push((await auctionsService.getUserProfileInfo(newUser[0].sub)).user)
+    activeUsers.value.push((await authService.getUserProfileInfo(newUser[0].sub)).user)
   } else if (method === 'leave') {
     activeUsers.value = activeUsers.value.filter(user => user.sub !== newUser[0].sub)
   }
@@ -193,7 +193,7 @@ async function updateAfterRemoveBids () {
 
 async function leaveFromAuction () {
   await auctionsService.leaveAuction(props.auctionData.id, authStore.user?.sub)
-  router.replace({ name: routeNames.auctionsList })
+  router.push({ name: routeNames.auctionsList })
 }
 
 watch(() => timer.value.status, () => {
@@ -215,7 +215,7 @@ onMounted(async () => {
   }
 
   bidsHistory.value = await auctionsService.getBidsWithUserProfiles(props.auctionData.id as string)
-  ownerData.value = (await auctionsService.getUserProfileInfo(props.auctionData.auction_owner_id)).user
+  ownerData.value = (await authService.getUserProfileInfo(props.auctionData.auction_owner_id)).user
 })
 
 </script>

@@ -65,16 +65,12 @@
           </p>
         </div>
 
-        <div class="mt-12.5">
+        <div v-if="!auction" class="mt-12.5">
           <h4 class="h4 mb-10 text-gray-dark">
             Зв’язатись з продавцем: {{ car.user_profiles?.first_name || 'Продавець' }}
           </h4>
 
-          <div class="flex gap-5 justify-between">
-            <AppButton type="line-light" class="w-full">Запропонувати торг</AppButton>
-
-            <AppButton type="secondary" class="w-full" icon="icon-question-answer">Написати в чат</AppButton>
-          </div>
+          <AppButton type="secondary" class="w-full" icon="icon-question-answer">Написати в чат</AppButton>
         </div>
       </div>
 
@@ -96,12 +92,11 @@ import RegistrationPlateIcon from '@/assets/images/RegistrationPlateIcon.vue'
 import AuctionPageAside from '@/views/auctions-page/components/AuctionDetailsPageAside.vue'
 
 const props = defineProps<{
+  id?: string
   auction?: TTables<'active_auctions'>
-  query: {
-    id: string
-  }
 }>()
 
+const route = useRoute()
 const generalStore = useGeneralStore()
 const authStore = useAuthStore()
 
@@ -112,6 +107,7 @@ const recommendedCars = ref<TCar[]>([])
 const mainCarInfo = ref<IFilterOption[]>([])
 const carFeatures = ref<IFilterOption[]>([])
 
+const carId = computed(() => props.id || route.params.id as string)
 const priceUAH = computed(() => moneyService.numToMoneyWithFormat(Math.floor(generalStore.rate * car.value!.price), 'грн.', 'end'))
 
 const headerCarInfo = computed(() => [
@@ -124,11 +120,11 @@ const headerCarInfo = computed(() => [
 async function init () {
   loading.value = true
   try {
-    car.value = await carService.getCarData(props.query.id, authStore.user?.sub)
+    car.value = await carService.getCarData(carId.value, authStore.user?.sub)
     recommendedCars.value = await carService.getRecommendedCars(car.value!.price || 0, car.value!.id)
     mainCarInfo.value = carService.getMainInfo(car.value)
     location.value = await locationApi.getLocationUrl(car.value!.location)
-    carFeatures.value = await carService.getCarFeatures(props.query.id)
+    carFeatures.value = await carService.getCarFeatures(carId.value) as IFilterOption[]
   } finally {
     loading.value = false
   }

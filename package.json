@@ -10,13 +10,13 @@
     "preview": "vite preview",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "generate-supabase-type": "npx supabase gen types typescript --project-id vqlpuzwqlsxbptasdzor > src/api/types/database.types.ts",
-    "postinstall": "run-p generate-supabase-type"
+    "generate-supabase-type": "npx supabase gen types typescript --project-id vqlpuzwqlsxbptasdzor > src/api/types/database.types.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@supabase/supabase-js": "^2.45.6",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.6",
     "dayjs": "^1.11.13",
     "element-plus": "^2.7.6",
     "lodash-es": "^4.17.21",
@@ -24,6 +24,7 @@
     "pinia": "^2.1.7",
     "portal-vue": "^3.0.0",
     "vue": "^3.4.31",
+    "vue-chartjs": "^5.3.2",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.4.0",
     "vueperslides": "^3.5.1"

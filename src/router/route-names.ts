@@ -2,13 +2,18 @@ export const routeNames = {
   rootPage: 'rootPage',
   home: 'home',
   search: 'search',
-  top: 'top-rated',
-  create: 'create-car',
+  top: 'topRated',
+  createCar: 'createCar',
   finances: 'finances',
-  auction: 'auction-details',
+  auction: 'auctionDetails',
   auctionsList: 'auctions',
-  profile: 'profile',
   chats: 'chats',
   uikit: 'uikit',
-  car: 'car'
+  cars: 'cars',
+  profile: 'profile',
+  myCars: 'myCars',
+  profileInfo: 'profileInfo',
+  viewsHistory: 'viewsHistory',
+  carStatistic: 'carStatistic',
+  carEdit: 'carEdit'
 }

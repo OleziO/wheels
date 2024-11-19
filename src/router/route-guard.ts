@@ -18,7 +18,7 @@ export const routeGuard = async (
   }
 
   if (!session.session) authStore.logout()
-  else if (!authStore.user) authStore.user = session.session.user.user_metadata
+  else if (!authStore.user) authStore.user = { ...session.session.user.user_metadata, avatar: session.avatar }
 
   next()
 }

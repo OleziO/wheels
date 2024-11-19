@@ -6,7 +6,7 @@
     scroll-to-error
     :scroll-into-view-options="{behavior: 'smooth', block: 'start'}"
     :rules="createCarValidationRules"
-    class="create-car-form w-full flex flex-col gap-12.5 py-12.5 px-25 bg-creamy"
+    class="titled-form w-full flex flex-col gap-12.5 py-12.5 px-25 bg-creamy"
   >
     <CreateCarImageUpload v-model="createCarData" />
 
@@ -21,9 +21,9 @@
         />
       </el-form-item>
 
-      <el-form-item label="Марка авто" prop="brand">
+      <el-form-item label="Марка авто" prop="models.brand">
         <AppSelect
-          v-model="createCarData.brand"
+          v-model="createCarData.models.brand"
           placeholder="Оберіть марку"
           key-label="brand_name"
           key-value="brand"
@@ -34,19 +34,19 @@
       <el-form-item label="Модель авто" prop="model_id">
         <el-tooltip
           effect="dark"
-          :disabled="!!createCarData.brand.length"
+          :disabled="!!createCarData.models.brand.length"
           content="Спершу оберіть марку"
           placement="top"
         >
           <AppSelect
             v-model="createCarData.model_id"
             placeholder="Оберіть модель"
-            :disabled="!createCarData.brand.length"
+            :disabled="!createCarData.models.brand.length"
             group-key-label="brand"
             group-key-value="models"
             key-value="id"
             key-label="model"
-            :options="searchStore.mappedModels([createCarData.brand])"
+            :options="searchStore.mappedModels([createCarData.models.brand])"
           />
         </el-tooltip>
       </el-form-item>
@@ -219,7 +219,7 @@
         :prop="field.prop"
       >
         <AppSelect
-          v-model="createCarData[field.prop]"
+          v-model="createCarData[field.prop as keyof typeof createCarData]"
           placeholder="Оберіть"
           key-label="label"
           key-value="value"
@@ -237,7 +237,7 @@
         :prop="item.prop"
       >
         <AppSelect
-          v-model="createCarData[item.prop]"
+          v-model="createCarData[item.prop as keyof typeof createCarData]"
           placeholder="Оберіть"
           key-label="label"
           key-value="value"
@@ -297,7 +297,7 @@
         class="w-[400px] mt-7"
         @click="publishCar"
       >
-        Розмістити оголошення
+        Опублікувати оголошення
       </AppButton>
     </div>
   </el-form>
@@ -312,17 +312,23 @@ const loading = defineModel<boolean>('loading', { required: true })
 const isPublished = defineModel<IPublishStatus>('isPublished', { required: true })
 const carId = defineModel<string>('carId', { required: true })
 
+const props = defineProps<{
+  carData?: TCar & ICarFeatures
+}>()
+
 const searchStore = useSearchStore()
 const authStore = useAuthStore()
 
-const createCarData = ref<ICarData>(cloneDeep(createCarService.defaultCreateData))
+const createCarData = ref<TCar | ICarData>(
+  (props.carData ? cloneDeep(props.carData) : cloneDeep(createCarService.defaultCreateData))
+)
 
 const carFeatures = ref<ICarFeatures>({
   safety_features: [],
   comfort_features: [],
   multimedia_features: [],
   optic_features: [],
-  parking_features: [],
+  parking_assistance: [],
   airbag_features: []
 })
 
@@ -358,7 +364,7 @@ const carAdditionalOptionsFields = [
   { label: 'Салон та комфорт', prop: 'comfort_features', optionsKey: 'comfortFeatures' },
   { label: 'Мультимедія', prop: 'multimedia_features', optionsKey: 'multimediaFeatures' },
   { label: 'Оптика', prop: 'optic_features', optionsKey: 'opticFeatures' },
-  { label: 'Паркування', prop: 'parking_features', optionsKey: 'parkingFeatures' },
+  { label: 'Паркування', prop: 'parking_assistance', optionsKey: 'parkingFeatures' },
   { label: 'Подушка безпеки', prop: 'airbag_features', optionsKey: 'airbagFeatures' }
 ]
 
@@ -389,7 +395,7 @@ const createCarValidationRules: FormRules = {
   model_id: [
     { required: true, message: 'Оберіть модель', trigger: ['change', 'blur'] }
   ],
-  brand: [
+  'models.brand': [
     { required: true, message: 'Оберіть бренд', trigger: ['change', 'blur'] }
   ],
   drive_type: [
@@ -417,15 +423,22 @@ async function publishCar () {
     formRef.value && await formRef.value.validate()
 
     loading.value = true
-    const { brand, ...payload } = createCarData.value
+    const payload = createCarData.value
 
-    carId.value = await createCarService.createCar({
-      ...payload,
-      user_id: authStore.user?.sup
-    }) || ''
+    if (!props.carData) {
+      carId.value = await createCarService.createCar({
+        ...payload,
+        user_id: authStore.user?.sup
+      }) || ''
+    } else {
+      await createCarService.updateCar(createCarData.value, props.carData.id)
+    }
 
     if (carId.value) {
       await createCarService.addAllFeatures(carFeatures.value, carId.value)
+    } else if (props.carData) {
+      await createCarService.removeAllFeatures(props.carData.id)
+      await createCarService.addAllFeatures(carFeatures.value, props.carData.id)
     }
 
     isPublished.value.isReqEnd = true
@@ -439,4 +452,24 @@ async function publishCar () {
     loading.value = false
   }
 }
+
+watch(() => props.carData, () => {
+  carFeatures.value = {
+    safety_features: props.carData?.safety_features || [],
+    comfort_features: props.carData?.comfort_features || [],
+    multimedia_features: props.carData?.multimedia_features || [],
+    optic_features: props.carData?.optic_features || [],
+    parking_assistance: props.carData?.parking_assistance || [],
+    airbag_features: props.carData?.airbag_features || []
+  }
+}, {
+  deep: true,
+  immediate: true
+})
+
+onMounted(() => {
+  if (props.carData) {
+    createCarData.value.was_in_accident = props.carData.was_in_accident?.toString().toUpperCase() || ''
+  }
+})
 </script>

@@ -6,7 +6,9 @@ class CreateCarService {
     manufacture_year: '',
     transmission_type: '',
     fuel_type: '',
-    brand: '',
+    models: {
+      brand: ''
+    },
     price: '',
     mileage: '',
     vin: '',
@@ -77,7 +79,7 @@ class CreateCarService {
       { key: 'comfort_features', method: this.addComfortFeature.bind(this) },
       { key: 'multimedia_features', method: this.addMultimediaFeature.bind(this) },
       { key: 'optic_features', method: this.addOpticFeature.bind(this) },
-      { key: 'parking_features', method: this.addParkingFeatures.bind(this) },
+      { key: 'parking_assistance', method: this.addParkingFeatures.bind(this) },
       { key: 'airbag_features', method: this.addAirbagFeatures.bind(this) }
     ]
 
@@ -92,6 +94,27 @@ class CreateCarService {
     return await Promise.all(tasks).catch(error => { throw error })
   }
 
+  async removeAllFeatures (carId: string) {
+    const featureTableNames = [
+      'cars_with_safety_features',
+      'cars_with_comfort_features',
+      'cars_with_multimedia_features',
+      'cars_with_optic_features',
+      'cars_with_parking_assistance',
+      'cars_with_airbag_features'
+    ]
+
+    const deletePromises = featureTableNames.map(table =>
+      supabase
+        .from(table as keyof Database['public']['Tables'])
+        .delete()
+        .eq('car_id', carId)
+        .select()
+    )
+
+    await Promise.all(deletePromises)
+  }
+
   removeEmptyCarFields (car: object) {
     return Object.fromEntries(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -103,21 +126,89 @@ class CreateCarService {
     )
   }
 
+  removeFeatures (car: any) {
+    const {
+      safety_features: safetyFeatures,
+      airbag_features: airbagFeatures,
+      optic_features: opticFeatures,
+      multimedia_features: mediaFeatures,
+      comfort_features: comfortFeatures,
+      parking_assistance: parkingFeatures,
+      ...carOnly
+    } = car
+
+    return carOnly
+  }
+
+  removeMappedFields (car: any) {
+    const {
+      models,
+      locations,
+      user_profiles: userProfiles,
+      air_conditioning: airConditioning,
+      electric_windows: electricWindows,
+      heated_seats: heatedSeats,
+      interior_seats_adjustments: interiorSeatsAdjustments,
+      interior_colors: interiorColors,
+      interior_materials: interiorMaterials,
+      headlights,
+      car_colors: carColors,
+      car_conditions: carConditions,
+      paint_conditions: paintConditions,
+      tech_conditions: techConditions,
+      vehicle_types: vehicleTypes,
+      body_types: bodyTypes,
+      drive_types: driveTypes,
+      fuel_types: fuelTypes,
+      transmission_types: transmissionTypes,
+      spare_wheels: spareWheels,
+      steering_wheel_adjustments: steeringWheelAdjustments,
+      power_steering: powerSteering,
+      ...carOnly
+    } = car
+
+    return carOnly
+  }
+
   async createCar (car: any) {
     const { data, error } = await supabase
       .from('cars')
       .insert(
         {
-          ...this.removeEmptyCarFields(car) as TTables<'cars'>,
+          ...this.removeMappedFields({ ...this.removeEmptyCarFields(car) }) as TTables<'cars'>,
           car_condition: +car.mileage > 2000 ? 'Used' : 'New',
           price: car.price.replace('$', '')
         }
       )
       .select('id')
+      .single()
 
     if (error) throw error
 
-    return data ? data[0]?.id : null
+    return data.id || null
+  }
+
+  async updateCar (car: any, carId: string) {
+    const { data, error } = await supabase
+      .from('cars')
+      .update(
+        {
+          ...this.removeMappedFields({
+            ...this.removeFeatures({
+              ...this.removeEmptyCarFields(car) as TTables<'cars'>,
+              car_condition: +car.mileage > 2000 ? 'Used' : 'New',
+              price: car.price.replace('$', '')
+            })
+          })
+        } as TTables<'cars'>
+      )
+      .eq('id', carId)
+      .select('id')
+      .single()
+
+    if (error) throw error
+
+    return data.id || null
   }
 
   toFeaturesArr <T> (features: string[], carId: string) {

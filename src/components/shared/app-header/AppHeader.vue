@@ -50,16 +50,15 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
-              <RouterLink :to="$routeNames.profile" :underlined="false">
-                <AppButton
-                  class="menuBtutton w-full hover:!bg-transparent"
-                  type="text"
-                  text
-                  icon="icon-user-3"
-                >
-                  Особистий кабінет
-                </AppButton>
-              </RouterLink>
+              <AppButton
+                class="menuBtutton w-full hover:!bg-transparent"
+                type="text"
+                text
+                icon="icon-user-3"
+                @click="router.push({ name: routeNames.profileInfo })"
+              >
+                Особистий кабінет
+              </AppButton>
             </el-dropdown-item>
             <el-dropdown-item>
               <AppButton
@@ -84,14 +83,14 @@
 <script setup lang="ts">
 import Logo from '@/assets/images/Logo.vue'
 import { routeNames } from '@/router/route-names'
-import { useAuthStore } from '@/views/auth/auth.store'
 import AuthModal from '@/views/auth/AuthModal.vue'
 
+const router = useRouter()
 const authStore = useAuthStore()
 
 const navLinks = [
   { path: routeNames.search, label: 'Купити' },
-  { path: routeNames.create, label: 'Продати' },
+  { path: routeNames.createCar, label: 'Продати' },
   { path: routeNames.top, label: 'ТОП-30' },
   { path: routeNames.auctionsList, label: 'Аукціони' }
 ]

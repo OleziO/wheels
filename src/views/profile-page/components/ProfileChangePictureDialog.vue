@@ -1,17 +1,17 @@
 <template>
   <el-dialog
     v-model="visible"
-    title="Додавання картинки"
+    title="Зміна аватару"
     width="500"
     @close="visible = false"
   >
-    <span>Введіть URL зображення</span>
+    <span>Введіть URL нового аватару</span>
     <AppInput v-model:="imageValue" />
     <template #footer>
       <div class="mt-4 flex gap-2 w-full">
         <AppButton class="w-full" @click="handleCancel">Відмінити</AppButton>
         <AppButton class="w-full" type="primary" @click="handleSubmit">
-          Підтвердити
+          Змінити
         </AppButton>
       </div>
     </template>
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 const visible = defineModel<boolean>()
-const createCarData = defineModel<ICarData | TCar>('createCarData', { required: true })
+const userAvatar = defineModel<string>('userAvatar')
 const imageValue = ref<string>('')
 
 function handleCancel () {
@@ -29,7 +29,7 @@ function handleCancel () {
 }
 
 function handleSubmit () {
-  createCarData.value?.car_pictures?.push(imageValue.value)
+  userAvatar.value = imageValue.value
   imageValue.value = ''
   visible.value = false
 }

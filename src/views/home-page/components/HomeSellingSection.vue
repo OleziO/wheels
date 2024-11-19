@@ -9,17 +9,18 @@
         <AppButton
           type="secondary"
           class="mt-12.5 w-[65%]"
-          @click="router.replace({ name: $routeNames.create})"
+          @click="router.push({ name: $routeNames.createCar})"
         >
           Продати автомобіль
         </AppButton>
       </div>
-      <el-image fit="cover" class="h-full !max-w-[590px]" src="src/assets/images/orange-car.png" />
+      <el-image fit="cover" class="h-full !max-w-[590px]" :src="OrangeCar" />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import OrangeCar from '@/assets/images/orange-car.png'
 const router = useRouter()
 
 </script>

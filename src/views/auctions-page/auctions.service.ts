@@ -24,7 +24,7 @@ class AuctionsService {
           const newBid = payload.new as TTables<'auction_bids'>
 
           try {
-            const { user, userError } = await this.getUserProfileInfo(newBid.user_id)
+            const { user, userError } = await authService.getUserProfileInfo(newBid.user_id)
 
             if (userError) {
               throw userError
@@ -53,16 +53,6 @@ class AuctionsService {
       })
 
     return channel
-  }
-
-  async getUserProfileInfo (userId: string) {
-    const { data: user, error: userError } = await supabase
-      .from('user_profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
-
-    return { user, userError }
   }
 
   async leaveAuction (auctionId: string, userId: string) {

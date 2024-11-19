@@ -10,6 +10,7 @@ class HomeService {
       .from('cars')
       .select('*, models!inner(*), locations!inner(*), fuel_types!inner(*), transmission_types!inner(*)')
       .eq('is_in_auction', false)
+      .order('created_at', { ascending: false })
       .limit(9)
 
     return data
