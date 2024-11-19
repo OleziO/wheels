@@ -28,7 +28,11 @@
       </div>
 
       <div class="flex flex-col gap-3.5 mt-10">
-        <AppButton type="secondary" icon="icon-question-answer">
+        <AppButton
+          type="secondary"
+          icon="icon-question-answer"
+          @click="$emit('handleUserChat', car.user_id)"
+        >
           Написати в чат
         </AppButton>
 
@@ -81,5 +85,8 @@ const props = defineProps<{
   priceUAH: string
 }>()
 
+defineEmits(['handleUserChat'])
+
 const formattedMoney = computed(() => moneyService.numToMoneyWithFormat(props.car.price, '$'))
+
 </script>

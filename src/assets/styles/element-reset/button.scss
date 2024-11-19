@@ -32,7 +32,7 @@
   &.line-light {
     @apply text-blue-light border-solid border-blue-light bg-transparent
     hover:bg-blue-extra-light hover:text-creamy-light
-    focus:bg-blue focus:text-creamy-light body-2;
+    focus:bg-blue focus:text-creamy-light body-2 hover:!border-blue-extra-light
   }
 
   &.line-dark {

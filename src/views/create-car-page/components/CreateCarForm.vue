@@ -428,7 +428,7 @@ async function publishCar () {
     if (!props.carData) {
       carId.value = await createCarService.createCar({
         ...payload,
-        user_id: authStore.user?.sup
+        user_id: authStore.user?.sub
       }) || ''
     } else {
       await createCarService.updateCar(createCarData.value, props.carData.id)

@@ -15,8 +15,9 @@
       <AppInput type="password" show-password v-model:="loginData.password" placeholder="Введіть пароль" />
 
       <AppButton
+        native-type="subnir"
         class="w-full mt-4"
-        @click="handleLogin"
+        @click.prevent="handleLogin"
       >
         Увійти
       </AppButton>

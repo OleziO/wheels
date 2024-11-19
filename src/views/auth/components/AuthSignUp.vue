@@ -42,8 +42,9 @@
       </el-form-item>
 
       <AppButton
+        native-type="submit"
         class="w-full mt-4"
-        @click="handleRegister"
+        @click.prevent="handleRegister"
       >
         Зареєструватися
       </AppButton>

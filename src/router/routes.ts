@@ -83,8 +83,18 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'chats',
-        name: routeNames.chats,
-        component: () => import('@/views/profile-page/Chats.vue')
+        children: [
+          {
+            path: '',
+            name: routeNames.chats,
+            component: () => import('@/views/chat-page/Chats.vue')
+          },
+          {
+            path: ':id',
+            name: routeNames.chatPage,
+            component: () => import('@/views/chat-page/ChatPage.vue')
+          }
+        ]
       }
     ]
   },

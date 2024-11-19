@@ -8,6 +8,7 @@ export const routeGuard = async (
   next: NavigationGuardNext
 ) => {
   const authStore = useAuthStore()
+  const generalStore = useGeneralStore()
 
   const session = await authService.getSession()
 
@@ -19,6 +20,8 @@ export const routeGuard = async (
 
   if (!session.session) authStore.logout()
   else if (!authStore.user) authStore.user = { ...session.session.user.user_metadata, avatar: session.avatar }
+
+  generalStore.unreadMessagesCount = await chatService.getAllUreadMessages(authStore.user?.sub)
 
   next()
 }
