@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-3.5 mt-10">
+      <div v-if="car.user_id !== authStore.user?.sub" class="flex flex-col gap-3.5 mt-10">
         <AppButton
           type="secondary"
           icon="icon-question-answer"
@@ -39,6 +39,16 @@
           <AppButton type="line-light" class="w-full" icon="icon-phone">Зателефонувати</AppButton>
         </a>
       </div>
+
+      <AppButton
+        v-else
+        type="secondary"
+        class="mt-10 w-full"
+        icon="icon-edit"
+        @click="router.replace({name: routeNames.carEdit, params: {id: car.id}})"
+      >
+        Редагувати
+      </AppButton>
     </CarPageAsideSectionItem>
 
     <CarPageAsideSectionItem class="text-black bg-creamy !p-0">
@@ -77,12 +87,15 @@
 
 <script setup lang="ts">
 import LocationPlaceholder from '@/assets/images/location-placeholder.svg'
+import router, { routeNames } from '@/router'
 
 const props = defineProps<{
   car: TCar
   location: string
   priceUAH: string
 }>()
+
+const authStore = useAuthStore()
 
 defineEmits(['handleUserChat'])
 

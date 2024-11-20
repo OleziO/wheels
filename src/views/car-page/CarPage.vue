@@ -65,7 +65,7 @@
           </p>
         </div>
 
-        <div v-if="!auction" class="mt-12.5">
+        <div v-if="!auction && (car.user_id !== authStore.user?.sub)" class="mt-12.5">
           <h4 class="h4 mb-10 text-gray-dark">
             Зв’язатись з продавцем: {{ car.user_profiles?.first_name || 'Продавець' }}
           </h4>
