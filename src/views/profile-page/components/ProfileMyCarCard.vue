@@ -17,6 +17,14 @@
             />
           </div>
         </template>
+
+        <template #placeholder>
+          <el-skeleton class="h-full w-full" animated>
+            <template #template>
+              <el-skeleton-item variant="image" class="h-full w-full" />
+            </template>
+          </el-skeleton>
+        </template>
       </el-image>
 
       <AppButton

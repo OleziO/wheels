@@ -462,6 +462,7 @@ watch(() => props.carData, () => {
 onMounted(() => {
   if (props.carData) {
     createCarData.value.was_in_accident = props.carData.was_in_accident?.toString().toUpperCase() || ''
+    createCarData.value.mileage = props.carData.mileage.toString()
   }
 })
 </script>
