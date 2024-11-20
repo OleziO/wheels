@@ -3,8 +3,9 @@
     <h3 class="h3 text-gray-dark mb-10">Реєстрація на сайт Wheels.com</h3>
 
     <el-form
+      ref="registerFormRef"
       :model="registerData"
-      class="flex flex-col gap-4"
+      class="flex flex-col gap-1"
       :rules="validationRules"
     >
       <el-form-item prop="firstName">
@@ -42,7 +43,7 @@
 
       <AppButton
         native-type="submit"
-        class="w-full mt-4"
+        class="w-full mt-2"
         @click.prevent="handleRegister"
       >
         Зареєструватися
@@ -52,10 +53,11 @@
 </template>
 
 <script setup lang="ts">
-import type { FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import { vMaska } from 'maska/vue'
 
-const registerData = ref<ISignUp>(authService.defaultRegisterData)
+const registerData = defineModel<ISignUp>({ required: true })
+const registerFormRef = ref<FormInstance>()
 
 const validationRules: FormRules = {
   email: [
@@ -84,4 +86,16 @@ const emit = defineEmits(['register'])
 async function handleRegister () {
   emit('register', registerData.value)
 }
+
+watch(() => registerData.value, () => {
+  if (!registerData.value.email &&
+      !registerData.value.password &&
+      !registerData.value.firstName &&
+      !registerData.value.lastName &&
+      !registerData.value.phone
+  ) {
+    registerFormRef.value?.resetFields()
+  }
+},
+{ deep: true })
 </script>

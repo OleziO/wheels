@@ -3,6 +3,7 @@
     <h3 class="h3 text-gray-dark mb-10">Вхід на сайт Wheels.com</h3>
 
     <el-form
+      ref="loginFormRef"
       :model="loginData"
       class="flex flex-col gap-4"
       :rules="validationRules"
@@ -25,11 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import type { FormRules } from 'element-plus'
+import { type FormInstance, type FormRules } from 'element-plus'
 
 const emit = defineEmits(['login'])
 
-const loginData = ref<ISignIn>(authService.defaultLoginData)
+const loginData = defineModel<ISignIn>({ required: true })
+
+const loginFormRef = ref<FormInstance>()
 
 const validationRules: FormRules = {
   email: [
@@ -41,5 +44,12 @@ const validationRules: FormRules = {
 async function handleLogin () {
   emit('login', loginData.value)
 }
+
+watch(() => loginData.value, () => {
+  if (!loginData.value.email && !loginData.value.password) {
+    loginFormRef.value?.resetFields()
+  }
+},
+{ deep: true })
 
 </script>

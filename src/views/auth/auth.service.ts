@@ -1,15 +1,19 @@
 class AuthService {
-  defaultLoginData: ISignIn = {
-    email: '',
-    password: ''
+  get defaultLoginData (): ISignIn {
+    return {
+      email: '',
+      password: ''
+    }
   }
 
-  defaultRegisterData: ISignUp = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: ''
+  get defaultRegisterData (): ISignUp {
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: ''
+    }
   }
 
   async getUserProfileInfo (userId: string) {
